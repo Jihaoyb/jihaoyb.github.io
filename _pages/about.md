@@ -1,6 +1,6 @@
 ---
 layout: default
-permalink: /about/
+permalink: /markdown/
 title: About Me
 author_profile: true
 redirect_from: 
