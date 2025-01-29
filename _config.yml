@@ -8,7 +8,7 @@
 
 # Basic Site Settings
 locale                   : "en-US"
-title                    : "jihaoye.github.io"
+title                    : "Jihao's Homepage"
 title_separator          : "-"
 name                     : &name "Jihao Ye"
 description              : &description "Senior Computer Science Student at University of Houston"
@@ -23,40 +23,40 @@ author:
   # Biographic information
   avatar           : "jihao-photo.jpg"
   name             : "Jihao Ye"
-  pronouns         : &pronouns "he/his"  
+  pronouns         : "he/him"
   bio              : "WORK IN PROGRESS TO BECOME A SOFTWARE ENGINEER"
   location         : "Houston, TX"
   employer         : "University of Houston"
-  uri              : "https://jihaoye.github.io"
-  email            : "jye10@cougarnetuh.edu" 
+  uri              : # URL
+  email            : "jye10@cougarnet.uh.edu" 
 
   # Academic websites
-  #arxiv            : # URL - Update with the correct link to your profile
-  #googlescholar    : "https://scholar.google.com/citations?user=PS_CX0AAAAAJ"
-  #impactstory      : # URL
-  #orcid            : "http://orcid.org/yourorcidurl"
-  #semantic         : # URL
-  #pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
-  #researchgate     : # URL
-  #scopus           : # URL
+  arxiv            : # URL - Update with the correct link to your profile
+  googlescholar    : "https://scholar.google.com/citations?user=PS_CX0AAAAAJ"
+  impactstory      : # URL
+  orcid            : "http://orcid.org/yourorcidurl"
+  semantic         : # URL
+  pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
+  researchgate     : # URL
+  scopus           : # URL
 
   # Repositories and software development
   #bitbucket        : # Username - Update with your username on the site
   #codepen          : # Username
   #dribbble         : # Username
-  github           : "Jihaoyb"
+  github           : "jihaoyb"
   #kaggle           : # Username  
   #stackoverflow    : # User number or user number and name (i.e., use "1" or "1/jeff-atwood")    
 
   # Social media
   #bluesky          : "bsky.app" # Replace this with you Bluesky username
-  facebook         : "Jihao Ye"
+  facebook         : # Username
   #flickr           : # Username
   #foursquare       : # Username
   #goodreads        : # Username
   #google_plus      : # Username
   #keybase          : # Username
-  instagram        : "jihaoy1"
+  instagram        : "jihaoye1"
   #lastfm           : # Username
   linkedin         : "jihaoye"
   #mastodon         : # URL
@@ -75,13 +75,13 @@ author:
   #zhihu            : # Username
 
 # Publication Category - The following the list of publication categories and their headings
-# publication_category:
-#   books:
-#     title: 'Books'
-#   manuscripts:
-#     title: 'Journal Articles'    
-#   conferences:
-#     title: 'Conference Papers'
+publication_category:
+  books:
+    title: 'Books'
+  manuscripts:
+    title: 'Journal Articles'    
+  conferences:
+    title: 'Conference Papers'
 
 # Site Settings
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
@@ -212,7 +212,7 @@ kramdown:
 
 # These settings control the types of collections used by the template
 collections:
-  teaching:
+  working:
     output: true
     permalink: /:collection/:path/
   publications:
@@ -246,10 +246,10 @@ defaults:
     values:
       layout: single
       author_profile: true
-  # _teaching
+  # _working
   - scope:
       path: ""
-      type: teaching
+      type: working
     values:
       layout: single
       author_profile: true

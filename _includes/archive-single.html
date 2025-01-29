@@ -30,7 +30,7 @@
       {% if post.link %}
         <a href="{{ post.link }}">{{ title }}</a> <a href="{{ base_path }}{{ post.url }}" rel="permalink"><i class="fa fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
       {% else %}
-        <a href="{{ base_path }}{{ post.url }}" rel="permalink">{{ title }}</a>
+        <a href="{{ base_path }}{{ post.url }}" rel="permalink"><b>{{ title }}</b></a>
       {% endif %}
     </h2>
     
@@ -38,8 +38,16 @@
       <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> {% include read-time.html %}</p>
     {% endif %}
 
-        {% if post.collection == 'teaching' %}
-          <p> {{ post.type }}, <i>{{ post.venue }}</i>, {{ post.date | default: "1900-01-01" | date: "%Y" }} </p>
+        {% if post.collection == 'working' %}
+          <p><b>Company: {{ post.company }}</b></p>
+          <p><b>Position: {{ post.position }}</b></p>
+          <p><b>{{ post.startD | default: "1900-01-01" | date: "%B %Y" }} - 
+            {% if post.endD == "present" %}
+              present
+            {% else %}
+              {{ post.endD | default: "1900-01-01" | date: "%B %Y" }}
+            {% endif %}
+          </b></p>
         {% elsif post.collection == 'publications' %}
           <p>Published in <i>{{ post.venue }}</i>, {{ post.date | default: "1900-01-01" | date: "%Y" }} </p>
         {% elsif post.date %}
