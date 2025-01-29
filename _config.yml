@@ -32,7 +32,7 @@ author:
 
   # Academic websites
   arxiv            : # URL - Update with the correct link to your profile
-  googlescholar    : "https://scholar.google.com/citations?user=PS_CX0AAAAAJ"
+  #googlescholar    : "https://scholar.google.com/citations?user=PS_CX0AAAAAJ"
   impactstory      : # URL
   orcid            : "http://orcid.org/yourorcidurl"
   semantic         : # URL
@@ -74,8 +74,8 @@ author:
   #youtube          : # Username
   #zhihu            : # Username
 
-# Publication Category - The following the list of publication categories and their headings
-publication_category:
+# Project Category - The following the list of Project categories and their headings
+project_category:
   books:
     title: 'Books'
   manuscripts:
@@ -216,7 +216,7 @@ collections:
   working:
     output: true
     permalink: /:collection/:path/
-  publications:
+  projects:
     output: true
     permalink: /:collection/:path/
   portfolio:
@@ -256,10 +256,10 @@ defaults:
       author_profile: true
       share: true
       comments: true
-  # _publications
+  # _projects
   - scope:
       path: ""
-      type: publications
+      type: projects
     values:
       layout: single
       author_profile: true

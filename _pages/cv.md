@@ -8,57 +8,32 @@ redirect_from:
 ---
 
 {% include base_path %}
+<a href="/files/Jihao_Ye_Resume.pdf" target="_blank">Open Jihao's Resume</a>
 
 Education
 ======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+* B.S. in Computer Science, University of Houston, Fall 2025 (expected)
 
-Work experience
-======
-* Spring 2024: Academic Pages Collaborator
-  * Github University
-  * Duties includes: Updates and improvements to template
-  * Supervisor: The Users
-
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
-
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
-  
 Skills
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* Languages: Python, C++, SQL, JavaScript
+* Frameworks: Express, React, Node, Flask, Pandas, Redis, Numpy, Boost.Asio, Poco
+* Databases: AWS, GCP, MongoDB, MySQL, PostgreSQL
+* Operating Systems: Linux, Windows, MacOS
 
-Publications
+Projects
 ======
-  <ul>{% for post in site.publications reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Talks
-======
-  <ul>{% for post in site.talks reversed %}
-    {% include archive-single-talk-cv.html  %}
-  {% endfor %}</ul>
-  
-Teaching
-======
-  <ul>{% for post in site.teaching reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
+<b>News Personalization Web App</b> | <i>React, AWS, Express.js, PostgreSQL, Redis, LLM</i>
+  *  Integrated multiple external APIs—including News API and GNews API—to fetch and categorize real-time news personalized to user preferences; optimized data retrieval with Redis caching, reducing latency by 40%
+  *  Incorporated LLMs via OpenAI API to provide personalized summaries for quick reads, perform sentiment analysis, and conduct fact-checking of news articles, enhancing user engagement and content trustworthiness
+  *  Architected and deployed a fully serverless and scalable infrastructure using AWS Amplify for full-stack deployment, AppSync for GraphQL API management, and DynamoDB for high-performance, flexible data storage
+
+<b>File Server</b> | <i>C++, Boost.Asio, Poco</i>
+  *  Built a cloud storage service using C++, leveraging Boost.Asio for asynchronous networking, Poco libraries for file transfer protocols, and multi-threading to manage hundreds of concurrent connections effectively
+  *  Optimized server infrastructure for scalability and improved network throughput, integrating efficient I/O handling, load balancing algorithms, and custom error handling to support large-scale file operations
+  *  Implemented robust SSL/TLS encryption, OAuth 2.0 authentication, and secure token management, ensuring data transmission integrity, user authentication, and compliance with modern industry security standards
+
+  <b>Tax AI</b> | <i>Python, Flask, AWS, MongoDB, Tesseract, PaddleOCR, OpenCV</i>
+  *  Built a cloud storage service using C++, leveraging Boost.Asio for asynchronous networking, Poco libraries for file transfer protocols, and multi-threading to manage hundreds of concurrent connections effectively
+  *  Optimized server infrastructure for scalability and improved network throughput, integrating efficient I/O handling, load balancing algorithms, and custom error handling to support large-scale file operations
+  *  Implemented robust SSL/TLS encryption, OAuth 2.0 authentication, and secure token management, ensuring data transmission integrity, user authentication, and compliance with modern industry security standards
