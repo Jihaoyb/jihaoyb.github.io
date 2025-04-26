@@ -23,6 +23,11 @@ Skills
 
 Projects
 ======
+<b>Picton - User Management System</b> | <i>Django, React, PostgreSQL</i>
+  * Developed a full-stack user management system with role-based access control (RBAC), integrating Office365 authentication
+  * Built backend with Django and frontend with React/Vite, implementing secure user authentication and authorization
+  * Designed and implemented PostgreSQL database schema, ensuring data integrity and efficient access control management
+
 <b>News Personalization Web App</b> | <i>React, AWS, Express.js, PostgreSQL, Redis, LLM</i>
   *  Integrated multiple external APIs—including News API and GNews API—to fetch and categorize real-time news personalized to user preferences; optimized data retrieval with Redis caching, reducing latency by 40%
   *  Incorporated LLMs via OpenAI API to provide personalized summaries for quick reads, perform sentiment analysis, and conduct fact-checking of news articles, enhancing user engagement and content trustworthiness
@@ -33,7 +38,7 @@ Projects
   *  Optimized server infrastructure for scalability and improved network throughput, integrating efficient I/O handling, load balancing algorithms, and custom error handling to support large-scale file operations
   *  Implemented robust SSL/TLS encryption, OAuth 2.0 authentication, and secure token management, ensuring data transmission integrity, user authentication, and compliance with modern industry security standards
 
-  <b>Tax AI</b> | <i>Python, Flask, AWS, MongoDB, Tesseract, PaddleOCR, OpenCV</i>
+<b>Tax AI</b> | <i>Python, Flask, AWS, MongoDB, Tesseract, PaddleOCR, OpenCV</i>
   *  Built a cloud storage service using C++, leveraging Boost.Asio for asynchronous networking, Poco libraries for file transfer protocols, and multi-threading to manage hundreds of concurrent connections effectively
   *  Optimized server infrastructure for scalability and improved network throughput, integrating efficient I/O handling, load balancing algorithms, and custom error handling to support large-scale file operations
   *  Implemented robust SSL/TLS encryption, OAuth 2.0 authentication, and secure token management, ensuring data transmission integrity, user authentication, and compliance with modern industry security standards
