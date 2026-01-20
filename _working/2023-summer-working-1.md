@@ -1,20 +1,16 @@
 ---
-title: "Working experience 1"
+title: "Working experience at HIPPSC"
 collection: working
 company: "HIPPSC"
 permalink: /working/2023-summer-working-1
-position: "Software Developer Intern"
-startD: 2023-06-20
-endD: Present
-location: "Remote"
+position: "Software Engineer Intern"
+startD: 2023-06-01
+endD: 2024-10-31
+location: "Los Angeles, CA"
 ---
 
 Major Contribution:
 ======
-- Developed a web application for HIPPSC’s modular tooling series, automating 12,000+ tool combinations. Enabled end-users to customize tools and download 3D files directly, reducing tooling querying and quoting time by 80%
-
-- Collaborated on the R&D of tool setup machines and robotic arm integration, contributing to the design of user-friendly system interfaces and enhancing the customer onboarding process to ensure seamless adoption
-
-- Developed a robust email API service to capture user input from the website, facilitating seamless communication by dispatching emails to the sales team and archiving customer data in the company’s database
-
-- Refactored the frontend architecture into component-based design, integrated with AWS S3 and CloudFront, significantly boosting site performance and elevating the user experience across different geographic regions
+- Developed a product configuration tool handling 12,000+ combinations, reducing inquiry time by 80%.
+- Designed RESTful APIs and backend data models (Express.js) to serve dynamic product variants and 3D model files.
+- Engineered a Three.js frontend interface with axis-aligned camera controls to standardize product visualization.

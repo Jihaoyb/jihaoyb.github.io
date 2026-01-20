@@ -1,0 +1,36 @@
+{% assign folder = include.folder %}
+<article class="project-folder card-animate" data-project-folder>
+  <div class="project-folder__shell">
+    <div class="project-folder__back"></div>
+    <div class="project-folder__tab"></div>
+    <div class="project-folder__paper project-folder__paper--one"></div>
+    <div class="project-folder__paper project-folder__paper--two"></div>
+    <div class="project-folder__paper project-folder__paper--three"></div>
+    <div class="project-folder__front">
+      <div class="project-folder__flap project-folder__flap--left"></div>
+      <div class="project-folder__flap project-folder__flap--right"></div>
+      <span class="project-folder__title" aria-hidden="true">{{ folder.title }}</span>
+      <button class="project-folder__header" type="button" aria-expanded="false" aria-label="{{ folder.title }}"></button>
+    </div>
+  </div>
+  <p class="project-folder__summary">{{ folder.excerpt }}</p>
+  <div class="project-folder__files" aria-hidden="true">
+    <div class="project-folder__file">
+      <p class="project-folder__file-title">Tech stack</p>
+      <p>{{ folder.tech }}</p>
+    </div>
+    <div class="project-folder__file">
+      <p class="project-folder__file-title">Details</p>
+      {{ folder.content }}
+    </div>
+    <div class="project-folder__file">
+      <p class="project-folder__file-title">Links</p>
+      {% if folder.githuburl %}
+        <a href="{{ folder.githuburl }}" target="_blank" rel="noopener">GitHub</a>
+      {% endif %}
+      {% if folder.demo %}
+        <a href="{{ folder.demo }}" target="_blank" rel="noopener">Demo</a>
+      {% endif %}
+    </div>
+  </div>
+</article>

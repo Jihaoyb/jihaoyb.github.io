@@ -1,0 +1,39 @@
+<footer class="portfolio-footer" id="contact">
+  <div class="portfolio-footer__inner">
+    <div class="portfolio-footer__intro">
+      <p class="eyebrow">Contact</p>
+      <!-- Animate the main footer heading to guide attention. -->
+      <h2 class="heading-animate">Lets build something reliable and thoughtful.</h2>
+      <p class="portfolio-footer__copy">
+        Open to full-time roles and ambitious collaborations. Reach out for product builds,
+        infrastructure work, or design-led engineering.
+      </p>
+      <div class="portfolio-footer__cta">
+        <a class="btn btn--primary" href="mailto:{{ site.author.email }}">Email me</a>
+        <a class="btn btn--ghost" href="{{ base_path }}/files/Jihao_Ye_Resume.pdf">Download resume</a>
+      </div>
+    </div>
+    <div class="portfolio-footer__links">
+      <div>
+        <p class="portfolio-footer__label">Location</p>
+        <p>{{ site.author.location }}</p>
+      </div>
+      <div>
+        <p class="portfolio-footer__label">Email</p>
+        <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
+      </div>
+      <div>
+        <p class="portfolio-footer__label">Social</p>
+        <div class="portfolio-footer__social">
+          <a href="https://github.com/{{ site.author.github }}">GitHub</a>
+          <a href="https://www.linkedin.com/in/{{ site.author.linkedin }}">LinkedIn</a>
+          <a href="https://www.instagram.com/{{ site.author.instagram }}">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="portfolio-footer__base">
+    <p>Copyright {{ site.time | date: "%Y" }} {{ site.author.name }}. All rights reserved.</p>
+    <p>Built with Jekyll and custom design.</p>
+  </div>
+</footer>

@@ -1,18 +1,15 @@
 ---
-title: "Working experience 2"
+title: "Working experience at Tiger Valve Company"
 collection: working
 company: "Tiger Valve Company"
 permalink: /working/2022-summer-working-2
-position: "Data Analysis Intern"
-startD: 2022-06-15
-endD: 2022-08-20
-location: "Houston, United States"
+position: "Data Analyst Intern"
+startD: 2021-06-01
+endD: 2021-08-31
+location: "Houston, TX"
 ---
 
 Major Contribution:
 ======
-- Implemented a cloud-based barcode scanning system that enabled remote, real-time inventory access, significantly improving operational efficiency, tracking accuracy, and scalability compared to traditional local systems
-
-- Crafted weekly reports with visualizations on key warehouse metrics—that empowered management to make timely strategic decisions, resulting in a 20% increase in space utilization, as reported by the warehouse supervisor
-
-- Collaborated with the engineering team to securely manage Google Workspace accounts, ensuring the deletion of former employee profiles and retrieval of associated warehouse data, effectively mitigating risks of data leakage
+- Built Python + SQL data pipelines to automate inventory reporting and improve space utilization by 20%.
+- Integrated cloud-based barcode scanning to sync real-time inventory updates into the reporting system.

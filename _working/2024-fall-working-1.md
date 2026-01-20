@@ -11,8 +11,6 @@ location: "Houston, TX"
 
 Major Contribution:
 ======
-- Automated data extraction from tax documents using curated **OCR** model, reducing manual data entry time by **80%**
-
-- Developed a **CrewAI** workflow to automate tax filing categorization, eliminating manual processing of client documents
-
-- Built an **LLM-driven** search system with **vector DB**, enabling accountants to query client data **5x faster** 
+- Built a custom OCR pipeline to extract structured data from tax documents, reducing entry time by 80%.
+- Engineered a backend pipeline using LLMs to classify and route tax documents, automating manual workflows.
+- Developed a RAG system with vector search to surface tax codes and publication insights via natural language.
