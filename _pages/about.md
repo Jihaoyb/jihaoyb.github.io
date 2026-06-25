@@ -157,7 +157,7 @@ redirect_from:
   <div class="section-title">
     <!-- Apply heading animation to section titles. -->
     <h2 class="heading-animate">Projects</h2>
-    <span>{{ projects | size }} total</span>
+    <span>{{ projects | size }} featured</span>
   </div>
   <div class="project-folder-grid">
     {% for project in projects limit: 3 %}
