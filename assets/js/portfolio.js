@@ -5,52 +5,45 @@
   }
 
   const cards = Array.from(document.querySelectorAll(".card-animate"));
-  if (!cards.length) {
-    return;
-  }
-
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
   if (prefersReducedMotion.matches) {
     cards.forEach((card) => {
       card.classList.add("is-visible");
     });
-    return;
-  }
+  } else {
+    cards.forEach((card, index) => {
+      card.style.setProperty("--card-delay", `${index * 50}ms`);
+    });
 
-  cards.forEach((card, index) => {
-    // Keep the stagger tight so reveals feel crisp on scroll.
-    card.style.setProperty("--card-delay", `${index * 50}ms`);
-  });
+    const revealCard = (card) => {
+      if (!card.classList.contains("is-visible")) {
+        card.classList.add("is-visible");
+      }
+    };
 
-  const revealCard = (card) => {
-    if (card.classList.contains("is-visible")) {
-      return;
-    }
-    card.classList.add("is-visible");
-  };
-
-  if (!("IntersectionObserver" in window)) {
-    cards.forEach(revealCard);
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
+    if (!("IntersectionObserver" in window)) {
+      cards.forEach(revealCard);
+    } else {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              return;
+            }
+            revealCard(entry.target);
+            observer.unobserve(entry.target);
+          });
+        },
+        {
+          threshold: 0.2,
+          rootMargin: "0px 0px -10% 0px",
         }
-        revealCard(entry.target);
-        observer.unobserve(entry.target);
-      });
-    },
-    {
-      threshold: 0.2,
-      rootMargin: "0px 0px -10% 0px",
-    }
-  );
+      );
 
-  cards.forEach((card) => observer.observe(card));
+      cards.forEach((card) => observer.observe(card));
+    }
+  }
 
   const headingTargets = Array.from(document.querySelectorAll(".heading-animate"));
   if (headingTargets.length) {
@@ -60,11 +53,12 @@
       }
       const text = heading.textContent || "";
       const chars = Array.from(text);
-      // Replace text with spans once to enable per-letter animation.
+      heading.setAttribute("aria-label", text.trim());
       heading.textContent = "";
       chars.forEach((char, index) => {
         const span = document.createElement("span");
         span.className = "char";
+        span.setAttribute("aria-hidden", "true");
         span.textContent = char === " " ? "\u00a0" : char;
         span.style.setProperty("--char-delay", `${index * 35}ms`);
         heading.appendChild(span);
@@ -119,7 +113,16 @@
         journeyPath.style.strokeDashoffset = (1 - progress) * pathLength;
       };
 
-      const onScroll = () => window.requestAnimationFrame(updateJourney);
+      let journeyFrame = 0;
+      const onScroll = () => {
+        if (journeyFrame) {
+          return;
+        }
+        journeyFrame = window.requestAnimationFrame(() => {
+          journeyFrame = 0;
+          updateJourney();
+        });
+      };
 
       updateJourney();
       window.addEventListener("scroll", onScroll, { passive: true });
@@ -128,10 +131,6 @@
   }
 
   const canvases = Array.from(document.querySelectorAll(".forcefield-canvas"));
-  if (!canvases.length || prefersReducedMotion.matches) {
-    return;
-  }
-
   const setupForceField = (canvas) => {
     const context = canvas.getContext("2d");
     if (!context) {
@@ -157,6 +156,8 @@
       imageUrl: canvas.dataset.image || "",
       accent: getAccent(),
       loading: false,
+      frameId: 0,
+      isVisible: false,
     };
 
     // Use fractional spacing to tune density without changing the render size.
@@ -211,6 +212,7 @@
       }
       state.loading = true;
       const img = new Image();
+      img.decoding = "async";
       img.onload = () => {
         const offscreen = document.createElement("canvas");
         offscreen.width = state.width;
@@ -259,8 +261,9 @@
       state.accent = getAccent();
       state.imageData = null;
 
-      loadImageData();
-      if (!state.imageUrl) {
+      if (state.imageUrl && state.isVisible) {
+        loadImageData();
+      } else if (!state.imageUrl) {
         buildParticles();
       }
     };
@@ -277,6 +280,11 @@
     };
 
     const draw = () => {
+      state.frameId = 0;
+      if (!state.isVisible || document.hidden) {
+        return;
+      }
+
       context.clearRect(0, 0, state.width, state.height);
       context.globalAlpha = 1;
 
@@ -305,20 +313,60 @@
         context.fillRect(px, py, p.size, p.size);
       });
 
-      window.requestAnimationFrame(draw);
+      state.frameId = window.requestAnimationFrame(draw);
+    };
+
+    const start = () => {
+      if (!state.frameId && state.isVisible && !document.hidden) {
+        state.frameId = window.requestAnimationFrame(draw);
+      }
+    };
+
+    const stop = () => {
+      if (state.frameId) {
+        window.cancelAnimationFrame(state.frameId);
+        state.frameId = 0;
+      }
     };
 
     resize();
-    draw();
     window.addEventListener("resize", resize);
     canvas.addEventListener("mousemove", onMove);
     canvas.addEventListener("mouseleave", onLeave);
+
+    if ("IntersectionObserver" in window) {
+      const visibilityObserver = new IntersectionObserver(
+        ([entry]) => {
+          state.isVisible = entry.isIntersecting;
+          if (state.isVisible) {
+            if (state.imageUrl && !state.imageData) {
+              loadImageData();
+            }
+            start();
+          } else {
+            stop();
+          }
+        },
+        { rootMargin: "120px" }
+      );
+      visibilityObserver.observe(canvas);
+    } else {
+      state.isVisible = true;
+      start();
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        start();
+      }
+    });
   };
 
-  canvases.forEach((canvas) => {
-    // Initialize a lightweight force field background for each canvas.
-    setupForceField(canvas);
-  });
+  if (!prefersReducedMotion.matches) {
+    canvases.forEach(setupForceField);
+  }
 
   const hobbyTrack = document.querySelector("[data-hobby-track]");
   const hobbyPath = hobbyTrack?.querySelector(".hobby-track__path-fill");
@@ -351,8 +399,6 @@
     const updateHobbyProgress = () => {
       updateHobbyTrackLayout();
       const anchor = window.innerHeight * 0.5;
-      let activeIndex = 0;
-      let activeProgress = 0;
 
       hobbySections.forEach((section, index) => {
         const rect = section.getBoundingClientRect();
@@ -363,11 +409,6 @@
         if (!dot) {
           return;
         }
-        if (progress > 0) {
-          activeIndex = index;
-          activeProgress = progress;
-        }
-
         dot.style.setProperty("--dot-progress", progress);
         dot.classList.toggle("is-active", progress > 0 && progress < 1);
         dot.classList.toggle("is-passed", progress >= 1);
@@ -383,7 +424,16 @@
       hobbyPath.style.strokeDashoffset = (1 - Math.min(1, lineProgress)) * hobbyPathLength;
     };
 
-    const onScroll = () => window.requestAnimationFrame(updateHobbyProgress);
+    let hobbyFrame = 0;
+    const onScroll = () => {
+      if (hobbyFrame) {
+        return;
+      }
+      hobbyFrame = window.requestAnimationFrame(() => {
+        hobbyFrame = 0;
+        updateHobbyProgress();
+      });
+    };
 
     updateHobbyProgress();
     window.addEventListener("scroll", onScroll, { passive: true });
