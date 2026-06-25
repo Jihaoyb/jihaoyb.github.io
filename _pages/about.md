@@ -39,7 +39,7 @@ redirect_from:
     <div class="hero__stats card-animate">
       <div class="hero__stat">
         <span>Experience</span>
-        <strong>4+ years</strong>
+        <strong>3 years</strong>
       </div>
       <div class="hero__stat">
         <span>Focus</span>
