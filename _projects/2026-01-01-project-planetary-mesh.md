@@ -2,7 +2,7 @@
 title: "Planetary Mesh (Distributed Job Scheduler)"
 tech: Go, gRPC, Postgres, Docker Compose
 category: manuscripts
-permalink: /project/2025-04-01-project-picton
+permalink: /project/planetary-mesh
 excerpt: 'A distributed job scheduler with coordinator/agent architecture and fault recovery.'
 startD: 2026-01-01
 endD: 2026-01-31

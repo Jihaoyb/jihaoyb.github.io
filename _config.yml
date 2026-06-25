@@ -11,7 +11,7 @@ locale                   : "en-US"
 title                    : "Jihao's Homepage"
 title_separator          : "-"
 name                     : &name "Jihao Ye"
-description              : &description "Senior Computer Science Student at University of Houston"
+description              : &description "Software engineer and product builder focused on scalable systems, applied AI, and clean interfaces."
 url                      : https://jihaoyb.github.io # the base hostname & protocol for your site e.g. "https://[your GitHub username].github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "Jihaoyb/jihaoyb.github.io"
@@ -24,19 +24,19 @@ author:
   avatar           : "jihao-photo.jpg"
   name             : "Jihao Ye"
   pronouns         : "he/him"
-  bio              : "WORK IN PROGRESS TO BECOME A SOFTWARE ENGINEER"
+  bio              : "Software engineer building reliable systems and thoughtful products."
   location         : "Houston, TX"
-  employer         : "University of Houston"
+  employer         : "HIPPSC"
   uri              : # URL
-  email            : "jye10@cougarnet.uh.edu" 
+  email            : "jihaoye1@gmail.com" 
 
   # Academic websites
   arxiv            : # URL - Update with the correct link to your profile
   #googlescholar    : "https://scholar.google.com/citations?user=PS_CX0AAAAAJ"
   impactstory      : # URL
-  orcid            : "http://orcid.org/yourorcidurl"
+  orcid            :
   semantic         : # URL
-  pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
+  pubmed           :
   researchgate     : # URL
   scopus           : # URL
 
@@ -87,9 +87,8 @@ project_category:
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 breadcrumbs              : false # true, false (default)
 words_per_minute         : 160
-future                   : true
+future                   : false
 read_more                : "disabled" # if enabled, adds "Read more" links to excerpts
-talkmap_link             : false      #change to true to add link to talkmap on talks page
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "custom"
   disqus:
@@ -123,7 +122,7 @@ atom_feed:
 
 # SEO Related
 google_site_verification :
-google_analytics: G-MZ7SJTXENT
+google_analytics:
 bing_site_verification   :
 alexa_site_verification  :
 yandex_site_verification :
@@ -136,7 +135,7 @@ facebook:
   username               :
   app_id                 :
   publisher              :
-og_image                 :  # Open Graph/Twitter default site image
+og_image                 : "/images/jihao-photo.jpg" # Open Graph/Twitter default site image
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
@@ -147,9 +146,9 @@ social:
 
 # Analytics
 analytics:
-  provider               :  "false" # false (default), "google", "google-universal", "google-analytics-4", "custom"
+  provider               : "google-analytics-4" # false (default), "google", "google-universal", "google-analytics-4", "custom"
   google:
-    tracking_id          :
+    tracking_id          : "G-MZ7SJTXENT"
 
 
 # Reading Files
@@ -170,6 +169,7 @@ exclude:
   - assets/js/vendor
   - CHANGELOG
   - Capfile
+  - CONTRIBUTING.md
   - config
   - Dockerfile
   - Gemfile
@@ -178,10 +178,16 @@ exclude:
   - LICENSE
   - local
   - log
+  - markdown_generator
   - node_modules
   - package.json*
   - Rakefile
   - README
+  - README.md
+  - talkmap
+  - talkmap.ipynb
+  - talkmap.py
+  - TEMPLATE_README.md
   - tmp
   - vendor
 keep_files:
@@ -220,9 +226,6 @@ collections:
     output: true
     permalink: /:collection/:path/
   portfolio:
-    output: true
-    permalink: /:collection/:path/
-  talks:
     output: true
     permalink: /:collection/:path/
 
@@ -274,16 +277,6 @@ defaults:
       author_profile: true
       share: true
       comment: true
-  # _talks
-  - scope:
-      path: ""
-      type: talks
-    values:
-      layout: talk
-      author_profile: true
-      share: true
-
-
 # Sass/SCSS
 sass:
   sass_dir: _sass

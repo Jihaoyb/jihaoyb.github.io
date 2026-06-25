@@ -11,6 +11,7 @@ location: "Houston, TX"
 
 Major Contribution:
 ======
-- Built a custom OCR pipeline to extract structured data from tax documents, reducing entry time by 80%.
-- Engineered a backend pipeline using LLMs to classify and route tax documents, automating manual workflows.
-- Developed a RAG system with vector search to surface tax codes and publication insights via natural language.
+- Led development of the full backend and LLM pipeline from zero to production, defining the architecture and data models.
+- Shipped an OCR pipeline extracting structured data from tax documents at 1,000+ docs/month, reducing entry time by 80%.
+- Built an LLM classification and routing layer that auto-sorts 20+ document types, cutting manual triage by 40%.
+- Designed a RAG system with vector search over 10K+ tax-code sections at sub-300ms retrieval.

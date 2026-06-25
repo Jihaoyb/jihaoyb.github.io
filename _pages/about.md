@@ -34,12 +34,12 @@ redirect_from:
   <div class="hero__visual">
     <!-- Use one animation hook for all card-like elements. -->
     <div class="hero__portrait card-animate">
-      <img src="{{ base_path }}/images/jihao-photo.jpg" alt="Jihao Ye portrait">
+      <img src="{{ base_path }}/images/jihao-photo.jpg" alt="Jihao Ye portrait" width="800" height="800" decoding="async" fetchpriority="high">
     </div>
     <div class="hero__stats card-animate">
       <div class="hero__stat">
         <span>Experience</span>
-        <strong>4+ years</strong>
+        <strong>3 years</strong>
       </div>
       <div class="hero__stat">
         <span>Focus</span>
@@ -157,7 +157,7 @@ redirect_from:
   <div class="section-title">
     <!-- Apply heading animation to section titles. -->
     <h2 class="heading-animate">Projects</h2>
-    <span>{{ projects | size }} total</span>
+    <span>{{ projects | size }} featured</span>
   </div>
   <div class="project-folder-grid">
     {% for project in projects limit: 3 %}

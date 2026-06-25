@@ -7,7 +7,7 @@ author_profile: false
 
 <section class="personal-hero forcefield-wrap">
   <!-- Configure the particle field with image and density controls. -->
-  <canvas class="forcefield-canvas" data-image="{{ base_path }}/images/background.jpg" data-spacing="8" data-size="2" data-threshold="8" aria-hidden="true"></canvas>
+  <canvas class="forcefield-canvas" data-image="{{ base_path }}/images/background.JPG" data-spacing="8" data-size="2" data-threshold="8" aria-hidden="true"></canvas>
   <div class="personal-hero__inner forcefield-content">
     <div class="personal-hero__content">
       <p class="eyebrow">Personal</p>
@@ -70,8 +70,8 @@ author_profile: false
     <span>Photo notes</span>
   </div>
   <div class="personal-gallery">
-    <img src="{{ base_path }}/images/editing-talk.png" alt="Talk preparation desk">
-    <img src="{{ base_path }}/images/jihao-photo.jpg" alt="Portrait of Jihao Ye">
-    <img src="{{ base_path }}/images/foo-bar-identity.jpg" alt="Design inspiration board">
+    <img src="{{ base_path }}/images/editing-talk.png" alt="Talk preparation desk" width="1015" height="534" loading="lazy" decoding="async">
+    <img src="{{ base_path }}/images/jihao-photo.jpg" alt="Portrait of Jihao Ye" width="800" height="800" loading="lazy" decoding="async">
+    <img src="{{ base_path }}/images/foo-bar-identity.jpg" alt="Design inspiration board" width="1000" height="578" loading="lazy" decoding="async">
   </div>
 </section>
