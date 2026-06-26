@@ -39,6 +39,6 @@ Projects
   *  Implemented robust SSL/TLS encryption, OAuth 2.0 authentication, and secure token management, ensuring data transmission integrity, user authentication, and compliance with modern industry security standards
 
 <b>Tax AI</b> | <i>Python, Flask, AWS, MongoDB, Tesseract, PaddleOCR, OpenCV</i>
-  *  Built a cloud storage service using C++, leveraging Boost.Asio for asynchronous networking, Poco libraries for file transfer protocols, and multi-threading to manage hundreds of concurrent connections effectively
-  *  Optimized server infrastructure for scalability and improved network throughput, integrating efficient I/O handling, load balancing algorithms, and custom error handling to support large-scale file operations
-  *  Implemented robust SSL/TLS encryption, OAuth 2.0 authentication, and secure token management, ensuring data transmission integrity, user authentication, and compliance with modern industry security standards
+  *  Built an OCR pipeline (Tesseract, PaddleOCR, OpenCV) that extracts structured data from tax documents at 1,000+ docs/month, reducing manual entry time by 80%
+  *  Built an LLM classification and routing layer that auto-sorts 20+ document types, cutting manual triage by 40%
+  *  Designed a RAG system with vector search over 10K+ tax-code sections at sub-300ms retrieval
