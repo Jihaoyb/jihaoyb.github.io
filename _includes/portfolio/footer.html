@@ -22,6 +22,12 @@
         <p class="portfolio-footer__label">Email</p>
         <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
       </div>
+      {% if site.author.phone %}
+      <div>
+        <p class="portfolio-footer__label">Phone</p>
+        <a href="tel:+18329967496">{{ site.author.phone }}</a>
+      </div>
+      {% endif %}
       <div>
         <p class="portfolio-footer__label">Social</p>
         <div class="portfolio-footer__social">

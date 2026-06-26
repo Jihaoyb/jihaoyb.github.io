@@ -25,10 +25,11 @@ author:
   name             : "Jihao Ye"
   pronouns         : "he/him"
   bio              : "Software engineer building reliable systems and thoughtful products."
-  location         : "Houston, TX"
+  location         : "Los Angeles, CA"
   employer         : "HIPPSC"
   uri              : # URL
-  email            : "jihaoye1@gmail.com" 
+  email            : "jihaoye1@gmail.com"
+  phone            : "+1 (832) 996-7496" 
 
   # Academic websites
   arxiv            : # URL - Update with the correct link to your profile
@@ -135,7 +136,7 @@ facebook:
   username               :
   app_id                 :
   publisher              :
-og_image                 : "/images/jihao-photo.jpg" # Open Graph/Twitter default site image
+og_image                 : "jihao-photo.jpg" # Open Graph/Twitter default site image (filename under /images/)
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:

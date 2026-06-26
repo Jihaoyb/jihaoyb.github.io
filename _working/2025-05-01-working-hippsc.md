@@ -6,7 +6,7 @@ permalink: /working/2025-05-01-working-hippsc
 position: "Software Engineer"
 startD: 2025-05-01
 endD: Present
-location: "Remote"
+location: "Los Angeles, CA"
 ---
 
 Major Contribution:
