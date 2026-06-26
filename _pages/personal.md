@@ -63,15 +63,3 @@ author_profile: false
     </article>
   </div>
 </section>
-
-<section class="portfolio-section">
-  <div class="section-title">
-    <h2 class="heading-animate">Moments</h2>
-    <span>Photo notes</span>
-  </div>
-  <div class="personal-gallery">
-    <img src="{{ base_path }}/images/editing-talk.png" alt="Talk preparation desk" width="1015" height="534" loading="lazy" decoding="async">
-    <img src="{{ base_path }}/images/jihao-photo.jpg" alt="Portrait of Jihao Ye" width="800" height="800" loading="lazy" decoding="async">
-    <img src="{{ base_path }}/images/foo-bar-identity.jpg" alt="Design inspiration board" width="1000" height="578" loading="lazy" decoding="async">
-  </div>
-</section>
