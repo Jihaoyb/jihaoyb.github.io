@@ -12,14 +12,16 @@ redirect_from:
 
 Education
 ======
-* B.S. in Computer Science, University of Houston, Fall 2025 (expected)
+* B.S. in Computer Science, University of Houston, 2025
 
 Skills
 ======
-* Languages: Python, C++, SQL, JavaScript
-* Frameworks: Express, React, Node, Flask, Pandas, Redis, Numpy, Boost.Asio, Poco
-* Databases: AWS, GCP, MongoDB, MySQL, PostgreSQL
-* Operating Systems: Linux, Windows, MacOS
+* Languages: Python, TypeScript/JavaScript, SQL, C++, C#
+* Frontend: React, Next.js, Electron, Three.js
+* Backend: Node.js, Express.js, Flask/FastAPI, REST APIs
+* Databases: PostgreSQL, MySQL, Redis, DynamoDB
+* Cloud & Tools: AWS (Amplify, S3, EC2), Docker, Git
+* Operating Systems: Linux, Windows, macOS
 
 Projects
 ======
