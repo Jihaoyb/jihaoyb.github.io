@@ -47,7 +47,7 @@ author_profile: false
   <div class="hobby-sections">
     <article class="hobby-section card-animate" id="hobby-photography" data-hobby-section>
       <h3 class="underline-animate">Street photography</h3>
-      <p>Exploring Houston neighborhoods through film and digital stories.</p>
+      <p>Exploring neighborhoods and street scenes through film and digital stories.</p>
     </article>
     <article class="hobby-section card-animate" id="hobby-basketball" data-hobby-section>
       <h3 class="underline-animate">Basketball</h3>
