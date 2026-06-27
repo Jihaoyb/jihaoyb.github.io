@@ -1,39 +1,45 @@
+/* Dark-mode token values, applied via the explicit selectors below.
+   Using explicit value overrides (instead of light-dark()) keeps the
+   manual theme toggle re-cascading predictably and works in browsers
+   without light-dark() support. */
+@mixin portfolio-dark {
+  color-scheme: dark;
+  --ink: #ece3d6;
+  --muted: #a89e8d;
+  --paper: #18140f;
+  --paper-2: #211b14;
+  --paper-hi: #1c1812;
+  --accent: #f2754f;
+  --accent-2: #54b89b;
+  --line: #363027;
+  --surface: #221d16;
+  --surface-2: #262017;
+  --surface-invert: #efe6d8;
+  --on-invert: #15120d;
+  --header-bg: rgba(22, 18, 13, 0.85);
+  --tag-bg: rgba(255, 255, 255, 0.07);
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+}
+
 .portfolio-body {
-  color-scheme: light dark;
-  /* Each token declares a plain light fallback first, then a light-dark()
-     value, so dark mode applies where supported and degrades to light where not. */
+  color-scheme: light;
   --ink: #151515;
-  --ink: light-dark(#151515, #ece3d6);
   --muted: #4c4c4c;
-  --muted: light-dark(#4c4c4c, #a89e8d);
   --paper: #f6f1e9;
-  --paper: light-dark(#f6f1e9, #18140f);
   --paper-2: #efe7dc;
-  --paper-2: light-dark(#efe7dc, #211b14);
   --paper-hi: #faf7f2;
-  --paper-hi: light-dark(#faf7f2, #1c1812);
   --accent: #e4572e;
-  --accent: light-dark(#e4572e, #f2754f);
   --accent-2: #1f6f5b;
-  --accent-2: light-dark(#1f6f5b, #54b89b);
   --line: #d7cec1;
-  --line: light-dark(#d7cec1, #363027);
   --surface: #ffffff;
-  --surface: light-dark(#ffffff, #221d16);
   --surface-2: #fffaf2;
-  --surface-2: light-dark(#fffaf2, #262017);
   --surface-invert: #151515;
-  --surface-invert: light-dark(#151515, #efe6d8);
   --on-invert: #ffffff;
-  --on-invert: light-dark(#ffffff, #15120d);
   --header-bg: rgba(246, 241, 233, 0.92);
-  --header-bg: light-dark(rgba(246, 241, 233, 0.92), rgba(22, 18, 13, 0.85));
   --tag-bg: rgba(255, 255, 255, 0.7);
-  --tag-bg: light-dark(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.07));
   --border-soft: rgba(0, 0, 0, 0.06);
-  --border-soft: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
   --shadow: 0 24px 60px rgba(16, 16, 16, 0.12);
-  --shadow: light-dark(0 24px 60px rgba(16, 16, 16, 0.12), 0 30px 60px rgba(0, 0, 0, 0.55));
   background: radial-gradient(circle at top, var(--paper-hi) 0%, var(--paper) 40%, var(--paper-2) 100%);
   color: var(--ink);
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
@@ -43,13 +49,16 @@
   padding-bottom: 0;
 }
 
-/* Manual theme override: <html data-theme> wins over the system default above. */
-html[data-theme="light"] .portfolio-body {
-  color-scheme: light;
+/* Follow the OS preference when the visitor hasn't chosen a theme. */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) .portfolio-body {
+    @include portfolio-dark;
+  }
 }
 
+/* Manual override from the header toggle (data-theme set on <html>). */
 html[data-theme="dark"] .portfolio-body {
-  color-scheme: dark;
+  @include portfolio-dark;
 }
 
 .portfolio-root {
@@ -1147,7 +1156,10 @@ html[data-theme="dark"] .portfolio-body {
 
 .btn--primary {
   background: var(--surface-invert);
-  color: var(--on-invert);
+  /* !important overrides the base theme's `.btn { color: #fff !important }`
+     (_buttons.scss), which otherwise forces white text — unreadable on the
+     light inverted button surface in dark mode. */
+  color: var(--on-invert) !important;
 }
 
 .btn--primary:hover {
