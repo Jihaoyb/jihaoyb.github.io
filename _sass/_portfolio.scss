@@ -3,11 +3,19 @@
   --muted: #4c4c4c;
   --paper: #f6f1e9;
   --paper-2: #efe7dc;
+  --paper-hi: #faf7f2;
   --accent: #e4572e;
   --accent-2: #1f6f5b;
   --line: #d7cec1;
+  --surface: #ffffff;
+  --surface-2: #fffaf2;
+  --surface-invert: #151515;
+  --on-invert: #ffffff;
+  --header-bg: rgba(246, 241, 233, 0.92);
+  --tag-bg: rgba(255, 255, 255, 0.7);
+  --border-soft: rgba(0, 0, 0, 0.06);
   --shadow: 0 24px 60px rgba(16, 16, 16, 0.12);
-  background: radial-gradient(circle at top, #faf7f2 0%, var(--paper) 40%, var(--paper-2) 100%);
+  background: radial-gradient(circle at top, var(--paper-hi) 0%, var(--paper) 40%, var(--paper-2) 100%);
   color: var(--ink);
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
   scroll-behavior: smooth;
@@ -34,7 +42,7 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(246, 241, 233, 0.92);
+  background: var(--header-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -141,7 +149,7 @@
   border-radius: 26px;
   overflow: hidden;
   box-shadow: var(--shadow);
-  background: #fff;
+  background: var(--surface);
 }
 
 .hero__portrait img {
@@ -153,7 +161,7 @@
   display: grid;
   gap: 12px;
   padding: 20px;
-  background: #fff;
+  background: var(--surface);
   border-radius: 20px;
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
@@ -201,7 +209,7 @@
 }
 
 .about-card {
-  background: #fff;
+  background: var(--surface);
   border-radius: 22px;
   padding: 24px;
   border: 1px solid var(--line);
@@ -353,10 +361,10 @@
   position: absolute;
   width: 100px;
   height: 80px;
-  background: #fff;
+  background: var(--surface);
   border-radius: 12px;
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-soft);
   left: 50%;
   top: 12px;
   transform: translate(-50%, 0) scale(0.9);
@@ -419,7 +427,7 @@
 }
 
 .project-folder__file {
-  background: #fffaf2;
+  background: var(--surface-2);
   border: 1px dashed var(--line);
   border-radius: 12px;
   padding: 12px 14px;
@@ -535,7 +543,7 @@
 }
 
 .project-card {
-  background: #fff;
+  background: var(--surface);
   border-radius: 24px;
   padding: 24px;
   border: 1px solid var(--line);
@@ -584,7 +592,7 @@
 }
 
 .experience-card {
-  background: #fff;
+  background: var(--surface);
   border-radius: 20px;
   padding: 16px 18px;
   border: 1px solid var(--line);
@@ -665,8 +673,8 @@
 
 .portfolio-marquee {
   margin-top: 24px;
-  background: var(--ink);
-  color: #fff;
+  background: var(--surface-invert);
+  color: var(--on-invert);
   overflow: hidden;
 }
 
@@ -801,7 +809,7 @@
   padding: 6px 14px;
   border-radius: 999px;
   font-size: 13px;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--tag-bg);
 }
 
 .personal-section__panel {
@@ -982,7 +990,7 @@
 }
 
 .hobby-section {
-  background: #fff;
+  background: var(--surface);
   border-radius: 20px;
   padding: 22px;
   border: 1px solid var(--line);
@@ -1012,7 +1020,7 @@
 }
 
 .personal-card {
-  background: #fff;
+  background: var(--surface);
   border-radius: 20px;
   padding: 22px;
   border: 1px solid var(--line);
@@ -1110,8 +1118,8 @@
 }
 
 .btn--primary {
-  background: var(--ink);
-  color: #fff;
+  background: var(--surface-invert);
+  color: var(--on-invert);
 }
 
 .btn--primary:hover {
