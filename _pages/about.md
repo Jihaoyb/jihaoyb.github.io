@@ -240,7 +240,7 @@ redirect_from:
     </div>
     <div class="personal-section__panel forcefield-wrap">
       <!-- Configure the particle field with image and density controls. -->
-      <canvas class="forcefield-canvas" data-image="{{ base_path }}/images/background.JPG" data-spacing="8" data-size="2" data-threshold="8" aria-hidden="true"></canvas>
+      <canvas class="forcefield-canvas" data-image="{{ base_path }}/images/background.webp" data-spacing="8" data-size="2" data-threshold="8" aria-hidden="true"></canvas>
       <div class="personal-section__panel-content forcefield-content">
         <h3>Snapshots & stories</h3>
         <p>Photo walks, new recipes, and experiments that recharge the mind.</p>
