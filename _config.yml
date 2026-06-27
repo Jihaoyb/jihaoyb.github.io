@@ -176,9 +176,6 @@ exclude:
   - Rakefile
   - README
   - README.md
-  - talkmap
-  - talkmap.ipynb
-  - talkmap.py
   - TEMPLATE_README.md
   - tmp
   - vendor
