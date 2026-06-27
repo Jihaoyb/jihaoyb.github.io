@@ -1179,6 +1179,52 @@ html[data-theme="dark"] .portfolio-body {
   font-size: 13px;
 }
 
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.theme-toggle__icon {
+  display: none;
+}
+
+/* Default state (system / no data-theme) shows the auto glyph. */
+.theme-toggle__icon--auto {
+  display: block;
+}
+
+html[data-theme="light"] .theme-toggle__icon--auto {
+  display: none;
+}
+
+html[data-theme="light"] .theme-toggle__icon--sun {
+  display: block;
+}
+
+html[data-theme="dark"] .theme-toggle__icon--auto {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-toggle__icon--moon {
+  display: block;
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0);

@@ -1,11 +1,24 @@
 {% include base_path %}
 
+<script>
+  /* Apply the saved theme before first paint to avoid a flash of the wrong mode. */
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "light" || t === "dark") {
+        document.documentElement.setAttribute("data-theme", t);
+      }
+    } catch (e) {}
+  })();
+</script>
+
 <link rel="icon" href="{{ base_path }}/images/favicon.ico" sizes="any">
 <link rel="mask-icon" href="{{ base_path }}/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
 <meta name="msapplication-TileColor" content="#000000">
 <meta name="msapplication-TileImage" content="{{ base_path }}/images/mstile-144x144.png?v=M44lzPylqQ">
 <meta name="msapplication-config" content="{{ base_path }}/images/browserconfig.xml?v=M44lzPylqQ">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#f6f1e9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#18140f" media="(prefers-color-scheme: dark)">
 
 {% if page.author_profile != false %}
 <link rel="stylesheet" href="{{ base_path }}/assets/css/academicons.min.css">
