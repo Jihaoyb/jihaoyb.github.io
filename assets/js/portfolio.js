@@ -607,4 +607,42 @@
       applyTheme(current);
     });
   }
+
+  const navToggle = document.querySelector("[data-nav-toggle]");
+  const portfolioHeader = document.querySelector("[data-portfolio-header]");
+  const navMenu = document.querySelector("[data-nav-menu]");
+  if (navToggle && portfolioHeader && navMenu) {
+    const setMenu = (open) => {
+      portfolioHeader.classList.toggle("is-open", open);
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+
+    navToggle.addEventListener("click", () => {
+      setMenu(!portfolioHeader.classList.contains("is-open"));
+    });
+
+    // Close after choosing a destination (the menu links are in-page anchors).
+    navMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => setMenu(false));
+    });
+
+    // Close on Escape and return focus to the toggle.
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && portfolioHeader.classList.contains("is-open")) {
+        setMenu(false);
+        navToggle.focus();
+      }
+    });
+
+    // Close when clicking outside the header.
+    document.addEventListener("click", (event) => {
+      if (
+        portfolioHeader.classList.contains("is-open") &&
+        !portfolioHeader.contains(event.target)
+      ) {
+        setMenu(false);
+      }
+    });
+  }
 })();
