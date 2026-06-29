@@ -7,7 +7,7 @@ author_profile: false
 
 <section class="personal-hero forcefield-wrap">
   <!-- Configure the particle field with image and density controls. -->
-  <canvas class="forcefield-canvas" data-image="{{ base_path }}/images/background.JPG" data-spacing="8" data-size="2" data-threshold="8" aria-hidden="true"></canvas>
+  <canvas class="forcefield-canvas" data-image="{{ base_path }}/images/background.webp" data-spacing="8" data-size="2" data-threshold="8" aria-hidden="true"></canvas>
   <div class="personal-hero__inner forcefield-content">
     <div class="personal-hero__content">
       <p class="eyebrow">Personal</p>
