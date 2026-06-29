@@ -556,4 +556,55 @@
       }
     });
   }
+
+  const themeToggle = document.querySelector("[data-theme-toggle]");
+  if (themeToggle) {
+    // Cycle through system -> light -> dark. "system" clears the override so
+    // the CSS color-scheme follows the OS; the head script handles first paint.
+    const order = ["system", "light", "dark"];
+    const labels = {
+      system: "Theme: system (switch to light)",
+      light: "Theme: light (switch to dark)",
+      dark: "Theme: dark (switch to system)",
+    };
+
+    const readStored = () => {
+      try {
+        return localStorage.getItem("theme");
+      } catch (error) {
+        return null;
+      }
+    };
+
+    const applyTheme = (mode) => {
+      if (mode === "light" || mode === "dark") {
+        document.documentElement.setAttribute("data-theme", mode);
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+      }
+      const label = labels[mode] || labels.system;
+      themeToggle.setAttribute("aria-label", label);
+      themeToggle.setAttribute("title", label);
+    };
+
+    let current = readStored();
+    if (current !== "light" && current !== "dark") {
+      current = "system";
+    }
+    applyTheme(current);
+
+    themeToggle.addEventListener("click", () => {
+      current = order[(order.indexOf(current) + 1) % order.length];
+      try {
+        if (current === "system") {
+          localStorage.removeItem("theme");
+        } else {
+          localStorage.setItem("theme", current);
+        }
+      } catch (error) {
+        /* Ignore storage failures (private mode, disabled cookies, etc.). */
+      }
+      applyTheme(current);
+    });
+  }
 })();

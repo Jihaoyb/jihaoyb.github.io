@@ -1,19 +1,64 @@
+/* Dark-mode token values, applied via the explicit selectors below.
+   Using explicit value overrides (instead of light-dark()) keeps the
+   manual theme toggle re-cascading predictably and works in browsers
+   without light-dark() support. */
+@mixin portfolio-dark {
+  color-scheme: dark;
+  --ink: #ece3d6;
+  --muted: #a89e8d;
+  --paper: #18140f;
+  --paper-2: #211b14;
+  --paper-hi: #1c1812;
+  --accent: #f2754f;
+  --accent-2: #54b89b;
+  --line: #363027;
+  --surface: #221d16;
+  --surface-2: #262017;
+  --surface-invert: #efe6d8;
+  --on-invert: #15120d;
+  --header-bg: rgba(22, 18, 13, 0.85);
+  --tag-bg: rgba(255, 255, 255, 0.07);
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+}
+
 .portfolio-body {
+  color-scheme: light;
   --ink: #151515;
   --muted: #4c4c4c;
   --paper: #f6f1e9;
   --paper-2: #efe7dc;
+  --paper-hi: #faf7f2;
   --accent: #e4572e;
   --accent-2: #1f6f5b;
   --line: #d7cec1;
+  --surface: #ffffff;
+  --surface-2: #fffaf2;
+  --surface-invert: #151515;
+  --on-invert: #ffffff;
+  --header-bg: rgba(246, 241, 233, 0.92);
+  --tag-bg: rgba(255, 255, 255, 0.7);
+  --border-soft: rgba(0, 0, 0, 0.06);
   --shadow: 0 24px 60px rgba(16, 16, 16, 0.12);
-  background: radial-gradient(circle at top, #faf7f2 0%, var(--paper) 40%, var(--paper-2) 100%);
+  background: radial-gradient(circle at top, var(--paper-hi) 0%, var(--paper) 40%, var(--paper-2) 100%);
   color: var(--ink);
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
   scroll-behavior: smooth;
   /* Remove template body padding so the header sits flush at the top. */
   padding-top: 0;
   padding-bottom: 0;
+}
+
+/* Follow the OS preference when the visitor hasn't chosen a theme. */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) .portfolio-body {
+    @include portfolio-dark;
+  }
+}
+
+/* Manual override from the header toggle (data-theme set on <html>). */
+html[data-theme="dark"] .portfolio-body {
+  @include portfolio-dark;
 }
 
 .portfolio-root {
@@ -34,7 +79,7 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(246, 241, 233, 0.92);
+  background: var(--header-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -141,7 +186,7 @@
   border-radius: 26px;
   overflow: hidden;
   box-shadow: var(--shadow);
-  background: #fff;
+  background: var(--surface);
 }
 
 .hero__portrait img {
@@ -153,7 +198,7 @@
   display: grid;
   gap: 12px;
   padding: 20px;
-  background: #fff;
+  background: var(--surface);
   border-radius: 20px;
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
@@ -201,7 +246,7 @@
 }
 
 .about-card {
-  background: #fff;
+  background: var(--surface);
   border-radius: 22px;
   padding: 24px;
   border: 1px solid var(--line);
@@ -353,10 +398,10 @@
   position: absolute;
   width: 100px;
   height: 80px;
-  background: #fff;
+  background: var(--surface);
   border-radius: 12px;
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-soft);
   left: 50%;
   top: 12px;
   transform: translate(-50%, 0) scale(0.9);
@@ -419,7 +464,7 @@
 }
 
 .project-folder__file {
-  background: #fffaf2;
+  background: var(--surface-2);
   border: 1px dashed var(--line);
   border-radius: 12px;
   padding: 12px 14px;
@@ -535,7 +580,7 @@
 }
 
 .project-card {
-  background: #fff;
+  background: var(--surface);
   border-radius: 24px;
   padding: 24px;
   border: 1px solid var(--line);
@@ -584,7 +629,7 @@
 }
 
 .experience-card {
-  background: #fff;
+  background: var(--surface);
   border-radius: 20px;
   padding: 16px 18px;
   border: 1px solid var(--line);
@@ -665,8 +710,8 @@
 
 .portfolio-marquee {
   margin-top: 24px;
-  background: var(--ink);
-  color: #fff;
+  background: var(--surface-invert);
+  color: var(--on-invert);
   overflow: hidden;
 }
 
@@ -801,7 +846,7 @@
   padding: 6px 14px;
   border-radius: 999px;
   font-size: 13px;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--tag-bg);
 }
 
 .personal-section__panel {
@@ -982,7 +1027,7 @@
 }
 
 .hobby-section {
-  background: #fff;
+  background: var(--surface);
   border-radius: 20px;
   padding: 22px;
   border: 1px solid var(--line);
@@ -1012,7 +1057,7 @@
 }
 
 .personal-card {
-  background: #fff;
+  background: var(--surface);
   border-radius: 20px;
   padding: 22px;
   border: 1px solid var(--line);
@@ -1032,6 +1077,9 @@
 }
 
 .portfolio-footer {
+  /* Permanently dark panel — always use the dark token set so its buttons
+     (cream on dark) and the teal eyebrow stay readable in light mode too. */
+  @include portfolio-dark;
   background: #121212;
   color: #f7f5f2;
   padding: 96px 24px 32px;
@@ -1110,8 +1158,11 @@
 }
 
 .btn--primary {
-  background: var(--ink);
-  color: #fff;
+  background: var(--surface-invert);
+  /* !important overrides the base theme's `.btn { color: #fff !important }`
+     (_buttons.scss), which otherwise forces white text — unreadable on the
+     light inverted button surface in dark mode. */
+  color: var(--on-invert) !important;
 }
 
 .btn--primary:hover {
@@ -1141,6 +1192,52 @@
 .btn--small {
   padding: 10px 16px;
   font-size: 13px;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.theme-toggle__icon {
+  display: none;
+}
+
+/* Default state (system / no data-theme) shows the auto glyph. */
+.theme-toggle__icon--auto {
+  display: block;
+}
+
+html[data-theme="light"] .theme-toggle__icon--auto {
+  display: none;
+}
+
+html[data-theme="light"] .theme-toggle__icon--sun {
+  display: block;
+}
+
+html[data-theme="dark"] .theme-toggle__icon--auto {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-toggle__icon--moon {
+  display: block;
 }
 
 @keyframes marquee {
