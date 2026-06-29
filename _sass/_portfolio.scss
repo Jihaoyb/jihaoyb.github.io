@@ -1077,6 +1077,9 @@ html[data-theme="dark"] .portfolio-body {
 }
 
 .portfolio-footer {
+  /* Permanently dark panel — always use the dark token set so its buttons
+     (cream on dark) and the teal eyebrow stay readable in light mode too. */
+  @include portfolio-dark;
   background: #121212;
   color: #f7f5f2;
   padding: 96px 24px 32px;
