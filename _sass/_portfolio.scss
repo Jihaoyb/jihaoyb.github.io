@@ -43,7 +43,6 @@
   background: radial-gradient(circle at top, var(--paper-hi) 0%, var(--paper) 40%, var(--paper-2) 100%);
   color: var(--ink);
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
-  scroll-behavior: smooth;
   /* Remove template body padding so the header sits flush at the top. */
   padding-top: 0;
   padding-bottom: 0;
@@ -59,6 +58,20 @@
 /* Manual override from the header toggle (data-theme set on <html>). */
 html[data-theme="dark"] .portfolio-body {
   @include portfolio-dark;
+}
+
+/* Smooth-scroll in-page nav jumps from the current position. scroll-behavior
+   must live on the root scroller (html); on <body> it has no effect, which is
+   why nav links used to hard-jump. Sections carry scroll-margin-top: 96px so
+   they land clear of the sticky header. */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 .portfolio-root {
