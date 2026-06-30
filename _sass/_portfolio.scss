@@ -545,7 +545,7 @@ html[data-theme="dark"] .portfolio-body {
   opacity: 0;
   /* No height transition: the open layout snaps so the FLIP can animate the
      grid reflow; the cards fly in via transform/opacity instead. */
-  transition: opacity 0.3s ease;
+  transition: opacity 0.5s ease;
 }
 
 .project-folder__file {
@@ -565,7 +565,7 @@ html[data-theme="dark"] .portfolio-body {
   transform-origin: top center;
   /* Fly-in (alignment) — duration mirrors FLY_DURATION in portfolio.js so the
      per-file text reveal can start the instant each card lands. */
-  transition: transform 0.42s cubic-bezier(0.34, 1.28, 0.5, 1), opacity 0.42s ease;
+  transition: transform 0.5s cubic-bezier(0.34, 1.28, 0.5, 1), opacity 0.5s ease;
 }
 
 .project-folder__file a {

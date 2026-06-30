@@ -635,7 +635,7 @@
           // FILE_STAGGER / FLY_DURATION mirror the CSS fly-in transition on
           // .project-folder__file; keep the two in sync.
           const FILE_STAGGER = reduceMotion ? 0 : 150;
-          const FLY_DURATION = reduceMotion ? 0 : 420;
+          const FLY_DURATION = reduceMotion ? 0 : 500;
           fileEls.forEach(splitWords);
           fileEls.forEach((file, i) => {
             const startDelay = i * FILE_STAGGER;
