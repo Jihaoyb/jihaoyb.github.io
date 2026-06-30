@@ -557,7 +557,7 @@
         textNode.parentNode.replaceChild(fragment, textNode);
       });
       Array.from(file.querySelectorAll(".reveal-word")).forEach((word, index) => {
-        word.style.setProperty("--w-delay", `${index * 18}ms`);
+        word.style.setProperty("--w-delay", `${index * 8}ms`);
       });
       file.dataset.split = "true";
     };
@@ -569,7 +569,7 @@
         return;
       }
       const fileEls = Array.from(folder.querySelectorAll(".project-folder__file"));
-      let revealTimer = 0;
+      let revealTimers = [];
 
       button.addEventListener("click", () => {
         const isOpen = folder.classList.contains("is-open");
@@ -626,17 +626,37 @@
           });
         }
 
-        window.clearTimeout(revealTimer);
+        revealTimers.forEach((timer) => window.clearTimeout(timer));
+        revealTimers = [];
         if (!isOpen) {
-          // Opening: split the content, then reveal it word by word once the
-          // files have finished swinging into the column.
+          // Opening: split each file's content, then start its word-by-word
+          // reveal the moment that file lands in the column — so each card's
+          // text appears as it arrives, not after all three have settled.
+          // FILE_STAGGER / FLY_DURATION mirror the CSS fly-in transition on
+          // .project-folder__file; keep the two in sync.
+          const FILE_STAGGER = reduceMotion ? 0 : 150;
+          const FLY_DURATION = reduceMotion ? 0 : 420;
           fileEls.forEach(splitWords);
-          revealTimer = window.setTimeout(() => {
-            fileEls.forEach((file) => file.classList.add("is-revealed"));
-          }, reduceMotion ? 0 : 850);
+          fileEls.forEach((file, i) => {
+            const startDelay = i * FILE_STAGGER;
+            file.style.transitionDelay = reduceMotion ? "" : `${startDelay}ms`;
+            const revealAt = reduceMotion
+              ? 0
+              : Math.max(0, startDelay + FLY_DURATION - 70);
+            revealTimers.push(
+              window.setTimeout(
+                () => file.classList.add("is-revealed"),
+                revealAt
+              )
+            );
+          });
         } else {
-          // Closing: hide the content so it re-reveals on the next open.
-          fileEls.forEach((file) => file.classList.remove("is-revealed"));
+          // Closing: hide the content so it re-reveals on the next open, and
+          // clear the per-file stagger so the cards retract together.
+          fileEls.forEach((file) => {
+            file.classList.remove("is-revealed");
+            file.style.transitionDelay = "";
+          });
         }
 
         const openFolders = projectFolders.filter((item) => item.classList.contains("is-open"));
