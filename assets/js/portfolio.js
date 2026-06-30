@@ -523,6 +523,44 @@
     let lastScrollY = null;
     const header = document.querySelector(".portfolio-header");
     const headerOffset = header ? header.getBoundingClientRect().height + 16 : 16;
+    const reduceMotion = prefersReducedMotion.matches;
+
+    // Split a file's content into per-word spans (once) so the content can
+    // reveal word by word after the file has flown into place.
+    const splitWords = (file) => {
+      if (file.dataset.split === "true") {
+        return;
+      }
+      const walker = document.createTreeWalker(file, NodeFilter.SHOW_TEXT, null);
+      const textNodes = [];
+      let node;
+      while ((node = walker.nextNode())) {
+        if (node.nodeValue.trim()) {
+          textNodes.push(node);
+        }
+      }
+      textNodes.forEach((textNode) => {
+        const fragment = document.createDocumentFragment();
+        textNode.nodeValue.split(/(\s+)/).forEach((part) => {
+          if (part === "") {
+            return;
+          }
+          if (/^\s+$/.test(part)) {
+            fragment.appendChild(document.createTextNode(part));
+            return;
+          }
+          const span = document.createElement("span");
+          span.className = "reveal-word";
+          span.textContent = part;
+          fragment.appendChild(span);
+        });
+        textNode.parentNode.replaceChild(fragment, textNode);
+      });
+      Array.from(file.querySelectorAll(".reveal-word")).forEach((word, index) => {
+        word.style.setProperty("--w-delay", `${index * 22}ms`);
+      });
+      file.dataset.split = "true";
+    };
 
     projectFolders.forEach((folder) => {
       const button = folder.querySelector(".project-folder__header");
@@ -530,12 +568,27 @@
       if (!button || !files) {
         return;
       }
+      const fileEls = Array.from(folder.querySelectorAll(".project-folder__file"));
+      let revealTimer = 0;
 
       button.addEventListener("click", () => {
         const isOpen = folder.classList.contains("is-open");
         folder.classList.toggle("is-open", !isOpen);
         button.setAttribute("aria-expanded", isOpen ? "false" : "true");
         files.setAttribute("aria-hidden", isOpen ? "true" : "false");
+
+        window.clearTimeout(revealTimer);
+        if (!isOpen) {
+          // Opening: split the content, then reveal it word by word once the
+          // files have finished swinging into the column.
+          fileEls.forEach(splitWords);
+          revealTimer = window.setTimeout(() => {
+            fileEls.forEach((file) => file.classList.add("is-revealed"));
+          }, reduceMotion ? 0 : 1100);
+        } else {
+          // Closing: hide the content so it re-reveals on the next open.
+          fileEls.forEach((file) => file.classList.remove("is-revealed"));
+        }
 
         const openFolders = projectFolders.filter((item) => item.classList.contains("is-open"));
         if (!isOpen) {
