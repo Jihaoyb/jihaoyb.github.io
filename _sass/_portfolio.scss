@@ -393,6 +393,11 @@ html[data-theme="dark"] .portfolio-body {
   transform: translateY(0);
 }
 
+.project-folder.is-open {
+  /* The opened project takes the whole row so its files can lay out wide. */
+  grid-column: 1 / -1;
+}
+
 .project-folder__shell {
   position: relative;
   width: 160px;
@@ -473,32 +478,30 @@ html[data-theme="dark"] .portfolio-body {
 
 .project-folder__paper {
   position: absolute;
-  width: 100px;
-  height: 80px;
+  width: 96px;
+  height: 84px;
   background: var(--surface);
-  border-radius: 12px;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
   border: 1px solid var(--border-soft);
   left: 50%;
-  top: 12px;
-  transform: translate(-50%, 0) scale(0.9);
-  opacity: 0;
-  transition: transform 0.4s ease, opacity 0.4s ease;
+  top: 4px;
+  /* Closed: the papers peek out of the top of the folder as a "has files" cue. */
+  transform: translate(-50%, -12px) scale(0.92);
+  opacity: 1;
+  transition: transform 0.45s ease, opacity 0.4s ease;
 }
 
 .project-folder__paper--one {
-  width: 92px;
-  height: 70px;
+  transform: translate(-74%, -6px) rotate(-7deg) scale(0.88);
 }
 
 .project-folder__paper--two {
-  width: 104px;
-  height: 82px;
+  transform: translate(-50%, -14px) scale(0.94);
 }
 
 .project-folder__paper--three {
-  width: 112px;
-  height: 88px;
+  transform: translate(-26%, -6px) rotate(7deg) scale(0.88);
 }
 
 .project-folder__header {
@@ -528,31 +531,32 @@ html[data-theme="dark"] .portfolio-body {
 
 .project-folder__files {
   display: grid;
-  gap: 10px;
-  margin-top: 6px;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 18px;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.35s ease, opacity 0.35s ease;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
   width: 100%;
-  max-width: 360px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .project-folder__file {
   background: var(--surface-2);
   border: 1px dashed var(--line);
   border-radius: 12px;
-  padding: 12px 14px;
+  padding: 16px 18px;
   font-size: 14px;
   display: grid;
   gap: 6px;
   width: 100%;
   box-sizing: border-box;
   opacity: 0;
-  transform: translateY(-12px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  /* Pre-reveal: tucked up toward the folder and zoomed out, so opening reads
+     as the papers dropping down and zooming up into the lined-up files. */
+  transform: translateY(-28px) scale(0.92);
+  transform-origin: top center;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .project-folder__file a {
@@ -588,8 +592,10 @@ html[data-theme="dark"] .portfolio-body {
 }
 
 .project-folder.is-open .project-folder__files {
-  max-height: 600px;
+  max-height: 1400px;
   opacity: 1;
+  /* Files land lined up in a full-width row below the folder. */
+  grid-template-columns: repeat(3, 1fr);
 }
 
 
@@ -600,7 +606,7 @@ html[data-theme="dark"] .portfolio-body {
 
 .project-folder.is-open .project-folder__summary {
   opacity: 1;
-  max-height: 120px;
+  max-height: 160px;
 }
 
 .project-folder__shell:hover .project-folder__front {
@@ -608,52 +614,46 @@ html[data-theme="dark"] .portfolio-body {
 }
 
 .project-folder.is-open .project-folder__front {
-  transform: translateY(10px) scaleY(0.7);
+  /* Front drops and flattens into an open, emptied folder. */
+  transform: translateY(12px) scaleY(0.5);
 }
 
 .project-folder.is-open .project-folder__paper {
-  opacity: 1;
+  /* Papers spill down out of the now-empty folder and fade away. */
+  opacity: 0;
+  transform: translate(-50%, 34px) scale(0.7);
 }
 
 .project-folder.is-open .project-folder__file {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .project-folder.is-open .project-folder__file:nth-child(1) {
-  transition-delay: 0.05s;
-  transform: translateY(0);
+  transition-delay: 0.16s;
 }
 
 .project-folder.is-open .project-folder__file:nth-child(2) {
-  transition-delay: 0.12s;
-  transform: translateY(0);
+  transition-delay: 0.26s;
 }
 
 .project-folder.is-open .project-folder__file:nth-child(3) {
-  transition-delay: 0.2s;
-  transform: translateY(0);
+  transition-delay: 0.36s;
 }
-
-.project-folder.is-open .project-folder__paper--one {
-  transform: translate(calc(-120% + var(--paper-x, 0px)), calc(-70% + var(--paper-y, 0px))) rotate(-14deg);
-}
-
-.project-folder.is-open .project-folder__paper--two {
-  transform: translate(calc(10% + var(--paper-x, 0px)), calc(-70% + var(--paper-y, 0px))) rotate(12deg);
-}
-
-.project-folder.is-open .project-folder__paper--three {
-  transform: translate(calc(-50% + var(--paper-x, 0px)), calc(-110% + var(--paper-y, 0px))) rotate(4deg);
-}
-
 
 .project-folder.is-open .project-folder__flap--left {
-  transform: skewX(15deg) scaleY(0.6) translateY(6px);
+  transform: skewX(20deg) scaleY(0.45) translateY(10px);
 }
 
 .project-folder.is-open .project-folder__flap--right {
-  transform: skewX(-15deg) scaleY(0.6) translateY(6px);
+  transform: skewX(-20deg) scaleY(0.45) translateY(10px);
+}
+
+/* Stack the opened files into one column when the 3-up row gets too tight. */
+@media (max-width: 720px) {
+  .project-folder.is-open .project-folder__files {
+    grid-template-columns: 1fr;
+  }
 }
 
 .project-card {

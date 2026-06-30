@@ -527,7 +527,6 @@
     projectFolders.forEach((folder) => {
       const button = folder.querySelector(".project-folder__header");
       const files = folder.querySelector(".project-folder__files");
-      const shell = folder.querySelector(".project-folder__shell");
       if (!button || !files) {
         return;
       }
@@ -551,24 +550,6 @@
           lastScrollY = null;
         }
       });
-
-      if (shell) {
-        shell.addEventListener("mousemove", (event) => {
-          if (!folder.classList.contains("is-open")) {
-            return;
-          }
-          const rect = shell.getBoundingClientRect();
-          const dx = (event.clientX - (rect.left + rect.width / 2)) * 0.2;
-          const dy = (event.clientY - (rect.top + rect.height / 2)) * 0.2;
-          folder.style.setProperty("--paper-x", `${dx}px`);
-          folder.style.setProperty("--paper-y", `${dy}px`);
-        });
-
-        shell.addEventListener("mouseleave", () => {
-          folder.style.setProperty("--paper-x", "0px");
-          folder.style.setProperty("--paper-y", "0px");
-        });
-      }
     });
   }
 
