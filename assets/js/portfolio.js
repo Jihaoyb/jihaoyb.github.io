@@ -52,16 +52,31 @@
         return;
       }
       const text = heading.textContent || "";
-      const chars = Array.from(text);
       heading.setAttribute("aria-label", text.trim());
       heading.textContent = "";
-      chars.forEach((char, index) => {
-        const span = document.createElement("span");
-        span.className = "char";
-        span.setAttribute("aria-hidden", "true");
-        span.textContent = char === " " ? "\u00a0" : char;
-        span.style.setProperty("--char-delay", `${index * 35}ms`);
-        heading.appendChild(span);
+      // Wrap each word so its letters never wrap apart; keep real spaces
+      // between words so the line still breaks between words, not mid-word.
+      let charIndex = 0;
+      text.split(/(\s+)/).forEach((token) => {
+        if (token === "") {
+          return;
+        }
+        if (/^\s+$/.test(token)) {
+          heading.appendChild(document.createTextNode(" "));
+          return;
+        }
+        const word = document.createElement("span");
+        word.className = "word";
+        word.setAttribute("aria-hidden", "true");
+        Array.from(token).forEach((char) => {
+          const span = document.createElement("span");
+          span.className = "char";
+          span.textContent = char;
+          span.style.setProperty("--char-delay", `${charIndex * 35}ms`);
+          word.appendChild(span);
+          charIndex += 1;
+        });
+        heading.appendChild(word);
       });
       heading.dataset.animated = "true";
     });
@@ -605,6 +620,44 @@
         /* Ignore storage failures (private mode, disabled cookies, etc.). */
       }
       applyTheme(current);
+    });
+  }
+
+  const navToggle = document.querySelector("[data-nav-toggle]");
+  const portfolioHeader = document.querySelector("[data-portfolio-header]");
+  const navMenu = document.querySelector("[data-nav-menu]");
+  if (navToggle && portfolioHeader && navMenu) {
+    const setMenu = (open) => {
+      portfolioHeader.classList.toggle("is-open", open);
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+
+    navToggle.addEventListener("click", () => {
+      setMenu(!portfolioHeader.classList.contains("is-open"));
+    });
+
+    // Close after choosing a destination (the menu links are in-page anchors).
+    navMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => setMenu(false));
+    });
+
+    // Close on Escape and return focus to the toggle.
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && portfolioHeader.classList.contains("is-open")) {
+        setMenu(false);
+        navToggle.focus();
+      }
+    });
+
+    // Close when clicking outside the header.
+    document.addEventListener("click", (event) => {
+      if (
+        portfolioHeader.classList.contains("is-open") &&
+        !portfolioHeader.contains(event.target)
+      ) {
+        setMenu(false);
+      }
     });
   }
 })();
