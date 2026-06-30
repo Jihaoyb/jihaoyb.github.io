@@ -523,20 +523,141 @@
     let lastScrollY = null;
     const header = document.querySelector(".portfolio-header");
     const headerOffset = header ? header.getBoundingClientRect().height + 16 : 16;
+    const reduceMotion = prefersReducedMotion.matches;
+
+    // Split a file's content into per-word spans (once) so the content can
+    // reveal word by word after the file has flown into place.
+    const splitWords = (file) => {
+      if (file.dataset.split === "true") {
+        return;
+      }
+      const walker = document.createTreeWalker(file, NodeFilter.SHOW_TEXT, null);
+      const textNodes = [];
+      let node;
+      while ((node = walker.nextNode())) {
+        if (node.nodeValue.trim()) {
+          textNodes.push(node);
+        }
+      }
+      textNodes.forEach((textNode) => {
+        const fragment = document.createDocumentFragment();
+        textNode.nodeValue.split(/(\s+)/).forEach((part) => {
+          if (part === "") {
+            return;
+          }
+          if (/^\s+$/.test(part)) {
+            fragment.appendChild(document.createTextNode(part));
+            return;
+          }
+          const span = document.createElement("span");
+          span.className = "reveal-word";
+          span.textContent = part;
+          fragment.appendChild(span);
+        });
+        textNode.parentNode.replaceChild(fragment, textNode);
+      });
+      Array.from(file.querySelectorAll(".reveal-word")).forEach((word, index) => {
+        word.style.setProperty("--w-delay", `${index * 8}ms`);
+      });
+      file.dataset.split = "true";
+    };
 
     projectFolders.forEach((folder) => {
       const button = folder.querySelector(".project-folder__header");
       const files = folder.querySelector(".project-folder__files");
-      const shell = folder.querySelector(".project-folder__shell");
       if (!button || !files) {
         return;
       }
+      const fileEls = Array.from(folder.querySelectorAll(".project-folder__file"));
+      let revealTimers = [];
 
       button.addEventListener("click", () => {
         const isOpen = folder.classList.contains("is-open");
+
+        // FLIP step 1 (First): record every folder shell's position before the
+        // grid reflows (opening a folder makes it span the whole row).
+        const shells = projectFolders.map((item) =>
+          item.querySelector(".project-folder__shell")
+        );
+        const firstRects = reduceMotion
+          ? null
+          : shells.map((shell) => shell.getBoundingClientRect());
+
         folder.classList.toggle("is-open", !isOpen);
         button.setAttribute("aria-expanded", isOpen ? "false" : "true");
         files.setAttribute("aria-hidden", isOpen ? "true" : "false");
+
+        // FLIP steps 2-4 (Last/Invert/Play): jump each shell back to its old
+        // spot, then transition to the new layout so the opened folder glides
+        // to center and the others slide up/down instead of teleporting.
+        if (firstRects) {
+          const deltas = shells.map((shell, i) => {
+            const last = shell.getBoundingClientRect();
+            return {
+              dx: firstRects[i].left - last.left,
+              dy: firstRects[i].top - last.top,
+            };
+          });
+          shells.forEach((shell, i) => {
+            const { dx, dy } = deltas[i];
+            if (!dx && !dy) {
+              return;
+            }
+            shell.style.transition = "none";
+            shell.style.transform = `translate(${dx}px, ${dy}px)`;
+          });
+          // Force a reflow so the browser commits the inverted positions; then
+          // playing the transition animates from there instead of snapping
+          // straight to the final layout (which looked like a flash).
+          void document.body.offsetWidth;
+          shells.forEach((shell, i) => {
+            const { dx, dy } = deltas[i];
+            if (!dx && !dy) {
+              return;
+            }
+            shell.style.transition =
+              "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)";
+            shell.style.transform = "";
+            const done = () => {
+              shell.style.transition = "";
+              shell.removeEventListener("transitionend", done);
+            };
+            shell.addEventListener("transitionend", done);
+          });
+        }
+
+        revealTimers.forEach((timer) => window.clearTimeout(timer));
+        revealTimers = [];
+        if (!isOpen) {
+          // Opening: split each file's content, then start its word-by-word
+          // reveal the moment that file lands in the column — so each card's
+          // text appears as it arrives, not after all three have settled.
+          // FILE_STAGGER / FLY_DURATION mirror the CSS fly-in transition on
+          // .project-folder__file; keep the two in sync.
+          const FILE_STAGGER = reduceMotion ? 0 : 150;
+          const FLY_DURATION = reduceMotion ? 0 : 500;
+          fileEls.forEach(splitWords);
+          fileEls.forEach((file, i) => {
+            const startDelay = i * FILE_STAGGER;
+            file.style.transitionDelay = reduceMotion ? "" : `${startDelay}ms`;
+            const revealAt = reduceMotion
+              ? 0
+              : Math.max(0, startDelay + FLY_DURATION - 70);
+            revealTimers.push(
+              window.setTimeout(
+                () => file.classList.add("is-revealed"),
+                revealAt
+              )
+            );
+          });
+        } else {
+          // Closing: hide the content so it re-reveals on the next open, and
+          // clear the per-file stagger so the cards retract together.
+          fileEls.forEach((file) => {
+            file.classList.remove("is-revealed");
+            file.style.transitionDelay = "";
+          });
+        }
 
         const openFolders = projectFolders.filter((item) => item.classList.contains("is-open"));
         if (!isOpen) {
@@ -551,24 +672,6 @@
           lastScrollY = null;
         }
       });
-
-      if (shell) {
-        shell.addEventListener("mousemove", (event) => {
-          if (!folder.classList.contains("is-open")) {
-            return;
-          }
-          const rect = shell.getBoundingClientRect();
-          const dx = (event.clientX - (rect.left + rect.width / 2)) * 0.2;
-          const dy = (event.clientY - (rect.top + rect.height / 2)) * 0.2;
-          folder.style.setProperty("--paper-x", `${dx}px`);
-          folder.style.setProperty("--paper-y", `${dy}px`);
-        });
-
-        shell.addEventListener("mouseleave", () => {
-          folder.style.setProperty("--paper-x", "0px");
-          folder.style.setProperty("--paper-y", "0px");
-        });
-      }
     });
   }
 

@@ -377,6 +377,9 @@ html[data-theme="dark"] .portfolio-body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 26px;
+  /* Keep folders top-aligned so an opened one expands only in its own
+     column without stretching its neighbours. */
+  align-items: start;
 }
 
 .project-folder {
@@ -391,6 +394,12 @@ html[data-theme="dark"] .portfolio-body {
 
 .project-folder {
   transform: translateY(0);
+}
+
+.project-folder.is-open {
+  /* Opened project spans the full row; its shell + content center within it.
+     The grid reflow is animated by a FLIP on the shells (see portfolio.js). */
+  grid-column: 1 / -1;
 }
 
 .project-folder__shell {
@@ -473,32 +482,30 @@ html[data-theme="dark"] .portfolio-body {
 
 .project-folder__paper {
   position: absolute;
-  width: 100px;
-  height: 80px;
+  width: 96px;
+  height: 84px;
   background: var(--surface);
-  border-radius: 12px;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
   border: 1px solid var(--border-soft);
   left: 50%;
-  top: 12px;
-  transform: translate(-50%, 0) scale(0.9);
-  opacity: 0;
-  transition: transform 0.4s ease, opacity 0.4s ease;
+  top: 4px;
+  /* Closed: the papers peek out of the top of the folder as a "has files" cue. */
+  transform: translate(-50%, -12px) scale(0.92);
+  opacity: 1;
+  transition: transform 0.45s ease, opacity 0.4s ease;
 }
 
 .project-folder__paper--one {
-  width: 92px;
-  height: 70px;
+  transform: translate(-74%, -6px) rotate(-7deg) scale(0.88);
 }
 
 .project-folder__paper--two {
-  width: 104px;
-  height: 82px;
+  transform: translate(-50%, -14px) scale(0.94);
 }
 
 .project-folder__paper--three {
-  width: 112px;
-  height: 88px;
+  transform: translate(-26%, -6px) rotate(7deg) scale(0.88);
 }
 
 .project-folder__header {
@@ -528,31 +535,37 @@ html[data-theme="dark"] .portfolio-body {
 
 .project-folder__files {
   display: grid;
-  gap: 10px;
-  margin-top: 6px;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 18px auto 0;
+  max-width: 540px;
+  width: 100%;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.35s ease, opacity 0.35s ease;
-  width: 100%;
-  max-width: 360px;
-  margin-left: auto;
-  margin-right: auto;
+  /* No height transition: the open layout snaps so the FLIP can animate the
+     grid reflow; the cards fly in via transform/opacity instead. */
+  transition: opacity 0.5s ease;
 }
 
 .project-folder__file {
   background: var(--surface-2);
   border: 1px dashed var(--line);
   border-radius: 12px;
-  padding: 12px 14px;
+  padding: 16px 18px;
   font-size: 14px;
   display: grid;
   gap: 6px;
   width: 100%;
   box-sizing: border-box;
   opacity: 0;
-  transform: translateY(-12px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  /* Pre-open: tucked up and to the left of its slot + zoomed out, so on open
+     each file swings in from the upper-left and zooms up into place. */
+  transform: translate(-44px, -88px) rotate(-8deg) scale(0.78);
+  transform-origin: top center;
+  /* Fly-in (alignment) — duration mirrors FLY_DURATION in portfolio.js so the
+     per-file text reveal can start the instant each card lands. */
+  transition: transform 0.5s cubic-bezier(0.34, 1.28, 0.5, 1), opacity 0.5s ease;
 }
 
 .project-folder__file a {
@@ -587,9 +600,51 @@ html[data-theme="dark"] .portfolio-body {
   color: var(--accent-2);
 }
 
-.project-folder.is-open .project-folder__files {
-  max-height: 600px;
+/* Phase 2: once a file has landed, its content reveals word by word
+   (the same fade / blur-up motion as the site's heading reveal). */
+.project-folder__file .reveal-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(6px);
+  filter: blur(3px);
+  transition: opacity 0.26s ease, transform 0.26s ease, filter 0.26s ease;
+  transition-delay: var(--w-delay, 0ms);
+}
+
+.project-folder__file.is-revealed .reveal-word {
   opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Detail bullets are custom so they can stay hidden during the fly-in and
+   fade in with the content (default <li> markers showed too early). */
+.project-folder__file ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.project-folder__file li {
+  position: relative;
+}
+
+.project-folder__file li::before {
+  content: "•";
+  position: absolute;
+  left: -16px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.project-folder__file.is-revealed li::before {
+  opacity: 1;
+}
+
+.project-folder.is-open .project-folder__files {
+  max-height: 2000px;
+  opacity: 1;
+  overflow: visible;
 }
 
 
@@ -600,60 +655,76 @@ html[data-theme="dark"] .portfolio-body {
 
 .project-folder.is-open .project-folder__summary {
   opacity: 1;
-  max-height: 120px;
+  max-height: 160px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .project-folder__shell:hover .project-folder__front {
   transform: translateY(-6px);
 }
 
+/* Hover: the papers sprit out of the folder a little as a peek. */
+.project-folder__shell:hover .project-folder__paper--one {
+  transform: translate(-94%, -16px) rotate(-13deg) scale(0.9);
+}
+
+.project-folder__shell:hover .project-folder__paper--two {
+  transform: translate(-50%, -24px) scale(0.97);
+}
+
+.project-folder__shell:hover .project-folder__paper--three {
+  transform: translate(-6%, -16px) rotate(13deg) scale(0.9);
+}
+
 .project-folder.is-open .project-folder__front {
-  transform: translateY(10px) scaleY(0.7);
+  /* Front drops and flattens into an open, emptied folder. */
+  transform: translateY(12px) scaleY(0.5);
 }
 
 .project-folder.is-open .project-folder__paper {
-  opacity: 1;
+  /* Papers spill down out of the now-empty folder and fade away. */
+  opacity: 0;
+  transform: translate(-50%, 34px) scale(0.7);
 }
 
 .project-folder.is-open .project-folder__file {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(0, 0) rotate(0) scale(1);
 }
 
-.project-folder.is-open .project-folder__file:nth-child(1) {
-  transition-delay: 0.05s;
-  transform: translateY(0);
-}
-
-.project-folder.is-open .project-folder__file:nth-child(2) {
-  transition-delay: 0.12s;
-  transform: translateY(0);
-}
-
-.project-folder.is-open .project-folder__file:nth-child(3) {
-  transition-delay: 0.2s;
-  transform: translateY(0);
-}
-
-.project-folder.is-open .project-folder__paper--one {
-  transform: translate(calc(-120% + var(--paper-x, 0px)), calc(-70% + var(--paper-y, 0px))) rotate(-14deg);
-}
-
-.project-folder.is-open .project-folder__paper--two {
-  transform: translate(calc(10% + var(--paper-x, 0px)), calc(-70% + var(--paper-y, 0px))) rotate(12deg);
-}
-
-.project-folder.is-open .project-folder__paper--three {
-  transform: translate(calc(-50% + var(--paper-x, 0px)), calc(-110% + var(--paper-y, 0px))) rotate(4deg);
-}
-
+/* Files swing out one at a time; the per-file stagger is applied inline by
+   portfolio.js (transition-delay) so the fly-in and the per-file text reveal
+   share one timing source. */
 
 .project-folder.is-open .project-folder__flap--left {
-  transform: skewX(15deg) scaleY(0.6) translateY(6px);
+  transform: skewX(20deg) scaleY(0.45) translateY(10px);
 }
 
 .project-folder.is-open .project-folder__flap--right {
-  transform: skewX(-15deg) scaleY(0.6) translateY(6px);
+  transform: skewX(-20deg) scaleY(0.45) translateY(10px);
+}
+
+/* Respect reduced motion: files just fade in and content just appears. */
+@media (prefers-reduced-motion: reduce) {
+  .project-folder__file {
+    transform: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .project-folder.is-open .project-folder__file {
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .project-folder__file .reveal-word {
+    transition: opacity 0.2s ease;
+    transform: none;
+    filter: none;
+    transition-delay: 0s;
+  }
 }
 
 .project-card {
