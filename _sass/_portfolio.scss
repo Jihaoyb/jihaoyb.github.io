@@ -377,6 +377,9 @@ html[data-theme="dark"] .portfolio-body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 26px;
+  /* Keep folders top-aligned so an opened one expands only in its own
+     column without stretching its neighbours. */
+  align-items: start;
 }
 
 .project-folder {
@@ -394,7 +397,8 @@ html[data-theme="dark"] .portfolio-body {
 }
 
 .project-folder.is-open {
-  /* The opened project takes the whole row so its files can lay out wide. */
+  /* Opened project spans the full row; its shell + content center within it.
+     The grid reflow is animated by a FLIP on the shells (see portfolio.js). */
   grid-column: 1 / -1;
 }
 
@@ -539,7 +543,9 @@ html[data-theme="dark"] .portfolio-body {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.45s ease, opacity 0.4s ease;
+  /* No height transition: the open layout snaps so the FLIP can animate the
+     grid reflow; the cards fly in via transform/opacity instead. */
+  transition: opacity 0.3s ease;
 }
 
 .project-folder__file {
@@ -555,9 +561,9 @@ html[data-theme="dark"] .portfolio-body {
   opacity: 0;
   /* Pre-open: tucked up and to the left of its slot + zoomed out, so on open
      each file swings in from the upper-left and zooms up into place. */
-  transform: translate(-52px, -90px) rotate(-8deg) scale(0.78);
+  transform: translate(-44px, -88px) rotate(-8deg) scale(0.78);
   transform-origin: top center;
-  transition: transform 0.6s cubic-bezier(0.34, 1.28, 0.5, 1), opacity 0.45s ease;
+  transition: transform 0.3s cubic-bezier(0.34, 1.28, 0.5, 1), opacity 0.4s ease;
 }
 
 .project-folder__file a {
@@ -609,9 +615,34 @@ html[data-theme="dark"] .portfolio-body {
   filter: none;
 }
 
-.project-folder.is-open .project-folder__files {
-  max-height: 1600px;
+/* Detail bullets are custom so they can stay hidden during the fly-in and
+   fade in with the content (default <li> markers showed too early). */
+.project-folder__file ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.project-folder__file li {
+  position: relative;
+}
+
+.project-folder__file li::before {
+  content: "•";
+  position: absolute;
+  left: -16px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.project-folder__file.is-revealed li::before {
   opacity: 1;
+}
+
+.project-folder.is-open .project-folder__files {
+  max-height: 2000px;
+  opacity: 1;
+  overflow: visible;
 }
 
 
@@ -623,6 +654,10 @@ html[data-theme="dark"] .portfolio-body {
 .project-folder.is-open .project-folder__summary {
   opacity: 1;
   max-height: 160px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .project-folder__shell:hover .project-folder__front {
@@ -660,15 +695,15 @@ html[data-theme="dark"] .portfolio-body {
 
 /* Files swing out one at a time. */
 .project-folder.is-open .project-folder__file:nth-child(1) {
-  transition-delay: 0.08s;
+  transition-delay: 0.06s;
 }
 
 .project-folder.is-open .project-folder__file:nth-child(2) {
-  transition-delay: 0.36s;
+  transition-delay: 0.15s;
 }
 
 .project-folder.is-open .project-folder__file:nth-child(3) {
-  transition-delay: 0.64s;
+  transition-delay: 0.3s;
 }
 
 .project-folder.is-open .project-folder__flap--left {

@@ -557,7 +557,7 @@
         textNode.parentNode.replaceChild(fragment, textNode);
       });
       Array.from(file.querySelectorAll(".reveal-word")).forEach((word, index) => {
-        word.style.setProperty("--w-delay", `${index * 22}ms`);
+        word.style.setProperty("--w-delay", `${index * 18}ms`);
       });
       file.dataset.split = "true";
     };
@@ -573,9 +573,58 @@
 
       button.addEventListener("click", () => {
         const isOpen = folder.classList.contains("is-open");
+
+        // FLIP step 1 (First): record every folder shell's position before the
+        // grid reflows (opening a folder makes it span the whole row).
+        const shells = projectFolders.map((item) =>
+          item.querySelector(".project-folder__shell")
+        );
+        const firstRects = reduceMotion
+          ? null
+          : shells.map((shell) => shell.getBoundingClientRect());
+
         folder.classList.toggle("is-open", !isOpen);
         button.setAttribute("aria-expanded", isOpen ? "false" : "true");
         files.setAttribute("aria-hidden", isOpen ? "true" : "false");
+
+        // FLIP steps 2-4 (Last/Invert/Play): jump each shell back to its old
+        // spot, then transition to the new layout so the opened folder glides
+        // to center and the others slide up/down instead of teleporting.
+        if (firstRects) {
+          const deltas = shells.map((shell, i) => {
+            const last = shell.getBoundingClientRect();
+            return {
+              dx: firstRects[i].left - last.left,
+              dy: firstRects[i].top - last.top,
+            };
+          });
+          shells.forEach((shell, i) => {
+            const { dx, dy } = deltas[i];
+            if (!dx && !dy) {
+              return;
+            }
+            shell.style.transition = "none";
+            shell.style.transform = `translate(${dx}px, ${dy}px)`;
+          });
+          // Force a reflow so the browser commits the inverted positions; then
+          // playing the transition animates from there instead of snapping
+          // straight to the final layout (which looked like a flash).
+          void document.body.offsetWidth;
+          shells.forEach((shell, i) => {
+            const { dx, dy } = deltas[i];
+            if (!dx && !dy) {
+              return;
+            }
+            shell.style.transition =
+              "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)";
+            shell.style.transform = "";
+            const done = () => {
+              shell.style.transition = "";
+              shell.removeEventListener("transitionend", done);
+            };
+            shell.addEventListener("transitionend", done);
+          });
+        }
 
         window.clearTimeout(revealTimer);
         if (!isOpen) {
@@ -584,7 +633,7 @@
           fileEls.forEach(splitWords);
           revealTimer = window.setTimeout(() => {
             fileEls.forEach((file) => file.classList.add("is-revealed"));
-          }, reduceMotion ? 0 : 1100);
+          }, reduceMotion ? 0 : 850);
         } else {
           // Closing: hide the content so it re-reveals on the next open.
           fileEls.forEach((file) => file.classList.remove("is-revealed"));
