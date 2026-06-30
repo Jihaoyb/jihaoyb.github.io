@@ -52,16 +52,31 @@
         return;
       }
       const text = heading.textContent || "";
-      const chars = Array.from(text);
       heading.setAttribute("aria-label", text.trim());
       heading.textContent = "";
-      chars.forEach((char, index) => {
-        const span = document.createElement("span");
-        span.className = "char";
-        span.setAttribute("aria-hidden", "true");
-        span.textContent = char === " " ? "\u00a0" : char;
-        span.style.setProperty("--char-delay", `${index * 35}ms`);
-        heading.appendChild(span);
+      // Wrap each word so its letters never wrap apart; keep real spaces
+      // between words so the line still breaks between words, not mid-word.
+      let charIndex = 0;
+      text.split(/(\s+)/).forEach((token) => {
+        if (token === "") {
+          return;
+        }
+        if (/^\s+$/.test(token)) {
+          heading.appendChild(document.createTextNode(" "));
+          return;
+        }
+        const word = document.createElement("span");
+        word.className = "word";
+        word.setAttribute("aria-hidden", "true");
+        Array.from(token).forEach((char) => {
+          const span = document.createElement("span");
+          span.className = "char";
+          span.textContent = char;
+          span.style.setProperty("--char-delay", `${charIndex * 35}ms`);
+          word.appendChild(span);
+          charIndex += 1;
+        });
+        heading.appendChild(word);
       });
       heading.dataset.animated = "true";
     });

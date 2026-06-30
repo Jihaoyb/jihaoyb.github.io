@@ -854,6 +854,13 @@ html[data-theme="dark"] .portfolio-body {
   /* Avoid overriding typography on the wrapper. */
 }
 
+.heading-animate .word {
+  /* Keep a word's letters together so they never wrap mid-word; line
+     breaks happen at the real spaces between words instead. */
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .heading-animate .char {
   /* Inherit heading scale in per-letter spans. */
   display: inline-block;
