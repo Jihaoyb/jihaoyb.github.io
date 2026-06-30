@@ -194,6 +194,16 @@ html[data-theme="dark"] .portfolio-body {
   padding: 64px 24px;
 }
 
+/* Offset in-page anchor jumps so a section's top clears the sticky header
+   instead of hiding beneath it (matters for the nav + mobile menu links). */
+.hero,
+.portfolio-section,
+.personal-hero,
+.hobby-section,
+.portfolio-footer {
+  scroll-margin-top: 96px;
+}
+
 .portfolio-section--tight {
   padding-bottom: 40px;
 }
