@@ -380,6 +380,60 @@ html {
   color: var(--muted);
 }
 
+/* Right-side section-title link: looks like the plain right title, but hover
+   lights the text up, sweeps an underline left-to-right, and tilts the arrow
+   45° to point at the page it leads to. Unhover plays it all in reverse. */
+/* a.section-link so the base color outranks `.portfolio-body a { color: inherit }`. */
+a.section-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 6px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  transition: color 0.35s ease;
+}
+
+.section-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.section-link .section-link__arrow {
+  display: inline-block;
+  font-size: 16px;
+  letter-spacing: 0;
+  color: inherit;
+  transition: transform 0.35s ease, color 0.35s ease;
+}
+
+.section-link:hover,
+.section-link:focus-visible {
+  color: var(--ink);
+}
+
+.section-link:hover::after,
+.section-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.section-link:hover .section-link__arrow,
+.section-link:focus-visible .section-link__arrow {
+  transform: rotate(-45deg);
+  color: var(--accent);
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -1544,18 +1598,23 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   .btn,
   .portfolio-marquee__track,
   .card-animate,
-  .heading-animate .char {
+  .heading-animate .char,
+  .section-link,
+  .section-link::after,
+  .section-link .section-link__arrow {
     transition: none;
     animation: none;
   }
 }
 
 /* ===== Lab (learning section) ===== */
-.lab-index {
+.lab-index,
+.projects-index {
   min-height: 60vh;
 }
 
-.lab-intro {
+.lab-intro,
+.section-intro {
   color: var(--muted);
   line-height: 1.7;
   max-width: 640px;
