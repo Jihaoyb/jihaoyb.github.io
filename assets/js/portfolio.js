@@ -763,4 +763,56 @@
       }
     });
   }
+
+  // Cross-page fade: fade the current page out, then navigate; the next page
+  // fades itself in via the page-enter CSS animation. Keep PAGE_FADE_MS in
+  // step with the .is-leaving transition duration in _portfolio.scss.
+  const PAGE_FADE_MS = 320;
+  let leavingPage = false;
+
+  document.addEventListener("click", (event) => {
+    if (event.defaultPrevented || event.button !== 0) {
+      return;
+    }
+    // Modified clicks mean "open elsewhere" — leave them to the browser.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+    const link = event.target.closest("a[href]");
+    if (!link || link.hasAttribute("download")) {
+      return;
+    }
+    if (link.target && link.target !== "_self") {
+      return;
+    }
+    const url = new URL(link.href, window.location.href);
+    if (url.origin !== window.location.origin) {
+      return;
+    }
+    // Same-page hash jumps keep the native smooth scroll.
+    if (url.pathname === window.location.pathname && url.hash) {
+      return;
+    }
+    if (prefersReducedMotion.matches) {
+      return;
+    }
+    event.preventDefault();
+    if (leavingPage) {
+      return;
+    }
+    leavingPage = true;
+    document.body.classList.add("is-leaving");
+    window.setTimeout(() => {
+      window.location.href = url.href;
+    }, PAGE_FADE_MS);
+  });
+
+  // Pages restored from the back/forward cache keep their old DOM — clear the
+  // fade so the page is not stuck invisible.
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+      leavingPage = false;
+      document.body.classList.remove("is-leaving");
+    }
+  });
 })();

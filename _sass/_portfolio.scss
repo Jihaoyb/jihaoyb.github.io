@@ -60,6 +60,58 @@ html[data-theme="dark"] .portfolio-body {
   @include portfolio-dark;
 }
 
+/* Cross-page fade. <html> carries the paper tone so the body can fade over a
+   matching backdrop (not a white flash in dark mode); every load fades the
+   body in, and portfolio.js adds .is-leaving before navigating away. Keep the
+   .is-leaving duration in step with PAGE_FADE_MS in portfolio.js. */
+html {
+  background-color: #f6f1e9; /* --paper, light */
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    background-color: #18140f; /* --paper, dark */
+  }
+}
+
+html[data-theme="dark"] {
+  background-color: #18140f;
+}
+
+.portfolio-body {
+  /* backwards (not both): once the animation ends, opacity returns to the
+     cascade so .is-leaving can take it back to 0. */
+  animation: page-enter 0.5s ease backwards;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.portfolio-body.is-leaving {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  /* Cancel page-enter in case the exit starts while it is still playing. */
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-body {
+    animation: none;
+  }
+
+  .portfolio-body.is-leaving {
+    opacity: 1;
+    transition: none;
+  }
+}
+
 /* Smooth-scroll in-page nav jumps from the current position. scroll-behavior
    must live on the root scroller (html); on <body> it has no effect, which is
    why nav links used to hard-jump. Sections carry scroll-margin-top: 96px so
