@@ -157,7 +157,7 @@ redirect_from:
   <div class="section-title">
     <!-- Apply heading animation to section titles. -->
     <h2 class="heading-animate">Projects</h2>
-    <span>{{ projects | size }} featured</span>
+    <a class="section-link" href="/projects/">Features<span class="section-link__arrow" aria-hidden="true">→</span></a>
   </div>
   <div class="project-folder-grid">
     {% for project in projects limit: 3 %}
@@ -222,7 +222,7 @@ redirect_from:
 <section class="portfolio-section personal-section" id="personal">
   <div class="section-title">
     <h2 class="heading-animate">Personal</h2>
-    <span>Beyond work</span>
+    <a class="section-link" href="/personal/">Beyond work<span class="section-link__arrow" aria-hidden="true">→</span></a>
   </div>
   <div class="personal-section__inner">
     <div>
@@ -236,7 +236,6 @@ redirect_from:
         <span>Cooking</span>
         <span>Building side projects</span>
       </div>
-      <a class="btn btn--primary personal-section__cta" href="{{ base_path }}/personal/">Visit personal page</a>
     </div>
     <div class="personal-section__panel forcefield-wrap">
       <!-- Configure the particle field with image and density controls. -->
@@ -246,5 +245,27 @@ redirect_from:
         <p>Photo walks, new recipes, and experiments that recharge the mind.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="portfolio-section portfolio-section--tight" id="lab">
+  <div class="section-title">
+    <h2 class="heading-animate">Lab</h2>
+    <a class="section-link" href="/lab/">Posts<span class="section-link__arrow" aria-hidden="true">→</span></a>
+  </div>
+  <div class="lab-grid">
+    {% assign lab_posts = site.learning | sort: "date" | reverse %}
+    {% for post in lab_posts limit: 3 %}
+      <a class="lab-card card-animate" href="{{ post.url }}">
+        <div class="lab-card__meta">
+          <span>{{ post.date | date: "%b %-d, %Y" }}</span>
+          {% if post.minutes %}<span aria-hidden="true">·</span><span>{{ post.minutes }} min</span>{% endif %}
+        </div>
+        <h3 class="lab-card__title">{{ post.title }}</h3>
+        <p class="lab-card__excerpt">{{ post.excerpt }}</p>
+        {% if post.tags %}<ul class="lab-tags">{% for tag in post.tags %}<li class="lab-tag">{{ tag }}</li>{% endfor %}</ul>{% endif %}
+        <span class="lab-card__more">Read →</span>
+      </a>
+    {% endfor %}
   </div>
 </section>
