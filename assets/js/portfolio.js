@@ -807,12 +807,24 @@
     }, PAGE_FADE_MS);
   });
 
-  // Pages restored from the back/forward cache keep their old DOM — clear the
-  // fade so the page is not stuck invisible.
+  // Back/forward restores usually come from the back/forward cache (bfcache):
+  // the page returns as a frozen snapshot — scripts don't rerun and load
+  // animations don't replay, so it would just pop in (possibly still faded
+  // out from when we left it). Clear the exit state and restart page-enter
+  // (inline animation:none + forced reflow, then hand back to the stylesheet)
+  // so history navigation fades in like any other arrival. Non-bfcache
+  // back/forward is a real page load and fades in on its own.
   window.addEventListener("pageshow", (event) => {
-    if (event.persisted) {
-      leavingPage = false;
-      document.body.classList.remove("is-leaving");
+    if (!event.persisted) {
+      return;
     }
+    leavingPage = false;
+    document.body.classList.remove("is-leaving");
+    if (prefersReducedMotion.matches) {
+      return;
+    }
+    document.body.style.animation = "none";
+    void document.body.offsetWidth;
+    document.body.style.animation = "";
   });
 })();
