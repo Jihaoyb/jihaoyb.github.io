@@ -1549,3 +1549,233 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
     animation: none;
   }
 }
+
+/* ===== Lab (learning section) ===== */
+.lab-index {
+  min-height: 60vh;
+}
+
+.lab-intro {
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 640px;
+  margin: -12px 0 36px;
+  font-size: 16px;
+}
+
+.lab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
+.lab-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  color: inherit;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.lab-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 70px rgba(16, 16, 16, 0.16);
+  border-color: var(--accent);
+}
+
+.lab-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent-2);
+}
+
+.lab-card__title {
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.lab-card__excerpt {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 15px;
+  flex: 1;
+}
+
+.lab-card__more {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  transition: transform 0.3s ease;
+}
+
+.lab-card:hover .lab-card__more {
+  transform: translateX(4px);
+}
+
+/* Tag pills — shared by index cards and the post header. */
+.lab-tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lab-tag {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: var(--tag-bg);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+/* ----- Single post ----- */
+.lab-post {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.lab-post__back {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.lab-post__back--bottom {
+  margin-top: 48px;
+  margin-bottom: 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  width: 100%;
+}
+
+.lab-post__header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 28px;
+  margin-bottom: 32px;
+}
+
+.lab-post__title {
+  font-family: "Fraunces", "Times New Roman", serif;
+  font-size: clamp(30px, 5vw, 46px);
+  line-height: 1.1;
+  margin: 8px 0 16px;
+}
+
+.lab-post__meta {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.lab-post__lead {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+/* Reading typography for the rendered Markdown body. */
+.lab-post__body {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.lab-post__body > * + * {
+  margin-top: 20px;
+}
+
+.lab-post__body h2 {
+  font-family: "Fraunces", "Times New Roman", serif;
+  font-size: 27px;
+  line-height: 1.2;
+  margin-top: 44px;
+}
+
+.lab-post__body h3 {
+  font-size: 20px;
+  margin-top: 32px;
+}
+
+.lab-post__body a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lab-post__body ul,
+.lab-post__body ol {
+  padding-left: 22px;
+  display: grid;
+  gap: 8px;
+}
+
+.lab-post__body li {
+  line-height: 1.7;
+}
+
+.lab-post__body strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.lab-post__body code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.lab-post__body pre {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 20px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.lab-post__body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.lab-post__body blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 16px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .lab-card {
+    padding: 20px;
+  }
+  .lab-post__body {
+    font-size: 16px;
+  }
+}

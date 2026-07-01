@@ -217,6 +217,9 @@ collections:
   portfolio:
     output: true
     permalink: /:collection/:path/
+  learning:
+    output: true
+    permalink: /lab/:path/
 
 
 # These settings control how pages and collections are included in the site
@@ -266,6 +269,13 @@ defaults:
       author_profile: true
       share: true
       comment: true
+  # _learning
+  - scope:
+      path: ""
+      type: learning
+    values:
+      layout: learning-post
+      author_profile: false
 # Sass/SCSS
 sass:
   sass_dir: _sass

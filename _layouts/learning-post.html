@@ -1,0 +1,27 @@
+---
+layout: home
+---
+<article class="portfolio-section lab-post">
+  <a class="lab-post__back" href="/lab/">← All posts</a>
+
+  <header class="lab-post__header">
+    <p class="eyebrow">Lab</p>
+    <h1 class="lab-post__title">{{ page.title }}</h1>
+    <div class="lab-post__meta">
+      <span>{{ page.date | date: "%B %-d, %Y" }}</span>
+      {% if page.minutes %}<span aria-hidden="true">·</span><span>{{ page.minutes }} min read</span>{% endif %}
+    </div>
+    {% if page.excerpt %}<p class="lab-post__lead">{{ page.excerpt }}</p>{% endif %}
+    {% if page.tags %}
+      <ul class="lab-tags">
+        {% for tag in page.tags %}<li class="lab-tag">{{ tag }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  </header>
+
+  <div class="lab-post__body">
+    {{ content }}
+  </div>
+
+  <a class="lab-post__back lab-post__back--bottom" href="/lab/">← Back to all posts</a>
+</article>
