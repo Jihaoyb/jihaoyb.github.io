@@ -11,7 +11,12 @@ layout: home
       <span>{{ page.date | date: "%B %-d, %Y" }}</span>
       {% if page.minutes %}<span aria-hidden="true">·</span><span>{{ page.minutes }} min read</span>{% endif %}
     </div>
-    {% if page.excerpt %}<p class="lab-post__lead">{{ page.excerpt }}</p>{% endif %}
+    {% comment %} Without an explicit excerpt, Jekyll auto-generates one from
+    the first paragraph — showing that as the lead would print the opening
+    twice. Only render the lead when it differs from the body's opening. {% endcomment %}
+    {% assign lead = page.excerpt | strip_html | strip %}
+    {% assign body_opening = content | strip_html | strip | slice: 0, lead.size %}
+    {% if lead != '' and lead != body_opening %}<p class="lab-post__lead">{{ lead }}</p>{% endif %}
     {% if page.tags %}
       <ul class="lab-tags">
         {% for tag in page.tags %}<li class="lab-tag">{{ tag }}</li>{% endfor %}
