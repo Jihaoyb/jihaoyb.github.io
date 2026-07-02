@@ -60,6 +60,61 @@ html[data-theme="dark"] .portfolio-body {
   @include portfolio-dark;
 }
 
+/* Cross-page fade. <html> carries the paper tone so the body can fade over a
+   matching backdrop (not a white flash in dark mode); every load fades the
+   body in, and portfolio.js adds .is-leaving before navigating away. Keep the
+   .is-leaving duration in step with PAGE_FADE_MS in portfolio.js. */
+html {
+  background-color: #f6f1e9; /* --paper, light */
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    background-color: #18140f; /* --paper, dark */
+  }
+}
+
+html[data-theme="dark"] {
+  background-color: #18140f;
+}
+
+.portfolio-body {
+  /* Fade-out duration; portfolio.js reads this token so the exit timer and
+     the transition can never drift apart. */
+  --page-fade: 0.3s;
+  /* backwards (not both): once the animation ends, opacity returns to the
+     cascade so .is-leaving can take it back to 0. */
+  animation: page-enter 0.5s ease backwards;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.portfolio-body.is-leaving {
+  opacity: 0;
+  transition: opacity var(--page-fade) ease;
+  /* Cancel page-enter in case the exit starts while it is still playing. */
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-body {
+    animation: none;
+  }
+
+  .portfolio-body.is-leaving {
+    opacity: 1;
+    transition: none;
+  }
+}
+
 /* Smooth-scroll in-page nav jumps from the current position. scroll-behavior
    must live on the root scroller (html); on <body> it has no effect, which is
    why nav links used to hard-jump. Sections carry scroll-margin-top: 96px so
@@ -367,6 +422,8 @@ html {
   margin-bottom: 36px;
 }
 
+/* h1 on standalone index pages (/lab/, /projects/), h2 within the homepage. */
+.section-title h1,
 .section-title h2 {
   font-family: "Fraunces", "Times New Roman", serif;
   font-size: clamp(28px, 5vw, 48px);
@@ -378,6 +435,60 @@ html {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--muted);
+}
+
+/* Right-side section-title link: looks like the plain right title, but hover
+   lights the text up, sweeps an underline left-to-right, and tilts the arrow
+   45° to point at the page it leads to. Unhover plays it all in reverse. */
+/* a.section-link so the base color outranks `.portfolio-body a { color: inherit }`. */
+a.section-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 6px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  transition: color 0.35s ease;
+}
+
+.section-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.section-link .section-link__arrow {
+  display: inline-block;
+  font-size: 16px;
+  letter-spacing: 0;
+  color: inherit;
+  transition: transform 0.35s ease, color 0.35s ease;
+}
+
+.section-link:hover,
+.section-link:focus-visible {
+  color: var(--ink);
+}
+
+.section-link:hover::after,
+.section-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.section-link:hover .section-link__arrow,
+.section-link:focus-visible .section-link__arrow {
+  transform: rotate(-45deg);
+  color: var(--accent);
 }
 
 .project-grid {
@@ -1544,8 +1655,384 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   .btn,
   .portfolio-marquee__track,
   .card-animate,
-  .heading-animate .char {
+  .heading-animate .char,
+  .section-link,
+  .section-link::after,
+  .section-link .section-link__arrow {
     transition: none;
     animation: none;
+  }
+}
+
+/* ===== Lab (learning section) ===== */
+.lab-index,
+.projects-index {
+  min-height: 60vh;
+}
+
+.lab-intro,
+.section-intro {
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 640px;
+  margin: -12px 0 36px;
+  font-size: 16px;
+}
+
+.lab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
+.lab-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  color: inherit;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.lab-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 70px rgba(16, 16, 16, 0.16);
+  border-color: var(--accent);
+}
+
+.lab-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent-2);
+}
+
+.lab-card__title {
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.lab-card__excerpt {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 15px;
+  flex: 1;
+}
+
+.lab-card__more {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  transition: transform 0.3s ease;
+}
+
+.lab-card:hover .lab-card__more {
+  transform: translateX(4px);
+}
+
+/* Tag pills — shared by index cards and the post header. */
+.lab-tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lab-tag {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: var(--tag-bg);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+/* ----- Single post ----- */
+/* Width comes from .portfolio-section on the same element, so the post
+   column and side margins match the homepage sections exactly. */
+
+.lab-post__back {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.lab-post__back--bottom {
+  margin-top: 48px;
+  margin-bottom: 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  width: 100%;
+}
+
+.lab-post__header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 28px;
+  margin-bottom: 32px;
+}
+
+.lab-post__title {
+  font-family: "Fraunces", "Times New Roman", serif;
+  font-size: clamp(30px, 5vw, 46px);
+  line-height: 1.1;
+  margin: 8px 0 16px;
+}
+
+.lab-post__meta {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.lab-post__lead {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+/* Reading typography for the rendered Markdown body. */
+.lab-post__body {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.lab-post__body > * + * {
+  margin-top: 20px;
+}
+
+.lab-post__body h2 {
+  font-family: "Fraunces", "Times New Roman", serif;
+  font-size: 27px;
+  line-height: 1.2;
+  margin-top: 44px;
+}
+
+.lab-post__body h3 {
+  font-size: 20px;
+  margin-top: 32px;
+}
+
+.lab-post__body a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lab-post__body ul,
+.lab-post__body ol {
+  padding-left: 22px;
+  display: grid;
+  gap: 8px;
+}
+
+.lab-post__body li {
+  line-height: 1.7;
+}
+
+.lab-post__body strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.lab-post__body code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.lab-post__body pre {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 20px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* The theme (_syntax.scss) wraps every fenced block in div.highlighter-rouge
+   styled as a light panel with a Font Awesome code-icon chip (::before).
+   Inside a Lab post the styled <pre> above is the frame, so reduce the
+   wrapper to a pass-through. */
+.lab-post__body div.highlighter-rouge,
+.lab-post__body figure.highlight {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.lab-post__body div.highlighter-rouge::before,
+.lab-post__body figure.highlight::before {
+  content: none;
+}
+
+.lab-post__body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.lab-post__body blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 16px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ----- Glossary terms (see _data/terms.yml + _includes/term.html) -----
+   The trigger reads like bold text with a dotted underline; hover/tap/focus
+   opens a definition card above it. portfolio.js drives open state and nudges
+   the card back into the viewport via --term-shift. */
+.term {
+  position: relative;
+  display: inline-block;
+}
+
+.term__trigger {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline dotted var(--accent-2);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  transition: color 0.25s ease, text-decoration-color 0.25s ease;
+}
+
+.term:hover .term__trigger,
+.term.is-open .term__trigger,
+.term__trigger:focus-visible {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+.term__card {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  z-index: 6;
+  width: min(300px, calc(100vw - 32px));
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(calc(-50% + var(--term-shift, 0px)), 6px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.term.is-open .term__card {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(calc(-50% + var(--term-shift, 0px)), 0);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.term__name {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-2);
+}
+
+.term__def {
+  color: var(--muted);
+}
+
+.term__link {
+  width: max-content;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ----- "Terms in this post" footer (page.terms in front matter) ----- */
+.lab-post__terms {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.lab-post__terms-title {
+  font-family: "Fraunces", "Times New Roman", serif;
+  font-size: 22px;
+  margin: 0 0 18px;
+}
+
+.term-glossary {
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.term-glossary dt {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.term-glossary dt a {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.term-glossary dd {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .term__trigger,
+  .term__card {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .lab-card {
+    padding: 20px;
+  }
+  .lab-post__body {
+    font-size: 16px;
   }
 }

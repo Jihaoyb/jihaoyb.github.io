@@ -1,0 +1,49 @@
+---
+layout: home
+---
+<article class="portfolio-section lab-post">
+  <a class="lab-post__back" href="/lab/">← All posts</a>
+
+  <header class="lab-post__header">
+    <p class="eyebrow">Lab</p>
+    <h1 class="lab-post__title">{{ page.title }}</h1>
+    <div class="lab-post__meta">
+      <span>{{ page.date | date: "%B %-d, %Y" }}</span>
+      {% if page.minutes %}<span aria-hidden="true">·</span><span>{{ page.minutes }} min read</span>{% endif %}
+    </div>
+    {% comment %} Without an explicit excerpt, Jekyll auto-generates one from
+    the first paragraph — showing that as the lead would print the opening
+    twice. Only render the lead when it differs from the body's opening. {% endcomment %}
+    {% assign lead = page.excerpt | strip_html | strip %}
+    {% assign body_opening = content | strip_html | strip | slice: 0, lead.size %}
+    {% if lead != '' and lead != body_opening %}<p class="lab-post__lead">{{ lead }}</p>{% endif %}
+    {% if page.tags %}
+      <ul class="lab-tags">
+        {% for tag in page.tags %}<li class="lab-tag">{{ tag }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  </header>
+
+  <div class="lab-post__body">
+    {{ content }}
+  </div>
+
+  {% if page.terms %}
+  <aside class="lab-post__terms">
+    <h2 class="lab-post__terms-title">Terms in this post</h2>
+    <dl class="term-glossary">
+      {% for id in page.terms %}
+        {% assign t = site.data.terms[id] %}
+        {% if t %}
+        <div class="term-glossary__item">
+          <dt>{{ t.name }}{% if t.url %} · <a href="{{ t.url }}" target="_blank" rel="noopener">{{ t.link_text | default: "Official site" }} →</a>{% endif %}</dt>
+          <dd>{{ t.def }}</dd>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </dl>
+  </aside>
+  {% endif %}
+
+  <a class="lab-post__back lab-post__back--bottom" href="/lab/">← Back to all posts</a>
+</article>

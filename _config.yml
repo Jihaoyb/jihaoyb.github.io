@@ -109,7 +109,9 @@ staticman:
         format           : "iso8601" # "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
 atom_feed:
   hide                   : false     # change to true to hide the RSS feed in the footer
-  path                   : # blank (default) uses feed.xml
+  # The site has no _posts, so the default /feed.xml is empty; advertise the
+  # Lab (learning collection) feed instead — see `feed: collections:` below.
+  path                   : /feed/learning.xml
 
 
 # SEO Related
@@ -217,6 +219,9 @@ collections:
   portfolio:
     output: true
     permalink: /:collection/:path/
+  learning:
+    output: true
+    permalink: /lab/:path/
 
 
 # These settings control how pages and collections are included in the site
@@ -266,6 +271,13 @@ defaults:
       author_profile: true
       share: true
       comment: true
+  # _learning
+  - scope:
+      path: ""
+      type: learning
+    values:
+      layout: learning-post
+      author_profile: false
 # Sass/SCSS
 sass:
   sass_dir: _sass
@@ -287,6 +299,12 @@ plugins:
   - jekyll-sitemap
   - jekyll-redirect-from
   - jemoji
+
+# jekyll-feed only covers _posts by default; also publish the Lab
+# (learning collection) posts in /feed.xml.
+feed:
+  collections:
+    - learning
 
 # Mimic GitHub Pages with --safe
 whitelist:
