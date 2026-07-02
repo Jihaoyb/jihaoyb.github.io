@@ -9,7 +9,7 @@ author_profile: false
   <div class="section-title">
     <div>
       <p class="eyebrow">Projects</p>
-      <h2 class="heading-animate">The full shelf</h2>
+      <h1 class="heading-animate">The full shelf</h1>
     </div>
     <span>{{ site.projects | size }} total</span>
   </div>
