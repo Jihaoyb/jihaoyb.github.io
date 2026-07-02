@@ -5,7 +5,6 @@ date: 2026-06-30
 minutes: 5
 tags: [Jekyll, Static Sites, Liquid]
 terms: [jekyll, static-site-generator, front-matter, yaml, liquid, markdown, github-pages]
-permalink: /lab/how-this-site-is-built/
 published: true
 ---
 
