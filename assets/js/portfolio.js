@@ -856,9 +856,16 @@
   }
 
   // Cross-page fade: fade the current page out, then navigate; the next page
-  // fades itself in via the page-enter CSS animation. Keep PAGE_FADE_MS in
-  // step with the .is-leaving transition duration in _portfolio.scss.
-  const PAGE_FADE_MS = 320;
+  // fades itself in via the page-enter CSS animation. The duration is read
+  // from the --page-fade token in _portfolio.scss (single source of truth);
+  // +20ms lets the transition finish before the navigation starts.
+  const fadeToken = getComputedStyle(document.body)
+    .getPropertyValue("--page-fade")
+    .trim();
+  const fadeTokenMs = fadeToken.endsWith("ms")
+    ? parseFloat(fadeToken)
+    : parseFloat(fadeToken) * 1000;
+  const PAGE_FADE_MS = (Number.isFinite(fadeTokenMs) ? fadeTokenMs : 300) + 20;
   let leavingPage = false;
 
   document.addEventListener("click", (event) => {
@@ -878,6 +885,11 @@
     }
     const url = new URL(link.href, window.location.href);
     if (url.origin !== window.location.origin) {
+      return;
+    }
+    // Direct file targets (resume PDF, images) are documents, not pages that
+    // fade back in — open them without the exit fade.
+    if (/\.(pdf|zip|jpe?g|png|webp|gif|svg)$/i.test(url.pathname)) {
       return;
     }
     // Same-page hash jumps keep the native smooth scroll.

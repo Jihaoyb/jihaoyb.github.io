@@ -79,6 +79,9 @@ html[data-theme="dark"] {
 }
 
 .portfolio-body {
+  /* Fade-out duration; portfolio.js reads this token so the exit timer and
+     the transition can never drift apart. */
+  --page-fade: 0.3s;
   /* backwards (not both): once the animation ends, opacity returns to the
      cascade so .is-leaving can take it back to 0. */
   animation: page-enter 0.5s ease backwards;
@@ -96,7 +99,7 @@ html[data-theme="dark"] {
 
 .portfolio-body.is-leaving {
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--page-fade) ease;
   /* Cancel page-enter in case the exit starts while it is still playing. */
   animation: none;
 }
@@ -419,6 +422,8 @@ html {
   margin-bottom: 36px;
 }
 
+/* h1 on standalone index pages (/lab/, /projects/), h2 within the homepage. */
+.section-title h1,
 .section-title h2 {
   font-family: "Fraunces", "Times New Roman", serif;
   font-size: clamp(28px, 5vw, 48px);
