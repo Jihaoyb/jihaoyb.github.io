@@ -1868,6 +1868,24 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   line-height: 1.6;
 }
 
+/* The theme (_syntax.scss) wraps every fenced block in div.highlighter-rouge
+   styled as a light panel with a Font Awesome code-icon chip (::before).
+   Inside a Lab post the styled <pre> above is the frame, so reduce the
+   wrapper to a pass-through. */
+.lab-post__body div.highlighter-rouge,
+.lab-post__body figure.highlight {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.lab-post__body div.highlighter-rouge::before,
+.lab-post__body figure.highlight::before {
+  content: none;
+}
+
 .lab-post__body pre code {
   background: none;
   border: none;
