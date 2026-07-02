@@ -1,0 +1,14 @@
+{%- comment -%}
+Glossary term with a hover/tap definition card. Usage (in Lab posts):
+  {% include term.html id="jekyll" %}
+  {% include term.html id="yaml" text="YAML" %}
+Entries live in _data/terms.yml; unknown ids fall back to plain text.
+The markup is emitted as ONE line so kramdown treats it as inline HTML
+inside the surrounding paragraph.
+{%- endcomment -%}
+{%- assign t = site.data.terms[include.id] -%}
+{%- if t -%}
+<span class="term" data-term><button class="term__trigger" type="button" aria-expanded="false">{{ include.text | default: t.name }}</button><span class="term__card"><span class="term__name">{{ t.name }}</span><span class="term__def">{{ t.def }}</span>{% if t.url %}<a class="term__link" href="{{ t.url }}" target="_blank" rel="noopener">{{ t.link_text | default: "Official site" }} →</a>{% endif %}</span></span>
+{%- else -%}
+{{ include.text | default: include.id }}
+{%- endif -%}

@@ -764,6 +764,97 @@
     });
   }
 
+  // Glossary term popovers (Lab posts): hover opens on pointer devices, tap
+  // toggles on touch, focus/Escape cover keyboards. One card open at a time;
+  // --term-shift nudges a card back inside the viewport when the term sits
+  // near an edge.
+  const termEls = Array.from(document.querySelectorAll("[data-term]"));
+  if (termEls.length) {
+    const closeTerm = (term) => {
+      term.classList.remove("is-open");
+      term.querySelector(".term__trigger").setAttribute("aria-expanded", "false");
+    };
+    const closeAllTerms = (except) => {
+      termEls.forEach((term) => {
+        if (term !== except) {
+          closeTerm(term);
+        }
+      });
+    };
+
+    termEls.forEach((term) => {
+      const trigger = term.querySelector(".term__trigger");
+      const card = term.querySelector(".term__card");
+      if (!trigger || !card) {
+        return;
+      }
+
+      const openTerm = () => {
+        closeAllTerms(term);
+        term.classList.add("is-open");
+        trigger.setAttribute("aria-expanded", "true");
+        // Keep the card on screen: measure at center, then shift as needed.
+        card.style.setProperty("--term-shift", "0px");
+        const rect = card.getBoundingClientRect();
+        const pad = 12;
+        let shift = 0;
+        if (rect.left < pad) {
+          shift = pad - rect.left;
+        } else if (rect.right > window.innerWidth - pad) {
+          shift = window.innerWidth - pad - rect.right;
+        }
+        card.style.setProperty("--term-shift", `${shift}px`);
+      };
+
+      trigger.addEventListener("click", () => {
+        if (term.classList.contains("is-open")) {
+          closeTerm(term);
+        } else {
+          openTerm();
+        }
+      });
+      // Hover only for real mice — on touch, pointerenter + focus precede the
+      // click, and opening there would make the click instantly toggle back.
+      term.addEventListener("pointerenter", (event) => {
+        if (event.pointerType === "mouse") {
+          openTerm();
+        }
+      });
+      term.addEventListener("pointerleave", (event) => {
+        if (event.pointerType === "mouse") {
+          closeTerm(term);
+        }
+      });
+      trigger.addEventListener("focus", () => {
+        // Keyboard focus only (tab); pointer-initiated focus is handled above.
+        try {
+          if (trigger.matches(":focus-visible")) {
+            openTerm();
+          }
+        } catch (error) {
+          openTerm();
+        }
+      });
+      // Close when focus leaves the term entirely (the card link is inside).
+      term.addEventListener("focusout", (event) => {
+        if (!term.contains(event.relatedTarget)) {
+          closeTerm(term);
+        }
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest("[data-term]")) {
+        closeAllTerms();
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeAllTerms();
+      }
+    });
+  }
+
   // Cross-page fade: fade the current page out, then navigate; the next page
   // fades itself in via the page-enter CSS animation. Keep PAGE_FADE_MS in
   // step with the .is-leaving transition duration in _portfolio.scss.

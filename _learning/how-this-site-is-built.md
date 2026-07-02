@@ -4,13 +4,14 @@ excerpt: "A tour of the Jekyll pipeline behind this site — how a handful of pl
 date: 2026-06-30
 minutes: 5
 tags: [Jekyll, Static Sites, Liquid]
+terms: [jekyll, static-site-generator, front-matter, yaml, liquid, markdown, github-pages]
 permalink: /lab/how-this-site-is-built/
 published: true
 ---
 
 When people look at this site, they often assume there's a heavy framework
 behind it. There isn't. The whole thing is plain text files run through a tool
-called **Jekyll**, a *static site generator*. Once that clicks, the site stops
+called {% include term.html id="jekyll" %}, a {% include term.html id="static-site-generator" text="static site generator" %}. Once that clicks, the site stops
 feeling like magic and starts feeling like Lego. Here's the mental model.
 
 ## A page is three languages in one file
@@ -32,12 +33,12 @@ layout: home
 ## A normal heading        <!-- 3. Markdown: the actual content -->
 ```
 
-- **Front matter** (between the `---` lines) is YAML — metadata and variables
+- {% include term.html id="front-matter" text="Front matter" %} (between the `---` lines) is {% include term.html id="yaml" text="YAML" %} — metadata and variables
   for that file.
-- **Liquid** (`{% raw %}{% %}{% endraw %}` for logic, `{% raw %}{{ }}{% endraw %}` to print a value) is the
+- {% include term.html id="liquid" %} (`{% raw %}{% %}{% endraw %}` for logic, `{% raw %}{{ }}{% endraw %}` to print a value) is the
   templating language that loops, filters, and pulls in other files.
-- **Markdown / HTML** is the content you actually write, which a converter turns
-  into HTML.
+- {% include term.html id="markdown" %} / HTML is the content you actually write, which a converter
+  turns into HTML.
 
 So Markdown is just the easy way to write the *body*. The front matter and
 Liquid are what make it a Jekyll source file rather than a plain document.
@@ -82,7 +83,7 @@ chrome.)
 
 ## The build, and where it goes
 
-When you push to `main`, GitHub Pages runs Jekyll for you. Jekyll merges the
+When you push to `main`, {% include term.html id="github-pages" %} runs Jekyll for you. Jekyll merges the
 content through the templates, converts the Markdown to HTML, and writes the
 finished files into a `_site/` folder. **That generated folder is what visitors
 actually download** — your `.md` files never reach the browser.

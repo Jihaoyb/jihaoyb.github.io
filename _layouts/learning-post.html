@@ -23,5 +23,22 @@ layout: home
     {{ content }}
   </div>
 
+  {% if page.terms %}
+  <aside class="lab-post__terms">
+    <h2 class="lab-post__terms-title">Terms in this post</h2>
+    <dl class="term-glossary">
+      {% for id in page.terms %}
+        {% assign t = site.data.terms[id] %}
+        {% if t %}
+        <div class="term-glossary__item">
+          <dt>{{ t.name }}{% if t.url %} · <a href="{{ t.url }}" target="_blank" rel="noopener">{{ t.link_text | default: "Official site" }} →</a>{% endif %}</dt>
+          <dd>{{ t.def }}</dd>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </dl>
+  </aside>
+  {% endif %}
+
   <a class="lab-post__back lab-post__back--bottom" href="/lab/">← Back to all posts</a>
 </article>
