@@ -109,7 +109,9 @@ staticman:
         format           : "iso8601" # "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
 atom_feed:
   hide                   : false     # change to true to hide the RSS feed in the footer
-  path                   : # blank (default) uses feed.xml
+  # The site has no _posts, so the default /feed.xml is empty; advertise the
+  # Lab (learning collection) feed instead — see `feed: collections:` below.
+  path                   : /feed/learning.xml
 
 
 # SEO Related
@@ -297,6 +299,12 @@ plugins:
   - jekyll-sitemap
   - jekyll-redirect-from
   - jemoji
+
+# jekyll-feed only covers _posts by default; also publish the Lab
+# (learning collection) posts in /feed.xml.
+feed:
+  collections:
+    - learning
 
 # Mimic GitHub Pages with --safe
 whitelist:
