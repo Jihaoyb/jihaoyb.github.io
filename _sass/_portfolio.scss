@@ -1754,10 +1754,8 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
 }
 
 /* ----- Single post ----- */
-.lab-post {
-  max-width: 720px;
-  margin: 0 auto;
-}
+/* Width comes from .portfolio-section on the same element, so the post
+   column and side margins match the homepage sections exactly. */
 
 .lab-post__back {
   display: inline-block;
