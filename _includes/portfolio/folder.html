@@ -15,14 +15,17 @@
   </div>
   <p class="project-folder__summary">{{ folder.excerpt }}</p>
   <div class="project-folder__files" aria-hidden="true">
+    {% if folder.tech %}
     <div class="project-folder__file">
       <p class="project-folder__file-title">Tech stack</p>
       <p>{{ folder.tech }}</p>
     </div>
+    {% endif %}
     <div class="project-folder__file">
       <p class="project-folder__file-title">Details</p>
       {{ folder.content }}
     </div>
+    {% if folder.githuburl or folder.demo %}
     <div class="project-folder__file">
       <p class="project-folder__file-title">Links</p>
       {% if folder.githuburl %}
@@ -32,5 +35,6 @@
         <a href="{{ folder.demo }}" target="_blank" rel="noopener">Demo</a>
       {% endif %}
     </div>
+    {% endif %}
   </div>
 </article>

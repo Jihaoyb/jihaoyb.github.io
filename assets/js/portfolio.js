@@ -726,6 +726,101 @@
     });
   }
 
+  // Comments (giscus) on Lab posts: inject the widget only when its section
+  // nears the viewport, themed to match the site, and keep it in sync when
+  // the theme toggle or the OS scheme changes.
+  const commentsMount = document.querySelector("[data-giscus]");
+  if (commentsMount) {
+    const giscusTheme = () => {
+      const forced = document.documentElement.getAttribute("data-theme");
+      const dark =
+        forced === "dark" ||
+        (!forced && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      return dark ? "noborder_dark" : "noborder_light";
+    };
+
+    const syncGiscusTheme = () => {
+      const theme = giscusTheme();
+      // If the toggle fires while client.js is still loading (no iframe yet),
+      // update the pending script tag — giscus reads its attributes when it
+      // runs, so the widget still boots in the right theme.
+      const pending = commentsMount.querySelector("script[data-theme]");
+      if (pending) {
+        pending.setAttribute("data-theme", theme);
+      }
+      const frame = document.querySelector("iframe.giscus-frame");
+      if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage(
+          { giscus: { setConfig: { theme: theme } } },
+          "https://giscus.app"
+        );
+      }
+    };
+
+    const injectGiscus = () => {
+      if (commentsMount.dataset.loaded === "true") {
+        return;
+      }
+      commentsMount.dataset.loaded = "true";
+      const script = document.createElement("script");
+      script.src = "https://giscus.app/client.js";
+      script.async = true;
+      script.crossOrigin = "anonymous";
+      // Blocked or unreachable widget: collapse the reserved space and show
+      // the plain link to the Discussions page instead.
+      script.onerror = () => {
+        delete commentsMount.dataset.loaded;
+        script.remove();
+        const fallback = document.querySelector("[data-giscus-fallback]");
+        if (fallback) {
+          fallback.hidden = false;
+        }
+      };
+      const config = {
+        "data-repo": commentsMount.dataset.repo,
+        "data-repo-id": commentsMount.dataset.repoId,
+        "data-category": commentsMount.dataset.category,
+        "data-category-id": commentsMount.dataset.categoryId,
+        "data-mapping": "pathname",
+        "data-strict": "0",
+        "data-reactions-enabled": "1",
+        "data-emit-metadata": "0",
+        "data-input-position": "top",
+        "data-lang": "en",
+        "data-theme": giscusTheme(),
+      };
+      Object.keys(config).forEach((key) => {
+        script.setAttribute(key, config[key]);
+      });
+      commentsMount.appendChild(script);
+    };
+
+    if ("IntersectionObserver" in window) {
+      const commentsObserver = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            injectGiscus();
+            commentsObserver.disconnect();
+          }
+        },
+        { rootMargin: "200px 0px" }
+      );
+      commentsObserver.observe(commentsMount);
+    } else {
+      injectGiscus();
+    }
+
+    // Registered after the toggle's own listener, so this reads the state
+    // applyTheme just set.
+    if (themeToggle) {
+      themeToggle.addEventListener("click", syncGiscusTheme);
+    }
+    const schemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    if (typeof schemeQuery.addEventListener === "function") {
+      schemeQuery.addEventListener("change", syncGiscusTheme);
+    }
+  }
+
   const navToggle = document.querySelector("[data-nav-toggle]");
   const portfolioHeader = document.querySelector("[data-portfolio-header]");
   const navMenu = document.querySelector("[data-nav-menu]");
@@ -763,4 +858,185 @@
       }
     });
   }
+
+  // Glossary term popovers (Lab posts): hover opens on pointer devices, tap
+  // toggles on touch, focus/Escape cover keyboards. One card open at a time;
+  // --term-shift nudges a card back inside the viewport when the term sits
+  // near an edge.
+  const termEls = Array.from(document.querySelectorAll("[data-term]"));
+  if (termEls.length) {
+    const closeTerm = (term) => {
+      term.classList.remove("is-open");
+      term.querySelector(".term__trigger").setAttribute("aria-expanded", "false");
+    };
+    const closeAllTerms = (except) => {
+      termEls.forEach((term) => {
+        if (term !== except) {
+          closeTerm(term);
+        }
+      });
+    };
+
+    termEls.forEach((term) => {
+      const trigger = term.querySelector(".term__trigger");
+      const card = term.querySelector(".term__card");
+      if (!trigger || !card) {
+        return;
+      }
+
+      const openTerm = () => {
+        closeAllTerms(term);
+        term.classList.add("is-open");
+        trigger.setAttribute("aria-expanded", "true");
+        // Keep the card on screen: measure at center, then shift as needed.
+        card.style.setProperty("--term-shift", "0px");
+        const rect = card.getBoundingClientRect();
+        const pad = 12;
+        let shift = 0;
+        if (rect.left < pad) {
+          shift = pad - rect.left;
+        } else if (rect.right > window.innerWidth - pad) {
+          shift = window.innerWidth - pad - rect.right;
+        }
+        card.style.setProperty("--term-shift", `${shift}px`);
+      };
+
+      trigger.addEventListener("click", () => {
+        if (term.classList.contains("is-open")) {
+          closeTerm(term);
+        } else {
+          openTerm();
+        }
+      });
+      // Hover only for real mice — on touch, pointerenter + focus precede the
+      // click, and opening there would make the click instantly toggle back.
+      term.addEventListener("pointerenter", (event) => {
+        if (event.pointerType === "mouse") {
+          openTerm();
+        }
+      });
+      term.addEventListener("pointerleave", (event) => {
+        if (event.pointerType === "mouse") {
+          closeTerm(term);
+        }
+      });
+      trigger.addEventListener("focus", () => {
+        // Keyboard focus only (tab); pointer-initiated focus is handled above.
+        try {
+          if (trigger.matches(":focus-visible")) {
+            openTerm();
+          }
+        } catch (error) {
+          openTerm();
+        }
+      });
+      // Close when focus leaves the term entirely (the card link is inside).
+      term.addEventListener("focusout", (event) => {
+        if (!term.contains(event.relatedTarget)) {
+          closeTerm(term);
+        }
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest("[data-term]")) {
+        closeAllTerms();
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeAllTerms();
+      }
+    });
+    // Clicks inside a cross-origin iframe (e.g. the giscus widget) never
+    // reach this document — but they do blur the window, so close there too.
+    window.addEventListener("blur", () => closeAllTerms());
+  }
+
+  // Browsers with cross-document view transitions (PageRevealEvent is the
+  // support signal) animate every same-origin navigation natively — including
+  // back/forward, which no script can intercept — via the @view-transition
+  // rules in _portfolio.scss. There the scripted fade below stands down, so
+  // clicks also lose its 320ms delay. Others keep the scripted fade.
+  const supportsViewTransitions = "PageRevealEvent" in window;
+
+  // Cross-page fade: fade the current page out, then navigate; the next page
+  // fades itself in via the page-enter CSS animation. The duration is read
+  // from the --page-fade token in _portfolio.scss (single source of truth);
+  // +20ms lets the transition finish before the navigation starts.
+  const fadeToken = getComputedStyle(document.body)
+    .getPropertyValue("--page-fade")
+    .trim();
+  const fadeTokenMs = fadeToken.endsWith("ms")
+    ? parseFloat(fadeToken)
+    : parseFloat(fadeToken) * 1000;
+  const PAGE_FADE_MS = (Number.isFinite(fadeTokenMs) ? fadeTokenMs : 300) + 20;
+  let leavingPage = false;
+
+  document.addEventListener("click", (event) => {
+    // Native view transitions handle the whole fade — don't double up.
+    if (supportsViewTransitions) {
+      return;
+    }
+    if (event.defaultPrevented || event.button !== 0) {
+      return;
+    }
+    // Modified clicks mean "open elsewhere" — leave them to the browser.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+    const link = event.target.closest("a[href]");
+    if (!link || link.hasAttribute("download")) {
+      return;
+    }
+    if (link.target && link.target !== "_self") {
+      return;
+    }
+    const url = new URL(link.href, window.location.href);
+    if (url.origin !== window.location.origin) {
+      return;
+    }
+    // Direct file targets (resume PDF, images) are documents, not pages that
+    // fade back in — open them without the exit fade.
+    if (/\.(pdf|zip|jpe?g|png|webp|gif|svg)$/i.test(url.pathname)) {
+      return;
+    }
+    // Same-page hash jumps keep the native smooth scroll.
+    if (url.pathname === window.location.pathname && url.hash) {
+      return;
+    }
+    if (prefersReducedMotion.matches) {
+      return;
+    }
+    event.preventDefault();
+    if (leavingPage) {
+      return;
+    }
+    leavingPage = true;
+    document.body.classList.add("is-leaving");
+    window.setTimeout(() => {
+      window.location.href = url.href;
+    }, PAGE_FADE_MS);
+  });
+
+  // Back/forward restores usually come from the back/forward cache (bfcache):
+  // the page returns as a frozen snapshot — scripts don't rerun and load
+  // animations don't replay, so it would just pop in (possibly still faded
+  // out from when we left it). Clear the exit state and restart page-enter
+  // (inline animation:none + forced reflow, then hand back to the stylesheet)
+  // so history navigation fades in like any other arrival. Non-bfcache
+  // back/forward is a real page load and fades in on its own.
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) {
+      return;
+    }
+    leavingPage = false;
+    document.body.classList.remove("is-leaving");
+    if (prefersReducedMotion.matches) {
+      return;
+    }
+    document.body.style.animation = "none";
+    void document.body.offsetWidth;
+    document.body.style.animation = "";
+  });
 })();

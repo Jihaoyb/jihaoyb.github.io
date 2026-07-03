@@ -1,0 +1,72 @@
+# Glossary for Lab posts. Render a term with:
+#   {% include term.html id="jekyll" %}            -> displays the entry name
+#   {% include term.html id="yaml" text="YAML" %}  -> displays custom text
+# Convention: only the FIRST mention of a term in a post gets the treatment.
+# Definitions are plain text (no Markdown) — they render both in the hover
+# card and in the "Terms in this post" footer. url/link_text are optional.
+
+jekyll:
+  name: Jekyll
+  def: "A static site generator written in Ruby. It takes plain text files — Markdown, data, templates — and compiles them into a complete website with no database or server-side code."
+  url: https://jekyllrb.com
+  link_text: Official site
+
+static-site-generator:
+  name: Static site generator
+  def: "A tool that builds a website ahead of time: content and templates go in, plain HTML/CSS/JS files come out, and any web server can host the result as-is."
+  url: https://developer.mozilla.org/en-US/docs/Glossary/SSG
+  link_text: MDN glossary
+
+front-matter:
+  name: Front matter
+  def: "The YAML block between two --- lines at the top of a file. Jekyll reads it as that page's settings and variables — layout, title, permalink, anything a template needs."
+  url: https://jekyllrb.com/docs/front-matter/
+  link_text: Jekyll docs
+
+yaml:
+  name: YAML
+  def: "A human-friendly format for structured data: key–value pairs, lists, and nesting expressed with indentation. The go-to format for configuration files."
+  url: https://yaml.org
+  link_text: Official site
+
+liquid:
+  name: Liquid
+  def: "The templating language Jekyll uses, created by Shopify. Curly-brace tags run logic — loops, conditionals, includes — and double curly braces print values into the page."
+  url: https://shopify.github.io/liquid/
+  link_text: Official docs
+
+markdown:
+  name: Markdown
+  def: "A lightweight plain-text syntax for formatted writing — headings, emphasis, lists typed as ordinary characters — that converts cleanly to HTML."
+  url: https://daringfireball.net/projects/markdown/
+  link_text: Original spec
+
+github-pages:
+  name: GitHub Pages
+  def: "GitHub's free static hosting. Push a repository and it builds the site (running Jekyll for you) and serves the result — this site deploys that way on every push to main."
+  url: https://pages.github.com
+  link_text: Official site
+
+giscus:
+  name: giscus
+  def: "An open-source comments widget that stores each page's comments and reactions in a GitHub Discussion — no server or database of your own to run."
+  url: https://giscus.app
+  link_text: Official site
+
+github-discussions:
+  name: GitHub Discussions
+  def: "Forum-style threads attached to a GitHub repository, with Markdown comments, replies, and emoji reactions. Free with every public repo."
+  url: https://docs.github.com/en/discussions
+  link_text: GitHub docs
+
+iframe:
+  name: iframe
+  def: "An HTML element that embeds one web page inside another. The embedded page runs isolated on its own origin, so it cannot read or change the host page."
+  url: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
+  link_text: MDN reference
+
+postmessage:
+  name: postMessage
+  def: "The browser API for safely sending data between windows from different origins — for example between a page and the iframe it embeds."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
+  link_text: MDN reference
