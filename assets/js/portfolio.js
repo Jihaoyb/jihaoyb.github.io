@@ -726,6 +726,101 @@
     });
   }
 
+  // Comments (giscus) on Lab posts: inject the widget only when its section
+  // nears the viewport, themed to match the site, and keep it in sync when
+  // the theme toggle or the OS scheme changes.
+  const commentsMount = document.querySelector("[data-giscus]");
+  if (commentsMount) {
+    const giscusTheme = () => {
+      const forced = document.documentElement.getAttribute("data-theme");
+      const dark =
+        forced === "dark" ||
+        (!forced && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      return dark ? "noborder_dark" : "noborder_light";
+    };
+
+    const syncGiscusTheme = () => {
+      const theme = giscusTheme();
+      // If the toggle fires while client.js is still loading (no iframe yet),
+      // update the pending script tag — giscus reads its attributes when it
+      // runs, so the widget still boots in the right theme.
+      const pending = commentsMount.querySelector("script[data-theme]");
+      if (pending) {
+        pending.setAttribute("data-theme", theme);
+      }
+      const frame = document.querySelector("iframe.giscus-frame");
+      if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage(
+          { giscus: { setConfig: { theme: theme } } },
+          "https://giscus.app"
+        );
+      }
+    };
+
+    const injectGiscus = () => {
+      if (commentsMount.dataset.loaded === "true") {
+        return;
+      }
+      commentsMount.dataset.loaded = "true";
+      const script = document.createElement("script");
+      script.src = "https://giscus.app/client.js";
+      script.async = true;
+      script.crossOrigin = "anonymous";
+      // Blocked or unreachable widget: collapse the reserved space and show
+      // the plain link to the Discussions page instead.
+      script.onerror = () => {
+        delete commentsMount.dataset.loaded;
+        script.remove();
+        const fallback = document.querySelector("[data-giscus-fallback]");
+        if (fallback) {
+          fallback.hidden = false;
+        }
+      };
+      const config = {
+        "data-repo": commentsMount.dataset.repo,
+        "data-repo-id": commentsMount.dataset.repoId,
+        "data-category": commentsMount.dataset.category,
+        "data-category-id": commentsMount.dataset.categoryId,
+        "data-mapping": "pathname",
+        "data-strict": "0",
+        "data-reactions-enabled": "1",
+        "data-emit-metadata": "0",
+        "data-input-position": "top",
+        "data-lang": "en",
+        "data-theme": giscusTheme(),
+      };
+      Object.keys(config).forEach((key) => {
+        script.setAttribute(key, config[key]);
+      });
+      commentsMount.appendChild(script);
+    };
+
+    if ("IntersectionObserver" in window) {
+      const commentsObserver = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            injectGiscus();
+            commentsObserver.disconnect();
+          }
+        },
+        { rootMargin: "200px 0px" }
+      );
+      commentsObserver.observe(commentsMount);
+    } else {
+      injectGiscus();
+    }
+
+    // Registered after the toggle's own listener, so this reads the state
+    // applyTheme just set.
+    if (themeToggle) {
+      themeToggle.addEventListener("click", syncGiscusTheme);
+    }
+    const schemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    if (typeof schemeQuery.addEventListener === "function") {
+      schemeQuery.addEventListener("change", syncGiscusTheme);
+    }
+  }
+
   const navToggle = document.querySelector("[data-nav-toggle]");
   const portfolioHeader = document.querySelector("[data-portfolio-header]");
   const navMenu = document.querySelector("[data-nav-menu]");
@@ -853,6 +948,9 @@
         closeAllTerms();
       }
     });
+    // Clicks inside a cross-origin iframe (e.g. the giscus widget) never
+    // reach this document — but they do blur the window, so close there too.
+    window.addEventListener("blur", () => closeAllTerms());
   }
 
   // Cross-page fade: fade the current page out, then navigate; the next page

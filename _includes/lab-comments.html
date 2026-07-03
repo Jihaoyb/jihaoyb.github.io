@@ -1,0 +1,29 @@
+{% comment %}
+giscus (GitHub Discussions) reactions + comments for Lab posts.
+The repo/category ids are public identifiers, not secrets. portfolio.js
+injects the widget lazily when this section nears the viewport and keeps
+its theme in sync with the site toggle. Opt a post out with
+`comments: false` in its front matter.
+{% endcomment %}
+<section class="lab-comments" aria-labelledby="lab-comments-title">
+  <h2 class="lab-comments__title" id="lab-comments-title">Discussion</h2>
+  <p class="lab-comments__hint">
+    React or comment with a GitHub account — each thread lives as a
+    <a href="https://github.com/Jihaoyb/jihaoyb.github.io/discussions" target="_blank" rel="noopener">GitHub Discussion</a>,
+    rendered by <a href="https://giscus.app" target="_blank" rel="noopener">giscus</a>.
+  </p>
+  <div data-giscus
+       data-repo="Jihaoyb/jihaoyb.github.io"
+       data-repo-id="R_kgDONxFLZA"
+       data-category="Announcements"
+       data-category-id="DIC_kwDONxFLZM4DAZA4"></div>
+  <p class="lab-comments__hint" data-giscus-fallback hidden>
+    The widget couldn't load — you can still
+    <a href="https://github.com/Jihaoyb/jihaoyb.github.io/discussions" target="_blank" rel="noopener">join the discussion on GitHub</a>.
+  </p>
+  <noscript>
+    <p>Comments need JavaScript — you can still
+      <a href="https://github.com/Jihaoyb/jihaoyb.github.io/discussions">join the discussion on GitHub</a>.
+    </p>
+  </noscript>
+</section>

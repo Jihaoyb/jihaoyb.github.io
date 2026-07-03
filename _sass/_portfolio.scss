@@ -2021,6 +2021,37 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   line-height: 1.6;
 }
 
+/* ----- Discussion (giscus) — see _includes/lab-comments.html ----- */
+.lab-comments {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.lab-comments__title {
+  font-family: "Fraunces", "Times New Roman", serif;
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+
+.lab-comments__hint {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.lab-comments__hint a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Reserve height only once injection starts, so a blocked/failed widget or
+   a no-JS visit doesn't leave a permanent blank hole under the hint. */
+.lab-comments [data-giscus][data-loaded] {
+  min-height: 220px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .term__trigger,
   .term__card {

@@ -45,5 +45,9 @@ layout: home
   </aside>
   {% endif %}
 
+  {% unless page.comments == false %}
+    {% include lab-comments.html %}
+  {% endunless %}
+
   <a class="lab-post__back lab-post__back--bottom" href="/lab/">← Back to all posts</a>
 </article>
