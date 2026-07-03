@@ -953,6 +953,13 @@
     window.addEventListener("blur", () => closeAllTerms());
   }
 
+  // Browsers with cross-document view transitions (PageRevealEvent is the
+  // support signal) animate every same-origin navigation natively — including
+  // back/forward, which no script can intercept — via the @view-transition
+  // rules in _portfolio.scss. There the scripted fade below stands down, so
+  // clicks also lose its 320ms delay. Others keep the scripted fade.
+  const supportsViewTransitions = "PageRevealEvent" in window;
+
   // Cross-page fade: fade the current page out, then navigate; the next page
   // fades itself in via the page-enter CSS animation. The duration is read
   // from the --page-fade token in _portfolio.scss (single source of truth);
@@ -967,6 +974,10 @@
   let leavingPage = false;
 
   document.addEventListener("click", (event) => {
+    // Native view transitions handle the whole fade — don't double up.
+    if (supportsViewTransitions) {
+      return;
+    }
     if (event.defaultPrevented || event.button !== 0) {
       return;
     }

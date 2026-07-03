@@ -104,6 +104,40 @@ html[data-theme="dark"] {
   animation: none;
 }
 
+/* Native cross-document view transitions (Chromium 126+ / Safari 18.2+).
+   The browser itself animates same-origin navigations — crucially including
+   the back/forward buttons, which no script can intercept or delay. The old
+   page fades out ON TOP (z-index) down to the paper background, and the new
+   page's own page-enter animation then fades the content in — the same
+   out-then-in rhythm as the scripted fade. ::view-transition-new stays
+   unanimated so page-enter remains the only fade-in source (no double fade).
+   portfolio.js detects support via PageRevealEvent and stands its click
+   interceptor down, so these browsers also lose the scripted 320ms delay. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  animation: vt-fade-out 0.3s ease both;
+}
+
+::view-transition-new(root) {
+  animation: none;
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root) {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .portfolio-body {
     animation: none;
