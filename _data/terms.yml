@@ -46,3 +46,27 @@ github-pages:
   def: "GitHub's free static hosting. Push a repository and it builds the site (running Jekyll for you) and serves the result — this site deploys that way on every push to main."
   url: https://pages.github.com
   link_text: Official site
+
+giscus:
+  name: giscus
+  def: "An open-source comments widget that stores each page's comments and reactions in a GitHub Discussion — no server or database of your own to run."
+  url: https://giscus.app
+  link_text: Official site
+
+github-discussions:
+  name: GitHub Discussions
+  def: "Forum-style threads attached to a GitHub repository, with Markdown comments, replies, and emoji reactions. Free with every public repo."
+  url: https://docs.github.com/en/discussions
+  link_text: GitHub docs
+
+iframe:
+  name: iframe
+  def: "An HTML element that embeds one web page inside another. The embedded page runs isolated on its own origin, so it cannot read or change the host page."
+  url: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
+  link_text: MDN reference
+
+postmessage:
+  name: postMessage
+  def: "The browser API for safely sending data between windows from different origins — for example between a page and the iframe it embeds."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
+  link_text: MDN reference
