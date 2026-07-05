@@ -17,8 +17,8 @@ redirect_from:
     <!-- Animate static hero name text for a clean per-letter reveal. -->
     <h1 class="hero__title heading-animate">Jihao Ye</h1>
     <p class="hero__subtitle">
-      Software engineer and product builder focused on scalable systems, applied AI,
-      and clean interfaces that help teams move faster with confidence.
+      Software engineer shipping AI that holds up in production: document pipelines,
+      a lead-scoring sales copilot, sub-300ms RAG search.
     </p>
     <div class="hero__actions">
       <a class="btn btn--primary" href="#projects">View projects</a>
@@ -28,7 +28,7 @@ redirect_from:
     <div class="hero__meta">
       <span>Based in Los Angeles, CA</span>
       <span>Open to full-time roles</span>
-      <span>CS at University of Houston</span>
+      <span>BS CS 2025 · University of Houston</span>
     </div>
   </div>
   <div class="hero__visual">
@@ -39,15 +39,15 @@ redirect_from:
     <div class="hero__stats card-animate">
       <div class="hero__stat">
         <span>Experience</span>
-        <strong>3 years</strong>
+        <strong>3+ years across 3 companies</strong>
       </div>
       <div class="hero__stat">
-        <span>Focus</span>
-        <strong>AI systems</strong>
+        <span>Now</span>
+        <strong>Owns HIPPSC's AI sales copilot</strong>
       </div>
       <div class="hero__stat">
-        <span>Degree</span>
-        <strong>BS CS 2025</strong>
+        <span>Impact</span>
+        <strong>−80% data entry via LLMs</strong>
       </div>
     </div>
   </div>
@@ -78,19 +78,29 @@ redirect_from:
       </ul>
     </div>
   </div>
-  <div class="portfolio-highlight">
+  <!-- Proof bar: shipped, verifiable results (sources in _working/). -->
+  <div class="portfolio-highlight portfolio-highlight--metrics">
+    <p class="eyebrow">Shipped results</p>
     <div class="portfolio-highlight__grid">
       <div class="portfolio-highlight__item">
-        <h3>Product velocity</h3>
-        <p>Delivering prototypes fast, then hardening them into reliable systems.</p>
+        <p class="portfolio-highlight__tag">Owned end-to-end</p>
+        <h3>−60% CRM upkeep</h3>
+        <p>AI sales copilot at HIPPSC — reads email and meeting transcripts, scores and routes leads, drafts follow-ups.</p>
       </div>
       <div class="portfolio-highlight__item">
-        <h3>Data trust</h3>
-        <p>Verifiable pipelines that make decisions auditable and easy to explain.</p>
+        <p class="portfolio-highlight__tag">In production</p>
+        <h3>95%+ field accuracy</h3>
+        <p>OCR + LLM ingestion at HIPPSC parses 500+ receipts, POs, packing slips, and invoices every month.</p>
       </div>
       <div class="portfolio-highlight__item">
-        <h3>Collaboration</h3>
-        <p>Cross-functional work with designers, founders, and engineers.</p>
+        <p class="portfolio-highlight__tag">Founding engineer</p>
+        <h3>Sub-300ms retrieval</h3>
+        <p>RAG vector search over 10K+ tax-code sections at LucaAI — built zero to production.</p>
+      </div>
+      <div class="portfolio-highlight__item">
+        <p class="portfolio-highlight__tag">First SWE role</p>
+        <h3>−80% RFQ turnaround</h3>
+        <p>Product configurator at HIPPSC handling 12,000+ combinations, with 3D views in Three.js.</p>
       </div>
     </div>
   </div>
