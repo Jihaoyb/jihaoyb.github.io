@@ -64,7 +64,7 @@ redirect_from:
       <h3>Bio</h3>
       <p>
         I build products that bridge engineering rigor and user-first clarity. My recent work
-        spans personalization systems, cloud-native apps, and automation pipelines that cut
+        spans document-AI systems, cloud-native apps, and automation pipelines that cut
         operational time while increasing trust in data.
       </p>
     </div>
@@ -72,7 +72,7 @@ redirect_from:
       <h3>Focus areas</h3>
       <ul>
         <li>Backend systems and API design</li>
-        <li>ML-driven personalization and automation</li>
+        <li>LLM-driven automation and retrieval</li>
         <li>Infrastructure that scales cleanly</li>
         <li>UX-minded product engineering</li>
       </ul>
