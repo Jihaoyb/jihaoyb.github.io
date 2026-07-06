@@ -17,8 +17,8 @@ redirect_from:
     <!-- Animate static hero name text for a clean per-letter reveal. -->
     <h1 class="hero__title heading-animate">Jihao Ye</h1>
     <p class="hero__subtitle">
-      Software engineer and product builder focused on scalable systems, applied AI,
-      and clean interfaces that help teams move faster with confidence.
+      Software engineer shipping AI that holds up in production: document pipelines,
+      a lead-scoring sales copilot, sub-300ms RAG search.
     </p>
     <div class="hero__actions">
       <a class="btn btn--primary" href="#projects">View projects</a>
@@ -26,9 +26,9 @@ redirect_from:
       <a class="btn btn--primary" href="{{ base_path }}/files/Jihao_Ye_Resume.pdf">Download resume</a>
     </div>
     <div class="hero__meta">
-      <span>Based in Los Angeles, CA</span>
+      <span>Los Angeles, CA</span>
       <span>Open to full-time roles</span>
-      <span>CS at University of Houston</span>
+      <span>BS CS 2025 · University of Houston</span>
     </div>
   </div>
   <div class="hero__visual">
@@ -39,15 +39,15 @@ redirect_from:
     <div class="hero__stats card-animate">
       <div class="hero__stat">
         <span>Experience</span>
-        <strong>3 years</strong>
+        <strong>3+ years across 3 companies</strong>
       </div>
       <div class="hero__stat">
-        <span>Focus</span>
-        <strong>AI systems</strong>
+        <span>Now</span>
+        <strong>Owns HIPPSC's AI sales copilot</strong>
       </div>
       <div class="hero__stat">
-        <span>Degree</span>
-        <strong>BS CS 2025</strong>
+        <span>Impact</span>
+        <strong>−80% data entry via LLMs</strong>
       </div>
     </div>
   </div>
@@ -64,7 +64,7 @@ redirect_from:
       <h3>Bio</h3>
       <p>
         I build products that bridge engineering rigor and user-first clarity. My recent work
-        spans personalization systems, cloud-native apps, and automation pipelines that cut
+        spans document-AI systems, cloud-native apps, and automation pipelines that cut
         operational time while increasing trust in data.
       </p>
     </div>
@@ -72,25 +72,31 @@ redirect_from:
       <h3>Focus areas</h3>
       <ul>
         <li>Backend systems and API design</li>
-        <li>ML-driven personalization and automation</li>
+        <li>LLM-driven automation and retrieval</li>
         <li>Infrastructure that scales cleanly</li>
         <li>UX-minded product engineering</li>
       </ul>
     </div>
   </div>
-  <div class="portfolio-highlight">
+  <!-- Proof bar: shipped, verifiable results (sources in _working/). Keeps
+       the band's original quiet h3+p rhythm — numbers as the headings. -->
+  <div class="portfolio-highlight portfolio-highlight--metrics">
     <div class="portfolio-highlight__grid">
       <div class="portfolio-highlight__item">
-        <h3>Product velocity</h3>
-        <p>Delivering prototypes fast, then hardening them into reliable systems.</p>
+        <h3>−60% CRM upkeep</h3>
+        <p>AI sales copilot at HIPPSC — owned end-to-end, now in production.</p>
       </div>
       <div class="portfolio-highlight__item">
-        <h3>Data trust</h3>
-        <p>Verifiable pipelines that make decisions auditable and easy to explain.</p>
+        <h3>95%+ accuracy</h3>
+        <p>OCR + LLM document ingestion at HIPPSC — 500+ parsed monthly.</p>
       </div>
       <div class="portfolio-highlight__item">
-        <h3>Collaboration</h3>
-        <p>Cross-functional work with designers, founders, and engineers.</p>
+        <h3>Sub-300ms RAG</h3>
+        <p>Founding build at LucaAI — search over 10K+ tax-code sections.</p>
+      </div>
+      <div class="portfolio-highlight__item">
+        <h3>−80% turnaround</h3>
+        <p>RFQs on a 12,000+-combination configurator — my first SWE role.</p>
       </div>
     </div>
   </div>
