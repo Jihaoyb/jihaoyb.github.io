@@ -43,6 +43,8 @@
   background: radial-gradient(circle at top, var(--paper-hi) 0%, var(--paper) 40%, var(--paper-2) 100%);
   color: var(--ink);
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  /* No grey flash on mobile taps (focus styles handle interaction states). */
+  -webkit-tap-highlight-color: transparent;
   /* Remove template body padding so the header sits flush at the top. */
   padding-top: 0;
   padding-bottom: 0;
@@ -170,6 +172,20 @@ html {
 .portfolio-body a {
   color: inherit;
   text-decoration: none;
+}
+
+/* The theme (_base.scss) paints a chunky focus ring on EVERY a:focus,
+   including plain mouse clicks. Show a ring only for keyboard focus, and
+   style that one to the site instead of the theme's warning color. */
+.portfolio-body a:focus:not(:focus-visible),
+.portfolio-body button:focus:not(:focus-visible) {
+  outline: 0;
+}
+
+.portfolio-body a:focus-visible,
+.portfolio-body button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .portfolio-body img {

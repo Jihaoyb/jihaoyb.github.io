@@ -26,9 +26,9 @@ redirect_from:
       <a class="btn btn--primary" href="{{ base_path }}/files/Jihao_Ye_Resume.pdf">Download resume</a>
     </div>
     <div class="hero__meta">
-      <span>Based in Los Angeles, CA</span>
+      <span>Los Angeles, CA</span>
       <span>Open to full-time roles</span>
-      <span>BS CS 2025 · U of Houston</span>
+      <span>BS CS 2025 · University of Houston</span>
     </div>
   </div>
   <div class="hero__visual">
