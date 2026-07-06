@@ -350,9 +350,15 @@ html {
 .hero__meta {
   margin-top: 32px;
   display: flex;
-  gap: 28px;
+  flex-wrap: wrap;
+  gap: 8px 28px;
   font-size: 14px;
   color: var(--muted);
+}
+
+/* Each meta item stays intact — if space runs out, whole items wrap. */
+.hero__meta span {
+  white-space: nowrap;
 }
 
 .hero__visual {
@@ -417,29 +423,23 @@ html {
   line-height: 1.6;
 }
 
-/* Metrics variant — the proof bar: micro-label above a display numeral,
-   one-line source context below (claims traceable to _working/). */
-.portfolio-highlight--metrics .eyebrow {
-  margin-bottom: 26px;
-}
-
-.portfolio-highlight--metrics .portfolio-highlight__tag {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--accent-2);
-  margin: 0 0 10px;
-}
-
+/* Metrics variant — the proof bar keeps the band's original quiet h3+p
+   rhythm; only the headings change, becoming numbers set in the display
+   serif at a size between body and section titles. */
 .portfolio-highlight--metrics h3 {
   font-family: "Fraunces", "Times New Roman", serif;
-  font-size: clamp(26px, 3vw, 38px);
-  line-height: 1.05;
-  margin-bottom: 10px;
+  /* 26px ceiling: measured so the longest stat stays on one line in a
+     4-across row at the 1160px container. */
+  font-size: clamp(22px, 2vw, 26px);
+  line-height: 1.1;
+  /* Zero the theme's 51px default h3 top margin; the band sets its own rhythm. */
+  margin: 0 0 8px;
 }
 
-.portfolio-highlight--metrics .portfolio-highlight__item > p:last-child {
+.portfolio-highlight--metrics .portfolio-highlight__item p {
   font-size: 15px;
+  /* Kill the theme's default paragraph margins; the h3 gap sets the rhythm. */
+  margin: 0;
 }
 
 .about-grid {

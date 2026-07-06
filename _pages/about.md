@@ -28,7 +28,7 @@ redirect_from:
     <div class="hero__meta">
       <span>Based in Los Angeles, CA</span>
       <span>Open to full-time roles</span>
-      <span>BS CS 2025 · University of Houston</span>
+      <span>BS CS 2025 · U of Houston</span>
     </div>
   </div>
   <div class="hero__visual">
@@ -78,29 +78,25 @@ redirect_from:
       </ul>
     </div>
   </div>
-  <!-- Proof bar: shipped, verifiable results (sources in _working/). -->
+  <!-- Proof bar: shipped, verifiable results (sources in _working/). Keeps
+       the band's original quiet h3+p rhythm — numbers as the headings. -->
   <div class="portfolio-highlight portfolio-highlight--metrics">
-    <p class="eyebrow">Shipped results</p>
     <div class="portfolio-highlight__grid">
       <div class="portfolio-highlight__item">
-        <p class="portfolio-highlight__tag">Owned end-to-end</p>
         <h3>−60% CRM upkeep</h3>
-        <p>AI sales copilot at HIPPSC — reads email and meeting transcripts, scores and routes leads, drafts follow-ups.</p>
+        <p>AI sales copilot at HIPPSC — owned end-to-end, now in production.</p>
       </div>
       <div class="portfolio-highlight__item">
-        <p class="portfolio-highlight__tag">In production</p>
-        <h3>95%+ field accuracy</h3>
-        <p>OCR + LLM ingestion at HIPPSC parses 500+ receipts, POs, packing slips, and invoices every month.</p>
+        <h3>95%+ accuracy</h3>
+        <p>OCR + LLM document ingestion at HIPPSC — 500+ parsed monthly.</p>
       </div>
       <div class="portfolio-highlight__item">
-        <p class="portfolio-highlight__tag">Founding engineer</p>
-        <h3>Sub-300ms retrieval</h3>
-        <p>RAG vector search over 10K+ tax-code sections at LucaAI — built zero to production.</p>
+        <h3>Sub-300ms RAG</h3>
+        <p>Founding build at LucaAI — search over 10K+ tax-code sections.</p>
       </div>
       <div class="portfolio-highlight__item">
-        <p class="portfolio-highlight__tag">First SWE role</p>
-        <h3>−80% RFQ turnaround</h3>
-        <p>Product configurator at HIPPSC handling 12,000+ combinations, with 3D views in Three.js.</p>
+        <h3>−80% turnaround</h3>
+        <p>RFQs on a 12,000+-combination configurator — my first SWE role.</p>
       </div>
     </div>
   </div>
