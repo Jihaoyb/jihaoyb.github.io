@@ -216,16 +216,32 @@ def analyze(context):
 
 
 def validate(d):
-    assert isinstance(d.get("title"), str) and 0 < len(d["title"]) <= 80
-    assert isinstance(d.get("excerpt"), str) and 0 < len(d["excerpt"]) <= 200
-    assert isinstance(d.get("tech"), str) and d["tech"]
-    assert d.get("status") in ("in progress", None)
-    assert d.get("demo_type") in ("embed", "hosted", "walkthrough", "none")
-    assert isinstance(d.get("demo_rationale"), str)
+    assert isinstance(d.get("title"), str) and 0 < len(d["title"]) <= 80, \
+        f"title missing/too long: {d.get('title')!r}"
+    assert isinstance(d.get("excerpt"), str) and 0 < len(d["excerpt"]) <= 200, \
+        f"excerpt missing/too long: {d.get('excerpt')!r}"
+    assert isinstance(d.get("tech"), str) and d["tech"], \
+        f"tech missing/empty: {d.get('tech')!r}"
+    assert d.get("status") in ("in progress", None), \
+        f"status not 'in progress'/null: {d.get('status')!r}"
+    assert d.get("demo_type") in ("embed", "hosted", "walkthrough", "none"), \
+        f"demo_type invalid: {d.get('demo_type')!r}"
+    assert isinstance(d.get("demo_rationale"), str), "demo_rationale missing"
     bullets = d.get("bullets")
-    assert isinstance(bullets, list) and 3 <= len(bullets) <= 5
-    assert all(isinstance(b, str) and len(b) <= 160 for b in bullets)
+    assert isinstance(bullets, list) and 3 <= len(bullets) <= 5, \
+        f"bullets not a list of 3-5: {bullets!r}"
+    assert all(isinstance(b, str) and len(b) <= 160 for b in bullets), \
+        "a bullet exceeds 160 chars"
     return d
+
+
+NON_CODE = re.compile(
+    r"(^|/)(readme[^/]*|license[^/]*|\.gitignore|\.gitattributes)$"
+    r"|\.(md|txt|rst|png|jpe?g|gif|svg|ico|pdf)$", re.I)
+
+
+def has_code(paths):
+    return any(not NON_CODE.search(p) for p in paths)
 
 
 def write_page(slug, repo, sha, draft):
@@ -311,7 +327,11 @@ def main():
             rows.append((full, f"would {action} (HEAD {sha[:7]})"))
             continue
         try:
-            draft = analyze(gather_context(repo, sha))
+            context = gather_context(repo, sha)
+            if not has_code(context["file_tree"]):
+                rows.append((full, "README-only repo — nothing to showcase yet"))
+                continue
+            draft = analyze(context)
             slug = repo["name"].lower().replace("_", "-")
             if not page and slug in all_slugs:
                 slug = f"{repo['owner']['login'].lower()}-{slug}"
