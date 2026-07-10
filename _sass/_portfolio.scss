@@ -861,6 +861,23 @@ a.section-link {
   text-align: center;
 }
 
+/* WIP badge — set by the pipeline (status: in progress) for repos that are
+   actively evolving; honesty over polish. */
+.project-folder__status {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-2);
+  background: var(--tag-bg);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 2px 10px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
 .project-folder__shell:hover .project-folder__front {
   transform: translateY(-6px);
 }

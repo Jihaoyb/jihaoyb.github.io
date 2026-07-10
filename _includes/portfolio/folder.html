@@ -13,7 +13,7 @@
       <button class="project-folder__header" type="button" aria-expanded="false" aria-label="{{ folder.title }}"></button>
     </div>
   </div>
-  <p class="project-folder__summary">{{ folder.excerpt }}</p>
+  <p class="project-folder__summary">{% if folder.status == "in progress" %}<span class="project-folder__status">In progress</span> {% endif %}{{ folder.excerpt }}</p>
   <div class="project-folder__files" aria-hidden="true">
     {% if folder.tech %}
     <div class="project-folder__file">
