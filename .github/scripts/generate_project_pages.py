@@ -8,9 +8,14 @@ GitHub API (README, file tree, manifests) — no clone — and asks Claude for a
 strictly validated JSON draft. Mechanical front matter (shas, dates, flags)
 is written by this script, never by the model.
 
-Env:  GITHUB_TOKEN (required)   ANTHROPIC_API_KEY (required unless --dry-run)
+Env:  GITHUB_TOKEN (required)
+      CLAUDE_CODE_OAUTH_TOKEN  preferred — bills the Claude subscription via
+                               headless Claude Code (create: `claude setup-token`)
+      ANTHROPIC_API_KEY        fallback — metered Anthropic API
+      (neither set: the run downgrades to plan-only — logs what it would do)
+      PIPELINE_USE_LOCAL_CLAUDE=1  dev only: use the locally logged-in CLI
       TARGET_REPO (optional owner/name)   FORCE ("true" to re-analyze)
-      MODEL (default claude-sonnet-5)
+      MODEL (optional; SDK default claude-sonnet-5, subscription default = plan's)
 Flags: --dry-run  plan only — no LLM calls, no writes.
 """
 
@@ -31,7 +36,11 @@ API = "https://api.github.com"
 DRY_RUN = "--dry-run" in sys.argv
 TARGET = os.environ.get("TARGET_REPO", "").strip()
 FORCE = os.environ.get("FORCE", "").lower() == "true"
-MODEL = os.environ.get("MODEL", "claude-sonnet-5")
+MODEL = os.environ.get("MODEL", "").strip()
+OAUTH = os.environ.get("CLAUDE_CODE_OAUTH_TOKEN", "").strip()
+USE_LOCAL_CLI = os.environ.get("PIPELINE_USE_LOCAL_CLAUDE", "") == "1"
+API_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+MODE_NOTE = ""
 
 SESSION = requests.Session()
 SESSION.headers.update({
@@ -170,22 +179,34 @@ def gather_context(repo, sha):
     }
 
 
-def analyze(context):
+def model_call(user):
+    """One completion. Prefers the Claude subscription (headless Claude Code,
+    CLAUDE_CODE_OAUTH_TOKEN); falls back to the metered Anthropic SDK."""
+    if OAUTH or USE_LOCAL_CLI:
+        import subprocess
+        cmd = ["claude", "-p", "--max-turns", "1"]
+        if MODEL:
+            cmd += ["--model", MODEL]
+        proc = subprocess.run(cmd, input=SYSTEM_PROMPT + "\n\n" + user,
+                              text=True, capture_output=True, timeout=300)
+        if proc.returncode != 0:
+            raise RuntimeError(f"claude -p failed: {proc.stderr[:300]}")
+        return proc.stdout
     import anthropic
-    client = anthropic.Anthropic()
+    msg = anthropic.Anthropic().messages.create(
+        model=MODEL or "claude-sonnet-5", max_tokens=1600,
+        system=SYSTEM_PROMPT, messages=[{"role": "user", "content": user}])
+    return msg.content[0].text
+
+
+def analyze(context):
     user = ("Draft the portfolio page JSON for this repository.\n\n"
             + json.dumps(context, indent=1))
     last_err = None
     for attempt in range(2):
-        msg = client.messages.create(
-            model=MODEL, max_tokens=1600, system=SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": user}] if attempt == 0 else [
-                {"role": "user", "content": user},
-                {"role": "assistant", "content": "{"},
-            ])
-        text = msg.content[0].text
-        if attempt == 1:
-            text = "{" + text
+        text = model_call(user if attempt == 0 else (
+            f"{user}\n\nYour previous output failed validation "
+            f"({last_err}). Return ONLY the corrected JSON object."))
         try:
             data = json.loads(re.search(r"\{.*\}", text, re.S).group(0))
             return validate(data)
@@ -212,7 +233,11 @@ def write_page(slug, repo, sha, draft):
         "title": draft["title"],
         "excerpt": draft["excerpt"],
         "tech": draft["tech"],
-        "startD": (repo.get("created_at") or "")[:10],
+        # Real date objects → unquoted YAML dates. Site templates sort on
+        # startD; a quoted string here breaks Liquid's sort against the
+        # hand-written pages' date values.
+        "startD": datetime.date.fromisoformat(
+            (repo.get("created_at") or "1970-01-01")[:10]),
         "githuburl": f"https://github.com/{repo['full_name']}",
         "repo": repo["full_name"],
         "featured": False,
@@ -220,7 +245,7 @@ def write_page(slug, repo, sha, draft):
         "demo_type": draft["demo_type"],
         "demo_rationale": draft["demo_rationale"],
         "analyzed_sha": sha,
-        "analyzed_at": datetime.date.today().isoformat(),
+        "analyzed_at": datetime.date.today(),
     }
     if draft["status"]:
         fm["status"] = draft["status"]
@@ -232,6 +257,16 @@ def write_page(slug, repo, sha, draft):
 
 
 def main():
+    global DRY_RUN, MODE_NOTE
+    # Empty secrets must not fail the nightly run — downgrade to a plan-only
+    # sweep whose log shows exactly what a credentialed run would do.
+    if not DRY_RUN and not (OAUTH or USE_LOCAL_CLI or API_KEY):
+        DRY_RUN = True
+        MODE_NOTE = (" — no AI credential configured; add CLAUDE_CODE_OAUTH_TOKEN "
+                     "(Claude subscription: run `claude setup-token`) or "
+                     "ANTHROPIC_API_KEY as a repository secret to go live")
+        print("NOTE: no AI credential — plan-only run." + MODE_NOTE,
+              file=sys.stderr)
     cfg = yaml.safe_load((ROOT / "_data" / "pipeline.yml").read_text())
     repos = discover(cfg)
     mapped, all_slugs = existing_pages()
@@ -288,7 +323,7 @@ def main():
             rows.append((full, f"FAILED: {err}"))
 
     lines = ["## Project-page pipeline run", "",
-             f"Mode: {'dry-run' if DRY_RUN else 'live'}"
+             f"Mode: {'plan-only' if DRY_RUN else 'live'}" + MODE_NOTE
              + (f" · target: {TARGET}" if TARGET else "")
              + (" · force" if FORCE else ""), "",
              "| Repo | Result |", "|---|---|"]
