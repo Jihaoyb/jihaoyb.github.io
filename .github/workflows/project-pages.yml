@@ -1,0 +1,62 @@
+# Repo → project-page pipeline (pull model).
+# One nightly sweep discovers every repo in _data/pipeline.yml, drafts or
+# refreshes _projects/ pages for anything new/changed, and opens a PR.
+# Nothing merges without human review.
+#
+# Secrets: ANTHROPIC_API_KEY (required, repository secret)
+#          REPOS_READ_TOKEN  (optional — fine-grained PAT only needed to read
+#                             private repos such as kaisenye/dictation)
+name: Project pages pipeline
+
+on:
+  schedule:
+    - cron: "23 9 * * *" # nightly, ~01:23 Pacific
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "Only process this repo (owner/name)"
+        required: false
+        default: ""
+      force:
+        description: "Re-analyze even when the page is current"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: project-pages
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install --quiet anthropic pyyaml requests
+
+      - name: Generate project pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPOS_READ_TOKEN || secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TARGET_REPO: ${{ inputs.repo }}
+          FORCE: ${{ inputs.force }}
+        run: python .github/scripts/generate_project_pages.py
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: pipeline/project-pages
+          delete-branch: true
+          add-paths: _projects/*.md
+          commit-message: "chore(pipeline): draft/refresh project pages"
+          title: "chore(pipeline): project page updates"
+          body-path: .github/pipeline-summary.md
