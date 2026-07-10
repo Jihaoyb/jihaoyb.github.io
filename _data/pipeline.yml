@@ -1,0 +1,36 @@
+# ── Repo → project-page pipeline ─────────────────────────────────────────────
+# This file is the pipeline's control panel. No backend needed: edit it right
+# on github.com (open the file → pencil icon → commit) and the next run obeys.
+#
+# How pages update: the nightly Action lists every repo under `owners` (plus
+# `extra_repos`), skips anything in `exclude`, and compares each repo's HEAD
+# commit against the `analyzed_sha` recorded in its _projects/ page. Changed
+# or missing pages are drafted by AI and proposed in a pull request — nothing
+# merges without review. Pages with `managed: false` are never rewritten.
+
+owners:
+  - Jihaoyb
+
+# Repos outside the accounts above (e.g. under kaisenye). Private repos need
+# the optional REPOS_READ_TOKEN secret (fine-grained PAT from that account).
+extra_repos:
+  - kaisenye/dictation
+  - kaisenye/dictation-page
+
+# Never generate pages for these (owner/name, one per line).
+exclude:
+  - Jihaoyb/jihaoyb.github.io   # the site itself
+  - Jihaoyb/entromy-pe-prototype # client work
+
+# Skip forked repos entirely.
+include_forks: false
+
+# Default update policy: auto (follow repo changes) | manual (only when the
+# workflow is dispatched for the repo) | frozen (never touch).
+update: auto
+
+# Per-repo overrides. Example:
+# overrides:
+#   Jihaoyb/planetary-mesh:
+#     update: frozen
+overrides: {}
