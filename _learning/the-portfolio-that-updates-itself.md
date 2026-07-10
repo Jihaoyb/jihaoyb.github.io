@@ -43,6 +43,45 @@ no per-repo secrets, nothing to remember. An allowlist file in the portfolio
 repo decides what's portfolio material — my "admin page" is a YAML file I can
 edit in GitHub's web editor, which is all the backend a static site needs.
 
+<figure class="lab-figure">
+<svg viewBox="0 0 700 300" role="img" aria-label="Diagram: the nightly job discovers repos, the SHA gate skips unchanged ones for free, changed or new repos are analyzed into drafts, and a pull request goes to human review." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M1 1L9 5L1 9" style="fill:none;stroke:var(--muted);stroke-width:1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect x="30" y="26" width="150" height="60" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
+  <text x="105" y="51" text-anchor="middle" style="font-size:14px;font-weight:600;fill:var(--ink)">Nightly job</text>
+  <text x="105" y="70" text-anchor="middle" style="font-size:12px;fill:var(--muted)">cron 01:23 + manual</text>
+  <path d="M180 56 L226 56" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
+  <rect x="230" y="26" width="180" height="60" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
+  <text x="320" y="51" text-anchor="middle" style="font-size:14px;font-weight:600;fill:var(--ink)">Discover</text>
+  <text x="320" y="70" text-anchor="middle" style="font-size:12px;fill:var(--muted)">list repos via API · allowlist</text>
+  <path d="M410 56 L456 56" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
+  <rect x="460" y="26" width="210" height="60" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
+  <text x="565" y="51" text-anchor="middle" style="font-size:14px;font-weight:600;fill:var(--ink)">SHA gate</text>
+  <text x="565" y="70" text-anchor="middle" style="font-size:12px;fill:var(--muted)">repo HEAD vs page's analyzed_sha</text>
+  <path d="M600 86 L600 124" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
+  <text x="610" y="110" style="font-size:11.5px;fill:var(--muted)">match</text>
+  <rect x="510" y="128" width="160" height="44" rx="10" style="fill:none;stroke:var(--line);stroke-dasharray:5 4"/>
+  <text x="590" y="155" text-anchor="middle" style="font-size:12.5px;fill:var(--muted)">skip — costs nothing</text>
+  <path d="M500 86 L215 200" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
+  <text x="330" y="140" text-anchor="middle" style="font-size:11.5px;fill:var(--muted)">changed or new</text>
+  <rect x="55" y="204" width="270" height="66" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
+  <text x="190" y="230" text-anchor="middle" style="font-size:14px;font-weight:600;fill:var(--ink)">Analyze — no clone</text>
+  <text x="190" y="250" text-anchor="middle" style="font-size:12px;fill:var(--muted)">README · tree · manifests → strict JSON</text>
+  <path d="M325 237 L371 237" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
+  <rect x="375" y="204" width="150" height="66" rx="10" style="fill:var(--surface-2);stroke:var(--accent);stroke-width:1.5"/>
+  <text x="450" y="230" text-anchor="middle" style="font-size:14px;font-weight:600;fill:var(--ink)">Pull request</text>
+  <text x="450" y="250" text-anchor="middle" style="font-size:12px;fill:var(--muted)">drafts + run table</text>
+  <path d="M525 237 L571 237" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
+  <rect x="575" y="204" width="95" height="66" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
+  <text x="622" y="230" text-anchor="middle" style="font-size:14px;font-weight:600;fill:var(--ink)">My review</text>
+  <text x="622" y="250" text-anchor="middle" style="font-size:12px;fill:var(--muted)">edit → merge</text>
+</svg>
+<figcaption>The loop closes itself: a merged page carries the new SHA, so tomorrow the gate reads "up to date."</figcaption>
+</figure>
+
 ## State lives in the pages themselves
 
 Each generated page records the {% include term.html id="sha" text="commit SHA" %}

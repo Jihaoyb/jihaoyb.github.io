@@ -62,16 +62,37 @@ never copy HTML around; you add a record and the template does the rest.
 A content file doesn't become a page on its own — it gets *nested* inside
 layouts:
 
-```text
-_projects/*.md   ──(data)──►  folder.html  ──(template)──►  one folder each
-                                   ▲
-_pages/about.md  ──(content + the loop above)──►  goes into  {content}
-                                   ▲
-_layouts/home.html  ──  wraps it in <html>, <head>, the header,
-                        <main>{content}</main>, footer, and the JS
-                                   ▲
-build step  ──►  _site/index.html   (plain HTML, ready to serve)
-```
+<figure class="lab-figure">
+<svg viewBox="0 0 700 400" role="img" aria-label="Diagram: data files and templates feed the page content, which the site chrome wraps, and Jekyll builds the result into plain HTML served by GitHub Pages." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M1 1L9 5L1 9" style="fill:none;stroke:var(--muted);stroke-width:1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect x="40" y="18" width="280" height="60" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
+  <text x="180" y="43" text-anchor="middle" style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;fill:var(--ink)">_projects/*.md</text>
+  <text x="180" y="63" text-anchor="middle" style="font-size:12px;fill:var(--muted)">data — one file per project</text>
+  <rect x="380" y="18" width="280" height="60" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
+  <text x="520" y="43" text-anchor="middle" style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;fill:var(--ink)">folder.html</text>
+  <text x="520" y="63" text-anchor="middle" style="font-size:12px;fill:var(--muted)">template — rendered once per project</text>
+  <path d="M180 78 L330 116" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
+  <path d="M520 78 L370 116" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
+  <rect x="140" y="122" width="420" height="60" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
+  <text x="350" y="147" text-anchor="middle" style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;fill:var(--ink)">_pages/about.md</text>
+  <text x="350" y="167" text-anchor="middle" style="font-size:12px;fill:var(--muted)">the page's inner content — runs the loop above</text>
+  <path d="M350 182 L350 218" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
+  <text x="362" y="205" style="font-size:12px;fill:var(--muted)">wrapped by</text>
+  <rect x="140" y="224" width="420" height="60" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
+  <text x="350" y="249" text-anchor="middle" style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;fill:var(--ink)">home.html</text>
+  <text x="350" y="269" text-anchor="middle" style="font-size:12px;fill:var(--muted)">site chrome: head, header, footer, scripts</text>
+  <path d="M350 284 L350 320" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
+  <text x="362" y="307" style="font-size:12px;fill:var(--muted)">jekyll build</text>
+  <rect x="140" y="326" width="420" height="60" rx="10" style="fill:var(--surface-2);stroke:var(--accent);stroke-width:1.5"/>
+  <text x="350" y="351" text-anchor="middle" style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;fill:var(--ink)">_site/index.html</text>
+  <text x="350" y="371" text-anchor="middle" style="font-size:12px;fill:var(--muted)">plain HTML — served as-is by GitHub Pages</text>
+</svg>
+<figcaption>The assembly chain: data through template into content, content into chrome, chrome into plain HTML.</figcaption>
+</figure>
 
 The file you edit most only contains the *inner content* of the page. It never
 repeats the `<html>`, `<head>`, header, or footer — those live once in the

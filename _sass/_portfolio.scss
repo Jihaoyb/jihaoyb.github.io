@@ -1995,6 +1995,32 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   font-style: italic;
 }
 
+/* Architecture/flow figures: inline SVGs drawn with the theme tokens, so
+   they follow light/dark automatically. On narrow screens the figure
+   scrolls sideways instead of shrinking the labels below legibility. */
+.lab-figure {
+  margin: 30px 0;
+  padding: 22px 20px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow-x: auto;
+}
+
+.lab-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 560px;
+}
+
+.lab-figure figcaption {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
 /* ----- Glossary terms (see _data/terms.yml + _includes/term.html) -----
    The trigger reads like bold text with a dotted underline; hover/tap/focus
    opens a definition card above it. portfolio.js drives open state and nudges
