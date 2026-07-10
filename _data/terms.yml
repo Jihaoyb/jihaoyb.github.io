@@ -70,3 +70,27 @@ postmessage:
   def: "The browser API for safely sending data between windows from different origins — for example between a page and the iframe it embeds."
   url: https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
   link_text: MDN reference
+
+github-actions:
+  name: GitHub Actions
+  def: "GitHub's built-in automation: workflows defined in YAML run on GitHub's servers in response to events — pushes, schedules, button clicks — with access to the repository."
+  url: https://docs.github.com/en/actions
+  link_text: GitHub docs
+
+cron:
+  name: cron
+  def: "The classic Unix scheduler syntax: five fields (minute, hour, day, month, weekday) describing when a job runs. \"23 9 * * *\" means 09:23 UTC, daily."
+  url: https://en.wikipedia.org/wiki/Cron
+  link_text: Wikipedia
+
+sha:
+  name: commit SHA
+  def: "The unique fingerprint Git computes for every commit. If two SHAs match, the code is identical — which makes them perfect for cheap change detection."
+  url: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
+  link_text: Git book
+
+pull-request:
+  name: pull request
+  def: "A proposed set of changes to a repository, presented as a reviewable diff. Nothing merges until a human approves — the standard review gate."
+  url: https://docs.github.com/en/pull-requests
+  link_text: GitHub docs
