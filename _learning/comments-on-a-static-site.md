@@ -48,33 +48,37 @@ which for a dev-focused site is a feature twice over: zero spam, and every
 commenter has a face.
 
 <figure class="lab-figure">
-<svg viewBox="0 0 700 270" role="img" aria-label="Diagram: the post page lazily loads the giscus widget in an iframe; giscus.app serves the widget and reads and writes threads in GitHub Discussions; the page sends theme changes to the iframe via postMessage." xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 700 280" role="img" aria-label="Diagram: the post page lazily loads the giscus widget in an iframe; giscus.app serves the widget and reads and writes threads in GitHub Discussions; the page sends theme changes to the iframe via postMessage." xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M1 1L9 5L1 9" style="fill:none;stroke:var(--muted);stroke-width:1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <marker id="arr" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1.5L8 5L2 8.5" style="fill:none;stroke:var(--muted);stroke-width:1.7" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
   </defs>
-  <rect x="30" y="28" width="230" height="212" rx="12" style="fill:var(--surface-2);stroke:var(--line)"/>
-  <text x="145" y="54" text-anchor="middle" style="font-size:14px;font-weight:600;fill:var(--ink)">Lab post page</text>
-  <text x="145" y="72" text-anchor="middle" style="font-size:12px;fill:var(--muted)">this site — static files only</text>
-  <rect x="55" y="140" width="180" height="76" rx="10" style="fill:var(--surface);stroke:var(--accent);stroke-width:1.5"/>
-  <text x="145" y="171" text-anchor="middle" style="font-size:13.5px;font-weight:600;fill:var(--ink)">giscus iframe</text>
-  <text x="145" y="190" text-anchor="middle" style="font-size:12px;fill:var(--muted)">reactions + comments</text>
-  <path d="M145 92 L145 136" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
-  <text x="153" y="118" style="font-size:11.5px;fill:var(--muted)">postMessage: theme</text>
-  <rect x="430" y="28" width="240" height="62" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
-  <text x="550" y="53" text-anchor="middle" style="font-size:14px;font-weight:600;fill:var(--ink)">giscus.app</text>
-  <text x="550" y="72" text-anchor="middle" style="font-size:12px;fill:var(--muted)">open-source widget server</text>
-  <rect x="430" y="168" width="240" height="72" rx="10" style="fill:var(--surface-2);stroke:var(--line)"/>
-  <text x="550" y="196" text-anchor="middle" style="font-size:14px;font-weight:600;fill:var(--ink)">GitHub Discussions</text>
-  <text x="550" y="215" text-anchor="middle" style="font-size:12px;fill:var(--muted)">the database — lives in my repo</text>
-  <path d="M262 60 L426 60" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
-  <text x="344" y="50" text-anchor="middle" style="font-size:11.5px;fill:var(--muted)">near viewport → load widget</text>
-  <path d="M430 96 L245 148" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
-  <text x="352" y="134" text-anchor="middle" style="font-size:11.5px;fill:var(--muted)">renders into the iframe</text>
-  <path d="M550 94 L550 164" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
-  <path d="M562 164 L562 94" style="fill:none;stroke:var(--muted);stroke-width:1.5" marker-end="url(#arr)"/>
-  <text x="576" y="133" style="font-size:11.5px;fill:var(--muted)">GitHub API</text>
+  <rect x="36" y="30" width="240" height="220" rx="14" style="fill:var(--surface-2)"/>
+  <text x="60" y="54" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent-2)">THIS SITE</text>
+  <text x="60" y="74" style="font-size:14.5px;font-weight:600;fill:var(--ink)">Lab post page</text>
+  <text x="60" y="91" style="font-size:11.5px;fill:var(--muted)">static files only</text>
+  <path d="M156 104 V138" style="fill:none;stroke:var(--muted);stroke-width:1.25;opacity:.8" marker-end="url(#arr)"/>
+  <text x="166" y="126" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">THEME SYNC</text>
+  <rect x="60" y="144" width="192" height="82" rx="12" style="fill:var(--surface)"/>
+  <rect x="60" y="144" width="4" height="82" rx="2" style="fill:var(--accent)"/>
+  <text x="82" y="168" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent)">EMBED</text>
+  <text x="82" y="188" style="font-size:14px;font-weight:600;fill:var(--ink)">giscus iframe</text>
+  <text x="82" y="205" style="font-size:11.5px;fill:var(--muted)">reactions + comments</text>
+  <rect x="430" y="30" width="234" height="70" rx="12" style="fill:var(--surface-2)"/>
+  <text x="454" y="54" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent-2)">SERVICE</text>
+  <text x="454" y="74" style="font-size:14.5px;font-weight:600;fill:var(--ink)">giscus.app</text>
+  <text x="454" y="91" style="font-size:11.5px;fill:var(--muted)">open-source widget server</text>
+  <rect x="430" y="180" width="234" height="70" rx="12" style="fill:var(--surface-2)"/>
+  <text x="454" y="204" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent-2)">DATABASE</text>
+  <text x="454" y="224" style="font-size:14.5px;font-weight:600;fill:var(--ink)">GitHub Discussions</text>
+  <text x="454" y="241" style="font-size:11.5px;fill:var(--muted)">threads live in my repo</text>
+  <path d="M276 58 H426" style="fill:none;stroke:var(--muted);stroke-width:1.25;opacity:.8" marker-end="url(#arr)"/>
+  <text x="351" y="48" text-anchor="middle" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">NEAR VIEWPORT — LOAD</text>
+  <path d="M430 86 H348 Q340 86 340 94 V178 Q340 186 332 186 H260" style="fill:none;stroke:var(--muted);stroke-width:1.25;opacity:.8" marker-end="url(#arr)"/>
+  <text x="352" y="146" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">RENDERS</text>
+  <path d="M550 106 V174" style="fill:none;stroke:var(--muted);stroke-width:1.25;opacity:.8" marker-start="url(#arr)" marker-end="url(#arr)"/>
+  <text x="564" y="144" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">GITHUB API</text>
 </svg>
 <figcaption>Nobody runs a server here except GitHub and giscus: the page embeds, giscus renders, Discussions stores.</figcaption>
 </figure>
