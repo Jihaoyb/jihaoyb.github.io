@@ -44,10 +44,13 @@ MODE_NOTE = ""
 
 SESSION = requests.Session()
 SESSION.headers.update({
-    "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
     "Accept": "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
 })
+# Unauthenticated works for public repos (60 req/hr) — enough for a local
+# dry-run; CI always provides GITHUB_TOKEN.
+if os.environ.get("GITHUB_TOKEN"):
+    SESSION.headers["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
 
 MANIFESTS = [
     "package.json", "go.mod", "requirements.txt", "pyproject.toml",
@@ -145,7 +148,9 @@ def existing_pages():
 
 
 def head_sha(repo):
-    branch = gh(f"/repos/{repo['full_name']}/branches/{repo['default_branch']}")
+    from urllib.parse import quote
+    branch = gh(f"/repos/{repo['full_name']}/branches/"
+                + quote(repo["default_branch"], safe=""))
     return branch["commit"]["sha"]
 
 
@@ -176,6 +181,8 @@ def gather_context(repo, sha):
         "file_tree": paths[:400],
         "tree_truncated": len(paths) > 400,
         "manifests": manifest_texts,
+        # Judged on the FULL path list — the prompt's tree is truncated.
+        "has_code": has_code(paths),
     }
 
 
@@ -244,11 +251,18 @@ def has_code(paths):
     return any(not NON_CODE.search(p) for p in paths)
 
 
+def neutralize(s):
+    """Model-drafted text is rendered by kramdown, which allows inline HTML —
+    neutralize tag openers so a poisoned upstream README can't smuggle markup
+    through the generator onto the site."""
+    return s.replace("<", "&lt;")
+
+
 def write_page(slug, repo, sha, draft):
     fm = {
-        "title": draft["title"],
-        "excerpt": draft["excerpt"],
-        "tech": draft["tech"],
+        "title": neutralize(draft["title"]),
+        "excerpt": neutralize(draft["excerpt"]),
+        "tech": neutralize(draft["tech"]),
         # Real date objects → unquoted YAML dates. Site templates sort on
         # startD; a quoted string here breaks Liquid's sort against the
         # hand-written pages' date values.
@@ -259,13 +273,13 @@ def write_page(slug, repo, sha, draft):
         "featured": False,
         "managed": True,
         "demo_type": draft["demo_type"],
-        "demo_rationale": draft["demo_rationale"],
+        "demo_rationale": neutralize(draft["demo_rationale"]),
         "analyzed_sha": sha,
         "analyzed_at": datetime.date.today(),
     }
     if draft["status"]:
         fm["status"] = draft["status"]
-    body = "\n".join(f"- {b}" for b in draft["bullets"])
+    body = "\n".join(f"- {neutralize(b)}" for b in draft["bullets"])
     front = yaml.safe_dump(fm, sort_keys=False, allow_unicode=True,
                            default_flow_style=False).strip()
     (PROJECTS_DIR / f"{slug}.md").write_text(
@@ -328,7 +342,7 @@ def main():
             continue
         try:
             context = gather_context(repo, sha)
-            if not has_code(context["file_tree"]):
+            if not context["has_code"]:
                 rows.append((full, "README-only repo — nothing to showcase yet"))
                 continue
             draft = analyze(context)
@@ -351,8 +365,9 @@ def main():
     lines += ["", "Review each draft before merging — the generator is told to",
               "claim only what the repo supports, and this PR is the gate.", ""]
     summary = "\n".join(lines)
-    if not DRY_RUN:
-        SUMMARY_PATH.write_text(summary, encoding="utf-8")
+    # Always write: the workflow's PR step reads this via body-path even on
+    # plan-only runs (it is never committed — add-paths covers _projects only).
+    SUMMARY_PATH.write_text(summary, encoding="utf-8")
     print(summary)
     print(f"\n{changed} page(s) written.", file=sys.stderr)
 

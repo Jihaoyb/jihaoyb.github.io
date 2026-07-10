@@ -7,3 +7,6 @@ local/
 
 # Ignore files created by npm
 node_modules
+
+# Pipeline run summary (PR body source — regenerated every run)
+.github/pipeline-summary.md
