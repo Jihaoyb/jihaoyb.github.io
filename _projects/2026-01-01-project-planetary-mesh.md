@@ -1,4 +1,7 @@
 ---
+# Hand-written page: the pipeline links it to its repo but never rewrites it.
+repo: Jihaoyb/planetary-mesh
+managed: false
 title: "Planetary Mesh (Distributed Job Scheduler)"
 tech: Go, gRPC, Postgres, Docker Compose
 permalink: /project/planetary-mesh
