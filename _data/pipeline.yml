@@ -20,6 +20,7 @@ extra_repos:
 # Never generate pages for these (owner/name, one per line).
 exclude:
   - Jihaoyb/jihaoyb.github.io   # the site itself
+  - Jihaoyb/entromy-pe-prototype # client work
 
 # Skip forked repos entirely.
 include_forks: false
