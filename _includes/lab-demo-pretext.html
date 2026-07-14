@@ -1,0 +1,106 @@
+{% comment %}
+Live pretext demo — the site's first embed-type Lab demo. Loads
+@chenglou/pretext straight from an ESM CDN (no build step), measures the
+text you type at the width you drag, and cross-checks the prediction
+against one real DOM measurement. Falls back to a plain note if the CDN
+is unreachable. NOTE: keep the JS free of double-curly-open sequences —
+Liquid tokenizes them even inside comments.
+{% endcomment %}
+<div class="lab-demo" id="pretext-demo">
+  <div class="lab-demo__bar">
+    <span class="lab-demo__label">Live demo</span>
+    <span class="lab-demo__hint">runs in your browser — no build, no server</span>
+  </div>
+  <textarea class="lab-demo__text" rows="3" spellcheck="false" aria-label="Text to measure">Text layout is hard. AGI 春天到了 — بدأت الرحلة 🚀 — and yet, once measured, the rest is pure arithmetic.</textarea>
+  <label class="lab-demo__control">
+    <span>Width</span>
+    <input type="range" min="220" max="600" value="400" step="2" aria-label="Layout width">
+    <output>400px</output>
+  </label>
+  <div class="lab-demo__stage">
+    <div class="lab-demo__box">
+      <p class="lab-demo__para"></p>
+      <div class="lab-demo__predict" aria-hidden="true"></div>
+    </div>
+  </div>
+  <dl class="lab-demo__stats">
+    <div><dt>prepare()</dt><dd data-out="prep">–</dd></div>
+    <div><dt>layout()</dt><dd data-out="lay">–</dd></div>
+    <div><dt>lines</dt><dd data-out="lines">–</dd></div>
+    <div><dt>predicted height</dt><dd data-out="h">–</dd></div>
+    <div><dt>DOM cross-check</dt><dd data-out="dom">–</dd></div>
+  </dl>
+  <p class="lab-demo__note">The dashed outline is pretext's <em>prediction</em>; the paragraph is ordinary DOM text. They should agree to the pixel — and only the cross-check ever touches the DOM.</p>
+  <p class="lab-demo__fallback" hidden>The demo couldn't load pretext from the CDN — likely offline. The code below still tells the story.</p>
+</div>
+<script type="module">
+  const root = document.getElementById("pretext-demo");
+  const els = {
+    text: root.querySelector(".lab-demo__text"),
+    range: root.querySelector("input[type=range]"),
+    out: root.querySelector("output"),
+    box: root.querySelector(".lab-demo__box"),
+    para: root.querySelector(".lab-demo__para"),
+    predict: root.querySelector(".lab-demo__predict"),
+    stats: Object.fromEntries(
+      Array.from(root.querySelectorAll("[data-out]")).map((el) => [el.dataset.out, el])
+    ),
+    fallback: root.querySelector(".lab-demo__fallback"),
+  };
+
+  const FONT_PX = 16;
+  const LINE_HEIGHT = 24;
+  const FAMILY = '"Space Grotesk", "Segoe UI", sans-serif';
+
+  try {
+    const mod = await import("https://esm.sh/@chenglou/pretext@0.0.8");
+    const prepare = mod.prepare;
+    const layout = mod.layout;
+    // Canvas measurement must see the same loaded font the DOM renders with.
+    await document.fonts.load(FONT_PX + "px " + FAMILY);
+    await document.fonts.ready;
+
+    let prepared = null;
+
+    const rePrepare = () => {
+      const t0 = performance.now();
+      prepared = prepare(els.text.value, FONT_PX + "px " + FAMILY);
+      els.stats.prep.textContent = (performance.now() - t0).toFixed(2) + " ms (once per text)";
+      reLayout();
+    };
+
+    const reLayout = () => {
+      if (!prepared) return;
+      const width = Number(els.range.value);
+      els.out.textContent = width + "px";
+      // Average many runs — a single call is too fast to time honestly.
+      const RUNS = 200;
+      const t0 = performance.now();
+      let result;
+      for (let i = 0; i < RUNS; i++) result = layout(prepared, width, LINE_HEIGHT);
+      const avgMs = (performance.now() - t0) / RUNS;
+      els.stats.lay.textContent =
+        (avgMs < 0.005 ? "<0.005" : avgMs.toFixed(3)) + " ms (avg of " + RUNS + ")";
+      els.stats.lines.textContent = String(result.lineCount);
+      els.stats.h.textContent = result.height + " px";
+      els.box.style.width = width + "px";
+      els.para.textContent = els.text.value;
+      els.predict.style.height = result.height + "px";
+      // The one intentional DOM read — proof, not dependence.
+      const actual = Math.round(els.para.getBoundingClientRect().height);
+      const match = actual === result.height;
+      els.stats.dom.textContent = actual + " px " + (match ? "— match ✓" : "— off by " + Math.abs(actual - result.height) + "px");
+    };
+
+    let timer = 0;
+    els.text.addEventListener("input", () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(rePrepare, 180);
+    });
+    els.range.addEventListener("input", reLayout);
+    rePrepare();
+  } catch (error) {
+    els.fallback.hidden = false;
+    root.classList.add("lab-demo--failed");
+  }
+</script>
