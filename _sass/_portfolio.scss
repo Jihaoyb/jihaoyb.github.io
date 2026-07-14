@@ -2258,11 +2258,48 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   color: var(--muted);
 }
 
-.term__link {
+/* Card link — same hover choreography as the homepage section links:
+   underline sweeps in left-to-right, arrow tilts to point at the page.
+   a.term__link so it outranks .lab-post__body a's static underline. */
+a.term__link {
+  position: relative;
   width: max-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 3px;
   font-size: 13px;
   font-weight: 600;
   color: var(--accent);
+  text-decoration: none;
+}
+
+a.term__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.term__link .term__link-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+a.term__link:hover::after,
+a.term__link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+a.term__link:hover .term__link-arrow,
+a.term__link:focus-visible .term__link-arrow {
+  transform: rotate(-45deg);
 }
 
 /* ----- "Terms in this post" footer (page.terms in front matter) ----- */
@@ -2335,7 +2372,9 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
 
 @media (prefers-reduced-motion: reduce) {
   .term__trigger,
-  .term__card {
+  .term__card,
+  a.term__link::after,
+  .term__link .term__link-arrow {
     transition: none;
   }
 }

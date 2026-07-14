@@ -4,12 +4,12 @@ excerpt: "Cheng Lou's new library lays out multiline text with pure arithmetic �
 date: 2026-07-13
 minutes: 6
 tags: [Performance, Text Layout, TypeScript]
-terms: [reflow, virtualization, es-modules, dom, canvas, cdn, layout-shift]
+terms: [pretext, reflow, virtualization, es-modules, dom, canvas, cdn, layout-shift]
 published: true
 ---
 
 Some libraries add a capability. The interesting ones remove a *tax*. 
-[Pretext](https://github.com/chenglou/pretext) — a TypeScript library by
+{% include term.html id="pretext" %} — a TypeScript library by
 Cheng Lou, released this spring and closing in on 50k stars — removes one of
 the oldest taxes on the web: to know how tall a paragraph will be, you had to
 ask the browser, and asking wasn't free.

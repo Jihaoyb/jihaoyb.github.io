@@ -140,3 +140,9 @@ serverless:
   def: "Running code as small functions on someone else's always-on infrastructure — no server of yours to provision, patch, or pay for while it idles."
   url: https://www.cloudflare.com/learning/serverless/what-is-serverless/
   link_text: Cloudflare Learning
+
+pretext:
+  name: Pretext
+  def: "A TypeScript library by Cheng Lou that measures and lays out multiline text with pure arithmetic — no DOM, no reflow — using the browser's own font engine as ground truth."
+  url: https://github.com/chenglou/pretext
+  link_text: GitHub repo
