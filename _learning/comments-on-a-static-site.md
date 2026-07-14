@@ -4,11 +4,11 @@ excerpt: "Every Lab post now has reactions and a comment thread. The database is
 date: 2026-07-02
 minutes: 4
 tags: [Comments, GitHub, Static Sites]
-terms: [giscus, github-discussions, iframe, postmessage]
+terms: [giscus, github-discussions, iframe, postmessage, github-pages, serverless]
 published: true
 ---
 
-This site is static: GitHub Pages builds it into plain HTML files and serves
+This site is static: {% include term.html id="github-pages" text="GitHub Pages" %} builds it into plain HTML files and serves
 them as-is. That's what makes it fast, free, and unhackable in all the boring
 ways — and it's also why it can't do the most ordinary interactive thing on
 the web. A thumbs-up is a *write*. When someone clicks it, that click has to
@@ -19,7 +19,7 @@ the real question wasn't "which widget?" — it was **"whose database?"**
 
 ## The options
 
-- **Build a tiny API.** A serverless function plus a key-value store could
+- **Build a tiny API.** A {% include term.html id="serverless" %} function plus a key-value store could
   count votes. It's the most work, it's a new thing to operate, and anonymous
   counts are low-value signal anyway — you learn *that* someone clicked, never
   *why*.

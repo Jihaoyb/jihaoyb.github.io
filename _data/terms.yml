@@ -107,6 +107,36 @@ virtualization:
 
 es-modules:
   name: ES modules
-  def: "The browser's native import/export system. A <script type=\"module\"> can import straight from a URL — no bundler or build step required."
+  def: "The browser's native import/export system. A script tag with type=\"module\" can import straight from a URL — no bundler or build step required."
   url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
   link_text: MDN reference
+
+dom:
+  name: DOM
+  def: "The Document Object Model — the live tree of objects a browser builds from HTML, which JavaScript reads and edits. Every visual change flows through it, and so does every layout question you ask it."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
+  link_text: MDN reference
+
+canvas:
+  name: canvas
+  def: "The HTML element that hands JavaScript a raw drawing surface. It can also measure text using the browser's own font engine — without adding anything to the page."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
+  link_text: MDN reference
+
+cdn:
+  name: CDN
+  def: "A content delivery network — servers hosting files close to users. For a library, it means a URL you can import from directly: no install, no build."
+  url: https://developer.mozilla.org/en-US/docs/Glossary/CDN
+  link_text: MDN glossary
+
+layout-shift:
+  name: layout shift
+  def: "Content visibly jumping as late-arriving pieces push the page around. Measured as CLS — Cumulative Layout Shift — one of Google's Core Web Vitals."
+  url: https://web.dev/articles/cls
+  link_text: web.dev
+
+serverless:
+  name: serverless
+  def: "Running code as small functions on someone else's always-on infrastructure — no server of yours to provision, patch, or pay for while it idles."
+  url: https://www.cloudflare.com/learning/serverless/what-is-serverless/
+  link_text: Cloudflare Learning

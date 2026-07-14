@@ -4,7 +4,7 @@ excerpt: "One nightly job discovers every repo I own, notices what changed, draf
 date: 2026-07-09
 minutes: 6
 tags: [Automation, GitHub Actions, AI Pipelines]
-terms: [github-actions, cron, sha, pull-request, front-matter]
+terms: [github-actions, cron, sha, pull-request, front-matter, yaml]
 published: true
 ---
 
@@ -40,7 +40,7 @@ question: *what repositories does this account own right now?*
 
 That answer includes the repo I create tomorrow. Discovery is free: no stubs,
 no per-repo secrets, nothing to remember. An allowlist file in the portfolio
-repo decides what's portfolio material — my "admin page" is a YAML file I can
+repo decides what's portfolio material — my "admin page" is a {% include term.html id="yaml" text="YAML" %} file I can
 edit in GitHub's web editor, which is all the backend a static site needs.
 
 <figure class="lab-figure">

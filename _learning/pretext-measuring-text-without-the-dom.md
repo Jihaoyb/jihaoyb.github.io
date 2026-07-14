@@ -4,7 +4,7 @@ excerpt: "Cheng Lou's new library lays out multiline text with pure arithmetic �
 date: 2026-07-13
 minutes: 6
 tags: [Performance, Text Layout, TypeScript]
-terms: [reflow, virtualization, es-modules]
+terms: [reflow, virtualization, es-modules, dom, canvas, cdn, layout-shift]
 published: true
 ---
 
@@ -16,7 +16,7 @@ ask the browser, and asking wasn't free.
 
 ## The tax every measurement pays
 
-The DOM will happily tell you what text measures — `offsetHeight`,
+The {% include term.html id="dom" text="DOM" %} will happily tell you what text measures — `offsetHeight`,
 `getBoundingClientRect()` — but those reads can force a synchronous
 {% include term.html id="reflow" %}: the browser stops, recomputes geometry,
 and *then* answers. Do that per item in a scrolling list, or per keystroke,
@@ -25,7 +25,7 @@ are all apologies: guess an average height, cache and hope, render invisible
 clone nodes just to measure them.
 
 Pretext's move is to stop asking. It implements text measurement itself,
-using the browser's own font engine (via canvas) as ground truth — so the
+using the browser's own font engine (via {% include term.html id="canvas" %}) as ground truth — so the
 answer matches what the DOM *would* say, without the DOM being consulted.
 
 ## Measure once, then it's arithmetic
@@ -80,7 +80,7 @@ fifty reflows.
 
 ## Try it — this is live
 
-The panel below imports pretext straight from a CDN as an
+The panel below imports pretext straight from a {% include term.html id="cdn" text="CDN" %} as an
 {% include term.html id="es-modules" text="ES module" %} and runs it on
 whatever you type. Drag the width and watch: only `layout()` re-runs, and
 the dashed outline — pretext's *prediction* — should agree with the real
@@ -109,7 +109,7 @@ categories of UI stop being painful:
 - **Shrink-wrap and balance.** `measureLineStats()` tells you the widest
   line a given width produces, so you can binary-search the tightest
   container that still fits — the multiline shrink-wrap CSS never gave us.
-- **No layout shift.** If you know the height of incoming text before it
+- **No {% include term.html id="layout-shift" text="layout shift" %}.** If you know the height of incoming text before it
   lands, you can reserve the space and re-anchor scroll positions instead
   of apologizing after the jump.
 - **Dev-time verification.** Because it runs anywhere JS runs, you can
