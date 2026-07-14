@@ -94,3 +94,19 @@ pull-request:
   def: "A proposed set of changes to a repository, presented as a reviewable diff. Nothing merges until a human approves — the standard review gate."
   url: https://docs.github.com/en/pull-requests
   link_text: GitHub docs
+
+reflow:
+  name: reflow
+  def: "The browser recomputing the geometry of the page after a change — or on demand, when code reads a measurement like offsetHeight. In hot paths it's one of the most expensive things a page can do."
+  url: https://developer.mozilla.org/en-US/docs/Glossary/Reflow
+  link_text: MDN glossary
+
+virtualization:
+  name: virtualization
+  def: "Rendering only the list items currently on screen (plus a small buffer) instead of thousands of DOM nodes. It needs to know every item's height in advance — which, for text, is exactly the hard part."
+
+es-modules:
+  name: ES modules
+  def: "The browser's native import/export system. A <script type=\"module\"> can import straight from a URL — no bundler or build step required."
+  url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+  link_text: MDN reference
