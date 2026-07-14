@@ -8,7 +8,7 @@ inside the surrounding paragraph.
 {%- endcomment -%}
 {%- assign t = site.data.terms[include.id] -%}
 {%- if t -%}
-<span class="term" data-term><button class="term__trigger" type="button" aria-expanded="false" aria-describedby="term-card-{{ include.id }}">{{ include.text | default: t.name }}</button><span class="term__card" id="term-card-{{ include.id }}" role="tooltip"><span class="term__name">{{ t.name }}</span><span class="term__def">{{ t.def }}</span>{% if t.url %}<a class="term__link" href="{{ t.url }}" target="_blank" rel="noopener">{{ t.link_text | default: "Official site" }} →</a>{% endif %}</span></span>
+<span class="term" data-term><button class="term__trigger" type="button" aria-expanded="false" aria-describedby="term-card-{{ include.id }}">{{ include.text | default: t.name }}</button><span class="term__card" id="term-card-{{ include.id }}" role="tooltip"><span class="term__name">{{ t.name | escape }}</span><span class="term__def">{{ t.def | escape }}</span>{% if t.url %}<a class="term__link" href="{{ t.url }}" target="_blank" rel="noopener">{{ t.link_text | default: "Official site" }} →</a>{% endif %}</span></span>
 {%- else -%}
 {{ include.text | default: include.id }}
 {%- endif -%}

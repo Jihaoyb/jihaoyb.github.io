@@ -2219,6 +2219,33 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
+/* Invisible bridges spanning the gap between term and card, so the pointer
+   can travel into the card (to reach its link) without ever leaving the
+   term's hover area. Inert while the card is hidden (pointer-events: none). */
+.term__card::before,
+.term__card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14px;
+}
+
+.term__card::before {
+  bottom: 100%;
+}
+
+.term__card::after {
+  top: 100%;
+}
+
+/* No room above (sticky header would clip the card) — portfolio.js flips it
+   below the term instead. */
+.term.is-flipped .term__card {
+  bottom: auto;
+  top: calc(100% + 10px);
+}
+
 .term__name {
   font-size: 13px;
   font-weight: 600;

@@ -877,15 +877,23 @@
       });
     };
 
+    // Cards open above the term; when the sticky header would clip them,
+    // openTerm flips them below instead.
+    const header = document.querySelector(".portfolio-header");
+    const stickyOffset = (header ? header.getBoundingClientRect().height : 80) + 6;
+
     termEls.forEach((term) => {
       const trigger = term.querySelector(".term__trigger");
       const card = term.querySelector(".term__card");
       if (!trigger || !card) {
         return;
       }
+      let closeTimer = 0;
 
       const openTerm = () => {
+        window.clearTimeout(closeTimer);
         closeAllTerms(term);
+        term.classList.remove("is-flipped");
         term.classList.add("is-open");
         trigger.setAttribute("aria-expanded", "true");
         // Keep the card on screen: measure at center, then shift as needed.
@@ -899,9 +907,14 @@
           shift = window.innerWidth - pad - rect.right;
         }
         card.style.setProperty("--term-shift", `${shift}px`);
+        // No room above (sticky header) — open below the term instead.
+        if (rect.top < stickyOffset) {
+          term.classList.add("is-flipped");
+        }
       };
 
       trigger.addEventListener("click", () => {
+        window.clearTimeout(closeTimer);
         if (term.classList.contains("is-open")) {
           closeTerm(term);
         } else {
@@ -910,14 +923,20 @@
       });
       // Hover only for real mice — on touch, pointerenter + focus precede the
       // click, and opening there would make the click instantly toggle back.
+      // Closing waits a grace period so the pointer can travel into the card
+      // (to reach its link) without the popover vanishing en route.
       term.addEventListener("pointerenter", (event) => {
         if (event.pointerType === "mouse") {
-          openTerm();
+          window.clearTimeout(closeTimer);
+          if (!term.classList.contains("is-open")) {
+            openTerm();
+          }
         }
       });
       term.addEventListener("pointerleave", (event) => {
         if (event.pointerType === "mouse") {
-          closeTerm(term);
+          window.clearTimeout(closeTimer);
+          closeTimer = window.setTimeout(() => closeTerm(term), 260);
         }
       });
       trigger.addEventListener("focus", () => {
