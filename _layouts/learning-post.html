@@ -36,8 +36,8 @@ layout: home
         {% assign t = site.data.terms[id] %}
         {% if t %}
         <div class="term-glossary__item">
-          <dt>{{ t.name }}{% if t.url %} · <a href="{{ t.url }}" target="_blank" rel="noopener">{{ t.link_text | default: "Official site" }} →</a>{% endif %}</dt>
-          <dd>{{ t.def }}</dd>
+          <dt>{{ t.name | escape }}{% if t.url %} · <a href="{{ t.url }}" target="_blank" rel="noopener">{{ t.link_text | default: "Official site" }} →</a>{% endif %}</dt>
+          <dd>{{ t.def | escape }}</dd>
         </div>
         {% endif %}
       {% endfor %}

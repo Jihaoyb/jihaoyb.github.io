@@ -2021,6 +2021,142 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   text-align: center;
 }
 
+/* ----- Live demo panels (embed-type Lab demos) ----- */
+.lab-demo {
+  margin: 30px 0;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  display: grid;
+  gap: 16px;
+}
+
+.lab-demo__bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.lab-demo__label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+
+.lab-demo__hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.lab-demo__text {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  padding: 12px 14px;
+  font: 15px/1.5 "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.lab-demo__control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.lab-demo__control input[type="range"] {
+  flex: 1;
+  accent-color: var(--accent);
+}
+
+.lab-demo__control output {
+  min-width: 52px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.lab-demo__stage {
+  overflow-x: auto;
+  padding: 4px 0;
+}
+
+.lab-demo__box {
+  position: relative;
+  max-width: 100%;
+}
+
+.lab-demo__para {
+  margin: 0;
+  font: 16px/24px "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--ink);
+}
+
+.lab-demo__predict {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border: 1.5px dashed var(--accent);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.lab-demo__stats {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.lab-demo__stats div {
+  display: grid;
+  gap: 2px;
+}
+
+.lab-demo__stats dt {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-2);
+}
+
+.lab-demo__stats dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.lab-demo__note {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.lab-demo__fallback {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.lab-demo--failed .lab-demo__stage,
+.lab-demo--failed .lab-demo__stats,
+.lab-demo--failed .lab-demo__control,
+.lab-demo--failed .lab-demo__note {
+  display: none;
+}
+
 /* ----- Glossary terms (see _data/terms.yml + _includes/term.html) -----
    The trigger reads like bold text with a dotted underline; hover/tap/focus
    opens a definition card above it. portfolio.js drives open state and nudges
@@ -2083,6 +2219,33 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
+/* Invisible bridges spanning the gap between term and card, so the pointer
+   can travel into the card (to reach its link) without ever leaving the
+   term's hover area. Inert while the card is hidden (pointer-events: none). */
+.term__card::before,
+.term__card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14px;
+}
+
+.term__card::before {
+  bottom: 100%;
+}
+
+.term__card::after {
+  top: 100%;
+}
+
+/* No room above (sticky header would clip the card) — portfolio.js flips it
+   below the term instead. */
+.term.is-flipped .term__card {
+  bottom: auto;
+  top: calc(100% + 10px);
+}
+
 .term__name {
   font-size: 13px;
   font-weight: 600;
@@ -2095,11 +2258,48 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   color: var(--muted);
 }
 
-.term__link {
+/* Card link — same hover choreography as the homepage section links:
+   underline sweeps in left-to-right, arrow tilts to point at the page.
+   a.term__link so it outranks .lab-post__body a's static underline. */
+a.term__link {
+  position: relative;
   width: max-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 3px;
   font-size: 13px;
   font-weight: 600;
   color: var(--accent);
+  text-decoration: none;
+}
+
+a.term__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.term__link .term__link-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+a.term__link:hover::after,
+a.term__link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+a.term__link:hover .term__link-arrow,
+a.term__link:focus-visible .term__link-arrow {
+  transform: rotate(-45deg);
 }
 
 /* ----- "Terms in this post" footer (page.terms in front matter) ----- */
@@ -2172,7 +2372,9 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
 
 @media (prefers-reduced-motion: reduce) {
   .term__trigger,
-  .term__card {
+  .term__card,
+  a.term__link::after,
+  .term__link .term__link-arrow {
     transition: none;
   }
 }

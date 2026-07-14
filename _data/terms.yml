@@ -94,3 +94,55 @@ pull-request:
   def: "A proposed set of changes to a repository, presented as a reviewable diff. Nothing merges until a human approves — the standard review gate."
   url: https://docs.github.com/en/pull-requests
   link_text: GitHub docs
+
+reflow:
+  name: reflow
+  def: "The browser recomputing the geometry of the page after a change — or on demand, when code reads a measurement like offsetHeight. In hot paths it's one of the most expensive things a page can do."
+  url: https://developer.mozilla.org/en-US/docs/Glossary/Reflow
+  link_text: MDN glossary
+
+virtualization:
+  name: virtualization
+  def: "Rendering only the list items currently on screen (plus a small buffer) instead of thousands of DOM nodes. It needs to know every item's height in advance — which, for text, is exactly the hard part."
+
+es-modules:
+  name: ES modules
+  def: "The browser's native import/export system. A script tag with type=\"module\" can import straight from a URL — no bundler or build step required."
+  url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+  link_text: MDN reference
+
+dom:
+  name: DOM
+  def: "The Document Object Model — the live tree of objects a browser builds from HTML, which JavaScript reads and edits. Every visual change flows through it, and so does every layout question you ask it."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
+  link_text: MDN reference
+
+canvas:
+  name: canvas
+  def: "The HTML element that hands JavaScript a raw drawing surface. It can also measure text using the browser's own font engine — without adding anything to the page."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
+  link_text: MDN reference
+
+cdn:
+  name: CDN
+  def: "A content delivery network — servers hosting files close to users. For a library, it means a URL you can import from directly: no install, no build."
+  url: https://developer.mozilla.org/en-US/docs/Glossary/CDN
+  link_text: MDN glossary
+
+layout-shift:
+  name: layout shift
+  def: "Content visibly jumping as late-arriving pieces push the page around. Measured as CLS — Cumulative Layout Shift — one of Google's Core Web Vitals."
+  url: https://web.dev/articles/cls
+  link_text: web.dev
+
+serverless:
+  name: serverless
+  def: "Running code as small functions on someone else's always-on infrastructure — no server of yours to provision, patch, or pay for while it idles."
+  url: https://www.cloudflare.com/learning/serverless/what-is-serverless/
+  link_text: Cloudflare Learning
+
+pretext:
+  name: Pretext
+  def: "A TypeScript library by Cheng Lou that measures and lays out multiline text with pure arithmetic — no DOM, no reflow — using the browser's own font engine as ground truth."
+  url: https://github.com/chenglou/pretext
+  link_text: GitHub repo
