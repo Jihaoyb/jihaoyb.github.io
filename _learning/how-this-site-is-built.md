@@ -62,16 +62,43 @@ never copy HTML around; you add a record and the template does the rest.
 A content file doesn't become a page on its own — it gets *nested* inside
 layouts:
 
-```text
-_projects/*.md   ──(data)──►  folder.html  ──(template)──►  one folder each
-                                   ▲
-_pages/about.md  ──(content + the loop above)──►  goes into  {content}
-                                   ▲
-_layouts/home.html  ──  wraps it in <html>, <head>, the header,
-                        <main>{content}</main>, footer, and the JS
-                                   ▲
-build step  ──►  _site/index.html   (plain HTML, ready to serve)
-```
+<figure class="lab-figure">
+<svg viewBox="0 0 700 430" role="img" aria-label="Diagram: data files and templates feed the page content, the site chrome wraps it, and Jekyll builds plain HTML served by GitHub Pages." xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1.5L8 5L2 8.5" style="fill:none;stroke:var(--muted);stroke-width:1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect x="60" y="24" width="260" height="66" rx="12" style="fill:var(--surface-2)"/>
+  <text x="84" y="46" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent-2)">DATA</text>
+  <text x="84" y="65" style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;fill:var(--ink)">_projects/*.md</text>
+  <text x="84" y="81" style="font-size:11.5px;fill:var(--muted)">one file per project</text>
+  <rect x="380" y="24" width="260" height="66" rx="12" style="fill:var(--surface-2)"/>
+  <text x="404" y="46" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent-2)">TEMPLATE</text>
+  <text x="404" y="65" style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;fill:var(--ink)">folder.html</text>
+  <text x="404" y="81" style="font-size:11.5px;fill:var(--muted)">rendered once per project</text>
+  <path d="M190 90 V114 H342 M510 90 V114 H358" style="fill:none;stroke:var(--muted);stroke-width:1.25;opacity:.8"/>
+  <path d="M350 114 V136" style="fill:none;stroke:var(--muted);stroke-width:1.25;opacity:.8" marker-end="url(#arr)"/>
+  <rect x="170" y="142" width="360" height="66" rx="12" style="fill:var(--surface-2)"/>
+  <text x="194" y="164" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent-2)">PAGE</text>
+  <text x="194" y="183" style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;fill:var(--ink)">_pages/about.md</text>
+  <text x="194" y="199" style="font-size:11.5px;fill:var(--muted)">inner content — runs the loop above</text>
+  <path d="M350 208 V232" style="fill:none;stroke:var(--muted);stroke-width:1.25;opacity:.8" marker-end="url(#arr)"/>
+  <text x="364" y="226" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--muted)">WRAPPED BY</text>
+  <rect x="170" y="238" width="360" height="66" rx="12" style="fill:var(--surface-2)"/>
+  <text x="194" y="260" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent-2)">CHROME</text>
+  <text x="194" y="279" style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;fill:var(--ink)">home.html</text>
+  <text x="194" y="295" style="font-size:11.5px;fill:var(--muted)">head, header, footer, scripts</text>
+  <path d="M350 304 V328" style="fill:none;stroke:var(--muted);stroke-width:1.25;opacity:.8" marker-end="url(#arr)"/>
+  <text x="364" y="322" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--muted)">JEKYLL BUILD</text>
+  <rect x="170" y="334" width="360" height="66" rx="12" style="fill:var(--surface-2)"/>
+  <rect x="170" y="334" width="4" height="66" rx="2" style="fill:var(--accent)"/>
+  <text x="194" y="356" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent)">SHIPPED</text>
+  <text x="194" y="375" style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;fill:var(--ink)">_site/index.html</text>
+  <text x="194" y="391" style="font-size:11.5px;fill:var(--muted)">plain HTML — served as-is by GitHub Pages</text>
+</svg>
+<figcaption>The assembly chain: data through template into content, content into chrome, chrome into plain HTML.</figcaption>
+</figure>
 
 The file you edit most only contains the *inner content* of the page. It never
 repeats the `<html>`, `<head>`, header, or footer — those live once in the
