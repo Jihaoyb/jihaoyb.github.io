@@ -65,19 +65,26 @@ html[data-theme="dark"] .portfolio-body {
 /* Cross-page fade. <html> carries the paper tone so the body can fade over a
    matching backdrop (not a white flash in dark mode); every load fades the
    body in, and portfolio.js adds .is-leaving before navigating away. Keep the
-   .is-leaving duration in step with PAGE_FADE_MS in portfolio.js. */
+   .is-leaving duration in step with PAGE_FADE_MS in portfolio.js.
+   These html rules are mirrored inline in _includes/head/custom.html so the
+   very first paint — before this render-blocking stylesheet arrives — already
+   shows the right paper tone. Keep the two copies in sync. color-scheme on
+   the root also keeps UA-drawn surfaces (canvas, scrollbars) on-theme. */
 html {
   background-color: #f6f1e9; /* --paper, light */
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]) {
     background-color: #18140f; /* --paper, dark */
+    color-scheme: dark;
   }
 }
 
 html[data-theme="dark"] {
   background-color: #18140f;
+  color-scheme: dark;
 }
 
 .portfolio-body {

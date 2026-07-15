@@ -1,16 +1,8 @@
 {% include base_path %}
 
-<script>
-  /* Apply the saved theme before first paint to avoid a flash of the wrong mode. */
-  (function () {
-    try {
-      var t = localStorage.getItem("theme");
-      if (t === "light" || t === "dark") {
-        document.documentElement.setAttribute("data-theme", t);
-      }
-    } catch (e) {}
-  })();
-</script>
+<!-- The theme boot script and first-paint styles live in head.html, above the
+     render-blocking stylesheet — they must run before it, and everything in
+     this include is parsed after it. -->
 
 <link rel="icon" href="{{ base_path }}/images/favicon.ico" sizes="any">
 <link rel="mask-icon" href="{{ base_path }}/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
