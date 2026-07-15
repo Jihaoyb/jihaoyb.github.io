@@ -121,11 +121,11 @@ html[data-theme="dark"] {
    out-then-in rhythm as the scripted fade. ::view-transition-new stays
    unanimated so page-enter remains the only fade-in source (no double fade).
    portfolio.js detects support via PageRevealEvent and stands its click
-   interceptor down, so these browsers also lose the scripted 320ms delay. */
-@view-transition {
-  navigation: auto;
-}
-
+   interceptor down, so these browsers also lose the scripted 320ms delay.
+   The @view-transition opt-in itself lives in the head.html first-paint kit
+   (inline style) — Chrome's reveal-time check doesn't reliably await external
+   stylesheets, so keeping it here made transitions a race. Only the
+   animation styling below belongs in this file. */
 ::view-transition-old(root) {
   z-index: 1;
   animation: vt-fade-out 0.3s ease both;

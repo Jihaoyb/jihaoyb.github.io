@@ -54,6 +54,16 @@
     background-color: #18140f;
     color-scheme: dark;
   }
+
+  /* Cross-document view-transition opt-in. Lives here, NOT in main.css:
+     Chrome checks for this rule at reveal time without reliably waiting for
+     external stylesheets, so buried deep in a large file it was a race —
+     some navigations transitioned, some skipped with a console AbortError.
+     Inline in the head it is always seen. The transition's animation styling
+     (::view-transition-* rules) stays in _portfolio.scss. */
+  @view-transition {
+    navigation: auto;
+  }
 </style>
 
 <script>
