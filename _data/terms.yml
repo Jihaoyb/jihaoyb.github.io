@@ -146,3 +146,21 @@ pretext:
   def: "A TypeScript library by Cheng Lou that measures and lays out multiline text with pure arithmetic — no DOM, no reflow — using the browser's own font engine as ground truth."
   url: https://github.com/chenglou/pretext
   link_text: GitHub repo
+
+render-blocking:
+  name: render-blocking
+  def: "A resource the browser refuses to paint without — stylesheets in the head are the classic case. Until every one has downloaded, the page shows nothing at all, no matter how fast the HTML arrived."
+  url: https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Critical_rendering_path
+  link_text: MDN guide
+
+critical-css:
+  name: critical CSS
+  def: "The handful of style rules the very first paint cannot do without, inlined into the HTML itself so they apply before any stylesheet finishes downloading. The rest of the CSS loads normally."
+  url: https://web.dev/articles/extract-critical-css
+  link_text: web.dev
+
+local-storage:
+  name: localStorage
+  def: "A small per-site key-value store the browser persists across visits. Synchronous to read, capped at a few megabytes, and the standard home for lightweight preferences like a theme choice."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+  link_text: MDN reference
