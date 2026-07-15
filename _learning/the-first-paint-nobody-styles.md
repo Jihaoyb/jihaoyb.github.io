@@ -2,7 +2,7 @@
 title: "The First Paint Nobody Styles"
 excerpt: "This site fades between pages — except the very first paint, which flashed white before the CSS ever arrived. The fix is thirty lines in the head, and every one of them has to sit above the stylesheet."
 date: 2026-07-14
-minutes: 5
+minutes: 6
 tags: [CSS, Performance, Debugging]
 terms: [render-blocking, dom, local-storage, critical-css]
 published: true
@@ -153,6 +153,52 @@ paper tone from the first frame.
 </svg>
 <figcaption>The same twelve seconds, before and after. The fix doesn't make the CSS faster — it makes the wait wear the right color.</figcaption>
 </figure>
+
+## What testing shook loose
+
+The fix above is where the story was supposed to end. Then real testing —
+clicking around the site with the network and console panels open — turned
+up two more things worth understanding. Both are lessons in reading
+evidence.
+
+**The 204 that wasn't a problem.** Watching the network waterfall, every
+page change *ended* with a `204` — which looks alarming if you read it as
+"the page finished on an error." It isn't one. `2xx` codes are the success
+class, and `204 No Content` means "received, nothing to send back" — it's
+the standard reply from analytics beacons, which fire last and so sit at
+the bottom of every waterfall. The row was Google Analytics acknowledging a
+page view. The real finding was one panel over: those beacons were firing
+during *local development*, because this theme ships analytics without an
+environment guard. Every test click was polluting the production analytics
+data — and cluttering the very network panel I was debugging in. One-line
+fix: emit the analytics include only when the build environment is
+production, which GitHub Pages sets automatically and `jekyll serve`
+doesn't.
+
+**The AbortError that was the same bug wearing a different coat.**
+Intermittently, a page change logged `Uncaught (in promise) AbortError:
+Transition was skipped`. This site's cross-page fade rides on cross-document
+view transitions, which both pages opt into with a one-line
+`@view-transition` rule — and I had put that rule where all CSS goes: in
+the big stylesheet. The spec says the browser checks for the opt-in after
+waiting for render-blocking CSS; Chrome's check doesn't reliably wait.
+So whether any given navigation got a transition was a race against the
+same 190KB download from part one — instructions locked in the box that
+hasn't arrived, the exact disease this post is about, afflicting a second
+organ. Lost races skipped the transition (abrupt swap, no fade) and the
+abandoned transition object rejected promises nobody was holding, hence
+the console noise. The opt-in now lives in the same inline first-paint kit,
+where detection isn't a race. And because skips are also *legitimate* —
+rapid clicks, a hidden tab, a page slower than Chrome's ~4-second deadline
+all abandon the animation on purpose — the site now observes those promises
+and discards the rejection: the swap already happened; there's nothing to
+handle.
+
+One boundary, named honestly: none of this can color the wait for the HTML
+itself. Before the first byte arrives there is no document, no meta tag, no
+inline style — that blank belongs entirely to the browser. Locally, a dev
+server mid-rebuild can stall right there; production serves HTML from a
+CDN, which is why you'll likely never see it deployed.
 
 ## What I deliberately didn't do
 
