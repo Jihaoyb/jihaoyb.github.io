@@ -5,7 +5,7 @@ date: 2026-07-15
 minutes: 4
 tags: [CSS, Browsers, Debugging]
 category: Field notes
-terms: [view-transitions, render-blocking, promise]
+terms: [view-transitions, render-blocking, promise, graceful-degradation]
 published: true
 ---
 
@@ -94,7 +94,8 @@ Here's the twist: fixing the race doesn't make skips impossible, because
 **skipping is a feature**. Click two links in quick succession, hide the
 tab mid-navigation, or land on a page that takes longer than Chrome's
 roughly four-second deadline, and the browser deliberately abandons the
-animation and just swaps — graceful degradation, exactly what you'd want.
+animation and just swaps —
+{% include term.html id="graceful-degradation" %}, exactly what you'd want.
 The page changed; only the choreography was dropped.
 
 But the abandoned transition still rejects its promises, and an unhandled

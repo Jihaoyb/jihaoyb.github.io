@@ -5,7 +5,7 @@ date: 2026-07-15
 minutes: 3
 tags: [Debugging, Analytics]
 category: Field notes
-terms: [http-status-code, github-pages]
+terms: [waterfall, http-status-code, beacon, render-blocking, github-pages]
 published: true
 ---
 
@@ -13,8 +13,8 @@ While testing [the white-flash fix](/lab/the-first-paint-nobody-styles/)
 with the network panel open, I noticed something suspicious: every single
 page change *ended* with a `POST` to `google-analytics.com/g/collect`
 returning **204**. Last request, every time, odd-looking status. If a page
-misbehaves and the waterfall's final row has a code you don't recognize,
-the brain files it as evidence.
+misbehaves and the {% include term.html id="waterfall" text="waterfall" %}'s
+final row has a code you don't recognize, the brain files it as evidence.
 
 It isn't. It's two misreadings stacked on top of each other — and untangling
 them turned up an actual bug that had nothing to do with the flash.
@@ -24,7 +24,7 @@ them turned up an actual bug that had nothing to do with the flash.
 An {% include term.html id="http-status-code" %} tells you its meaning by
 its first digit, and `2xx` is the *success* class. `204 No Content` means
 "received — and I have nothing to send back." That's not a failure mode;
-it's the **designed reply of a beacon endpoint**. Analytics collectors
+it's the **designed reply of a {% include term.html id="beacon" %} endpoint**. Analytics collectors
 exist to absorb data, not to return any: acknowledging with an empty
 response is the entire contract. A `204` from `/g/collect` is the system
 working perfectly.
@@ -37,8 +37,8 @@ view to report. Sort requests by time and the beacon will always be the
 closing entry, on every site that measures itself. The final row of a
 waterfall is just the latest thing, not the thing that caused whatever
 you're hunting. If you're debugging a rendering problem, the interesting
-rows are at the *top* — the document and the render-blocking resources —
-not the tail.
+rows are at the *top* — the document and the
+{% include term.html id="render-blocking" %} resources — not the tail.
 
 ## The real bug, one panel over
 

@@ -5,7 +5,7 @@ date: 2026-07-14
 minutes: 5
 tags: [CSS, Performance, Debugging]
 category: Build log
-terms: [render-blocking, dom, local-storage, critical-css]
+terms: [render-blocking, dom, local-storage, critical-css, cdn]
 published: true
 ---
 
@@ -171,7 +171,8 @@ One boundary, named honestly: none of this can color the wait for the HTML
 itself. Before the first byte arrives there is no document, no meta tag, no
 inline style — that blank belongs entirely to the browser. Locally, a dev
 server mid-rebuild can stall right there; production serves HTML from a
-CDN, which is why you'll likely never see it deployed.
+{% include term.html id="cdn" %}, which is why you'll likely never see it
+deployed.
 
 ## What I deliberately didn't do
 
