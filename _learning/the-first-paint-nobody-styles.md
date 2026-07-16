@@ -134,25 +134,25 @@ flash. The saved-theme and light-preference cases probe the same way: right
 paper tone from the first frame.
 
 <figure class="lab-figure">
-<svg viewBox="0 0 700 300" role="img" aria-label="Timeline diagram: before the fix, a first visit shows a white browser canvas until the CSS arrives at around 12 seconds cold, then dark paper and the fade-in. After the fix, the canvas is paper-dark from the first frame and the CSS arrival is invisible." xmlns="http://www.w3.org/2000/svg">
-  <text x="36" y="40" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent-2)">FIRST VISIT, DARK-MODE VISITOR — STYLESHEET DELAYED</text>
-  <text x="36" y="92" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">BEFORE</text>
-  <rect x="120" y="70" width="300" height="56" rx="10" style="fill:#ffffff;stroke:var(--line);stroke-width:1.25"/>
-  <text x="140" y="94" style="font-size:13px;font-weight:600;fill:#151515">white</text>
-  <text x="140" y="111" style="font-size:11px;fill:#4c4c4c">browser default canvas</text>
-  <rect x="428" y="70" width="236" height="56" rx="10" style="fill:#18140f;stroke:var(--line);stroke-width:1.25"/>
-  <text x="448" y="94" style="font-size:13px;font-weight:600;fill:#ece3d6">dark paper snaps in</text>
-  <text x="448" y="111" style="font-size:11px;fill:#a89e8d">then the fade plays</text>
-  <text x="36" y="192" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">AFTER</text>
-  <rect x="120" y="170" width="544" height="56" rx="10" style="fill:#18140f;stroke:var(--line);stroke-width:1.25"/>
-  <rect x="120" y="170" width="4" height="56" rx="2" style="fill:var(--accent)"/>
-  <text x="140" y="194" style="font-size:13px;font-weight:600;fill:#ece3d6">paper-dark from the first frame</text>
-  <text x="140" y="211" style="font-size:11px;fill:#a89e8d">meta + boot script + inline paper tones</text>
-  <path d="M428 56 V240" style="fill:none;stroke:var(--muted);stroke-width:1.25;stroke-dasharray:3 5;opacity:.8"/>
-  <text x="428" y="262" text-anchor="middle" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">CSS ARRIVES</text>
-  <text x="120" y="262" text-anchor="middle" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">0 MS</text>
+<svg viewBox="0 0 700 268" role="img" aria-label="Timeline diagram of a dark-mode visitor's first visit with the stylesheet delayed. A dashed vertical marker labeled 'CSS arrives' crosses two lanes. Before the fix: the canvas is white from zero until the marker, where dark paper snaps in and the fade plays. After the fix: one continuous paper-dark bar runs from the first frame straight through the marker — nothing visibly changes when the CSS lands." xmlns="http://www.w3.org/2000/svg">
+  <text x="36" y="36" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent-2)">FIRST VISIT, DARK-MODE VISITOR — STYLESHEET DELAYED</text>
+  <text x="120" y="66" text-anchor="middle" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">0 MS</text>
+  <text x="428" y="66" text-anchor="middle" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--accent-2)">CSS ARRIVES — 12 S COLD</text>
+  <path d="M428 74 V248" style="fill:none;stroke:var(--muted);stroke-width:1.25;stroke-dasharray:3 5;opacity:.7"/>
+  <text x="36" y="128" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">BEFORE</text>
+  <rect x="120" y="96" width="302" height="56" rx="12" style="fill:#ffffff;stroke:var(--line);stroke-width:1.25"/>
+  <text x="140" y="120" style="font-size:13px;font-weight:600;fill:#151515">white</text>
+  <text x="140" y="137" style="font-size:11px;fill:#4c4c4c">browser default canvas</text>
+  <rect x="434" y="96" width="230" height="56" rx="12" style="fill:#18140f;stroke:var(--line);stroke-width:1.25"/>
+  <text x="454" y="120" style="font-size:13px;font-weight:600;fill:#ece3d6">dark paper snaps in</text>
+  <text x="454" y="137" style="font-size:11px;fill:#a89e8d">then the fade plays</text>
+  <text x="36" y="208" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">AFTER</text>
+  <rect x="120" y="176" width="544" height="56" rx="12" style="fill:#18140f;stroke:var(--line);stroke-width:1.25"/>
+  <rect x="120" y="176" width="4" height="56" rx="2" style="fill:var(--accent)"/>
+  <text x="140" y="200" style="font-size:13px;font-weight:600;fill:#ece3d6">paper-dark from the first frame</text>
+  <text x="140" y="217" style="font-size:11px;fill:#a89e8d">meta + boot script + inline paper tones — the moment passes unseen</text>
 </svg>
-<figcaption>The same twelve seconds, before and after. The fix doesn't make the CSS faster — it makes the wait wear the right color.</figcaption>
+<figcaption>The same twelve seconds, before and after. In the before-lane the marker is a visible seam; in the after-lane the bar runs straight through it. The fix doesn't make the CSS faster — it makes the wait wear the right color.</figcaption>
 </figure>
 
 ## What testing shook loose

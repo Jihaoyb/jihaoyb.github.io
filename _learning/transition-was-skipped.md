@@ -66,21 +66,26 @@ for exactly this class of instruction. The opt-in moved in with the
 canvas colors, where detection isn't a race, and the skips stopped.
 
 <figure class="lab-figure">
-<svg viewBox="0 0 700 260" role="img" aria-label="Timeline diagram: before the fix, Chrome's opt-in check fires while the stylesheet carrying the at-rule is still downloading, so the transition is skipped. After the fix, the opt-in is inline in the head and is already present when the check fires." xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 700 268" role="img" aria-label="Timeline diagram. A dashed vertical marker labeled 'Chrome checks for the opt-in' crosses two lanes. Before the fix: at the marker, the stylesheet carrying the rule is still downloading, so the navigation ends skipped with an AbortError. After the fix: the opt-in is inline in the head and already parsed well before the marker, so the transition runs." xmlns="http://www.w3.org/2000/svg">
   <text x="36" y="36" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--accent-2)">ONE NAVIGATION, TWO PLACES FOR ONE RULE</text>
-  <text x="36" y="84" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">BEFORE</text>
-  <rect x="120" y="62" width="360" height="44" rx="10" style="fill:var(--surface-2)"/>
-  <text x="140" y="88" style="font-size:12.5px;fill:var(--muted)">stylesheet downloading… opt-in inside, unread</text>
-  <text x="496" y="88" style="font-size:11px;fill:var(--muted)">→ skipped + AbortError</text>
-  <text x="36" y="184" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">AFTER</text>
-  <rect x="120" y="162" width="120" height="44" rx="10" style="fill:var(--surface-2)"/>
-  <rect x="120" y="162" width="4" height="44" rx="2" style="fill:var(--accent)"/>
-  <text x="140" y="188" style="font-size:12.5px;font-weight:600;fill:var(--ink)">inline opt-in</text>
-  <text x="256" y="188" style="font-size:11px;fill:var(--muted)">already parsed → transition runs</text>
-  <path d="M330 48 V226" style="fill:none;stroke:var(--muted);stroke-width:1.25;stroke-dasharray:3 5;opacity:.8"/>
-  <text x="330" y="246" text-anchor="middle" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">CHROME CHECKS FOR THE OPT-IN</text>
+  <text x="120" y="66" text-anchor="middle" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">0 MS</text>
+  <text x="400" y="66" text-anchor="middle" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--accent-2)">CHROME CHECKS FOR THE OPT-IN</text>
+  <path d="M400 74 V248" style="fill:none;stroke:var(--muted);stroke-width:1.25;stroke-dasharray:3 5;opacity:.7"/>
+  <text x="36" y="128" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">BEFORE</text>
+  <rect x="120" y="96" width="400" height="56" rx="12" style="fill:var(--surface-2)"/>
+  <text x="140" y="120" style="font-size:13px;font-weight:600;fill:var(--ink)">stylesheet still downloading</text>
+  <text x="140" y="137" style="font-size:11px;fill:var(--muted)">the opt-in rule is inside, unread</text>
+  <rect x="536" y="110" width="128" height="28" rx="14" style="fill:var(--tag-bg);stroke:var(--line);stroke-width:1"/>
+  <text x="600" y="128" text-anchor="middle" style="font-size:11px;fill:var(--muted)">skipped + AbortError</text>
+  <text x="36" y="208" style="font-size:10px;font-weight:600;letter-spacing:.12em;fill:var(--muted)">AFTER</text>
+  <rect x="120" y="176" width="180" height="56" rx="12" style="fill:var(--surface-2)"/>
+  <rect x="120" y="176" width="4" height="56" rx="2" style="fill:var(--accent)"/>
+  <text x="140" y="200" style="font-size:13px;font-weight:600;fill:var(--ink)">opt-in inline</text>
+  <text x="140" y="217" style="font-size:11px;fill:var(--muted)">parsed with the HTML</text>
+  <rect x="536" y="190" width="128" height="28" rx="14" style="fill:var(--tag-bg);stroke:var(--line);stroke-width:1"/>
+  <text x="600" y="208" text-anchor="middle" style="font-size:11px;fill:var(--muted)">transition runs</text>
 </svg>
-<figcaption>The check fires when it fires; the only reliable move is to be already there when it does.</figcaption>
+<figcaption>The check is a moment, not a courtesy: the before-lane's stylesheet is still in flight when it fires; the after-lane's rule was parsed long before. The only reliable move is to be already there.</figcaption>
 </figure>
 
 ## The error that deserves to exist
