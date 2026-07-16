@@ -4,6 +4,7 @@ Usage: {% include portfolio/lab-card.html post=post %}
 {% endcomment %}
 <a class="lab-card card-animate" href="{{ include.post.url }}">
   <div class="lab-card__meta">
+    {% if include.post.category %}<span class="lab-card__category">{{ include.post.category }}</span><span aria-hidden="true">·</span>{% endif %}
     <span>{{ include.post.date | date: "%b %-d, %Y" }}</span>
     {% if include.post.minutes %}<span aria-hidden="true">·</span><span>{{ include.post.minutes }} min</span>{% endif %}
   </div>

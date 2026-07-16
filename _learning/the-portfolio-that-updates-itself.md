@@ -4,6 +4,7 @@ excerpt: "One nightly job discovers every repo I own, notices what changed, draf
 date: 2026-07-09
 minutes: 6
 tags: [Automation, GitHub Actions, AI Pipelines]
+category: Build log
 terms: [github-actions, cron, sha, pull-request, front-matter, yaml]
 published: true
 ---

@@ -4,6 +4,7 @@ excerpt: "Every Lab post now has reactions and a comment thread. The database is
 date: 2026-07-02
 minutes: 4
 tags: [Comments, GitHub, Static Sites]
+category: Build log
 terms: [giscus, github-discussions, iframe, postmessage, github-pages, serverless]
 published: true
 ---

@@ -1807,11 +1807,18 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
 .lab-card__meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--accent-2);
+}
+
+/* Category label ("Build log" / "Deep dive" / "Field notes") leads the meta
+   row; same eyebrow voice, weight alone sets it apart from the date. */
+.lab-card__category {
+  font-weight: 600;
 }
 
 .lab-card__title {
