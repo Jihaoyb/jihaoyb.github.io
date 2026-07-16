@@ -164,3 +164,21 @@ local-storage:
   def: "A small per-site key-value store the browser persists across visits. Synchronous to read, capped at a few megabytes, and the standard home for lightweight preferences like a theme choice."
   url: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
   link_text: MDN reference
+
+http-status-code:
+  name: HTTP status code
+  def: "The three-digit verdict on every web request. The first digit is the class — 2xx success, 3xx redirect, 4xx client error, 5xx server error — so a 204 is a success that simply has no body to return, not a problem."
+  url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
+  link_text: MDN reference
+
+view-transitions: 
+  name: View Transitions
+  def: "A browser API that animates between two page states — including full cross-document navigations — by snapshotting the old view and transitioning to the new one. Pages opt in with a one-line CSS rule; the browser does the choreography."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API
+  link_text: MDN reference
+
+promise:
+  name: promise
+  def: "JavaScript's placeholder for a value that isn't ready yet. It settles exactly once — fulfilled or rejected — and a rejection nobody attaches a handler to gets reported in the console as an uncaught error."
+  url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+  link_text: MDN reference
