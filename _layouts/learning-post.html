@@ -45,6 +45,23 @@ layout: home
   </aside>
   {% endif %}
 
+  {% if page.refs %}
+  <aside class="lab-post__terms">
+    <h2 class="lab-post__terms-title">Sources</h2>
+    <dl class="term-glossary">
+      {% for id in page.refs %}
+        {% assign r = site.data.refs[id] %}
+        {% if r %}
+        <div class="term-glossary__item">
+          <dt>{{ r.name | escape }} · <a href="{{ r.url }}" target="_blank" rel="noopener">{{ r.link_text | default: "Open the source" }} →</a></dt>
+          <dd>{{ r.desc | escape }}</dd>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </dl>
+  </aside>
+  {% endif %}
+
   {% unless page.comments == false %}
     {% include lab-comments.html %}
   {% endunless %}

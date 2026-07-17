@@ -2260,6 +2260,17 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   top: calc(100% + 10px);
 }
 
+/* Card kind — "Term" (glossary) or "Source" (external citation). A muted
+   whisper above the teal name line, so the two card types read apart at a
+   glance without adding a second loud label. */
+.term__kind {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
 .term__name {
   font-size: 13px;
   font-weight: 600;
