@@ -496,7 +496,7 @@
           button.setAttribute("aria-expanded", "false");
         }
         if (details) {
-          details.setAttribute("aria-hidden", "true");
+          details.toggleAttribute("inert", true);
         }
       });
     };
@@ -513,7 +513,9 @@
         closeAll(card);
         card.classList.toggle("is-open", !isOpen);
         button.setAttribute("aria-expanded", isOpen ? "false" : "true");
-        details.setAttribute("aria-hidden", isOpen ? "true" : "false");
+        // inert while closed: unfocusable and hidden from assistive tech in
+        // one attribute — aria-hidden alone left the links inside tabbable.
+        details.toggleAttribute("inert", isOpen);
       });
     });
   }
@@ -585,7 +587,9 @@
 
         folder.classList.toggle("is-open", !isOpen);
         button.setAttribute("aria-expanded", isOpen ? "false" : "true");
-        files.setAttribute("aria-hidden", isOpen ? "true" : "false");
+        // See the experience cards above: inert replaces aria-hidden so the
+        // GitHub/Demo links inside a closed folder can't take ghost focus.
+        files.toggleAttribute("inert", isOpen);
 
         // FLIP steps 2-4 (Last/Invert/Play): jump each shell back to its old
         // spot, then transition to the new layout so the opened folder glides

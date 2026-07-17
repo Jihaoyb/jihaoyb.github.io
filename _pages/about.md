@@ -188,7 +188,7 @@ redirect_from:
         </div>
         <span class="experience-card__toggle">Details</span>
       </button>
-      <div class="experience-card__details" aria-hidden="true">
+      <div class="experience-card__details" inert>
         <div class="experience-card__summary">
           {{ role.content | markdownify }}
         </div>
