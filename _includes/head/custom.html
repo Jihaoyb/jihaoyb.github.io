@@ -23,7 +23,7 @@
 <link rel="preload" as="font" type="font/woff2" href="{{ base_path }}/assets/fonts/space-grotesk-latin-var.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="{{ base_path }}/assets/fonts/fraunces-latin-var.woff2" crossorigin>
 {% if page.url == "/" %}
-<link rel="preload" as="image" href="{{ base_path }}/images/jihao-photo.webp" fetchpriority="high">
+<link rel="preload" as="image" href="{{ base_path }}/images/jihao-photo-640.webp" imagesrcset="{{ base_path }}/images/jihao-photo-480.webp 480w, {{ base_path }}/images/jihao-photo-640.webp 640w, {{ base_path }}/images/jihao-photo.webp 800w" imagesizes="(max-width: 900px) 87vw, 474px" fetchpriority="high">
 {% endif %}
 
 {% if page.mathjax %}

@@ -34,7 +34,7 @@ redirect_from:
   <div class="hero__visual">
     <!-- Use one animation hook for all card-like elements. -->
     <div class="hero__portrait card-animate">
-      <img src="{{ base_path }}/images/jihao-photo.webp" alt="Jihao Ye portrait" width="800" height="800" decoding="async" fetchpriority="high">
+      <img src="{{ base_path }}/images/jihao-photo.webp" srcset="{{ base_path }}/images/jihao-photo-480.webp 480w, {{ base_path }}/images/jihao-photo-640.webp 640w, {{ base_path }}/images/jihao-photo.webp 800w" sizes="(max-width: 900px) 87vw, 474px" alt="Jihao Ye portrait" width="800" height="800" decoding="async" fetchpriority="high">
     </div>
     <div class="hero__stats card-animate">
       <div class="hero__stat">
