@@ -48,8 +48,12 @@
   <meta property="og:url" content="{{ page.url | prepend: seo_url | replace: "/index.html", "/" }}">
 {% endif %}
 
-{% if page.excerpt %}
-  <meta property="og:description" name="description" content="{{ seo_description }}">
+{% comment %} Guard on the resolved value, not page.excerpt: the value chain
+falls back to site.description, so pages without excerpts (homepage, index
+pages) must still emit the tag — Lighthouse flags its absence. {% endcomment %}
+{% if seo_description %}
+  <meta name="description" content="{{ seo_description }}">
+  <meta property="og:description" content="{{ seo_description }}">
 {% endif %}
 
 {% if site.twitter.username %}
