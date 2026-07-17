@@ -1,4 +1,7 @@
-{% if site.analytics.provider and page.analytics != false %}
+{% comment %} Production only: GitHub Pages builds with JEKYLL_ENV=production;
+local `jekyll serve` is "development", so dev clicks stop polluting the real
+GA property (and stop cluttering the network panel while debugging). {% endcomment %}
+{% if jekyll.environment == "production" and site.analytics.provider and page.analytics != false %}
 
 {% case site.analytics.provider %}
 {% when "google" %}

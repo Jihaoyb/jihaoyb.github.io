@@ -11,6 +11,61 @@
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- First-paint kit. Everything here MUST stay above the main.css link:
+     scripts and styles after a render-blocking stylesheet wait for it, and
+     this bundle exists precisely to style the window before that CSS arrives
+     (otherwise the canvas is UA-default white even for dark-mode visitors). -->
+<meta name="color-scheme" content="light dark">
+
+<script>
+  /* Apply the saved theme before first paint to avoid a flash of the wrong mode.
+     Also narrow the color-scheme meta above to the saved side, so the pre-CSS
+     blank canvas matches a manual theme too — not just the OS one. */
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "light" || t === "dark") {
+        document.documentElement.setAttribute("data-theme", t);
+        var m = document.querySelector('meta[name="color-scheme"]');
+        if (m) { m.setAttribute("content", t); }
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<style>
+  /* First-paint safety net: paints the pre-CSS window in our paper tones
+     rather than the browser's generic ones, and keeps the page presentable
+     if main.css ever fails to load. Mirrors the html rules in
+     _sass/_portfolio.scss — keep the two in sync. */
+  html {
+    background-color: #f6f1e9; /* --paper, light */
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      background-color: #18140f; /* --paper, dark */
+      color-scheme: dark;
+    }
+  }
+
+  html[data-theme="dark"] {
+    background-color: #18140f;
+    color-scheme: dark;
+  }
+
+  /* Cross-document view-transition opt-in. Lives here, NOT in main.css:
+     Chrome checks for this rule at reveal time without reliably waiting for
+     external stylesheets, so buried deep in a large file it was a race —
+     some navigations transitioned, some skipped with a console AbortError.
+     Inline in the head it is always seen. The transition's animation styling
+     (::view-transition-* rules) stays in _portfolio.scss. */
+  @view-transition {
+    navigation: auto;
+  }
+</style>
+
 <script>
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
 </script>

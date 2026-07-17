@@ -4,7 +4,8 @@ excerpt: "One nightly job discovers every repo I own, notices what changed, draf
 date: 2026-07-09
 minutes: 6
 tags: [Automation, GitHub Actions, AI Pipelines]
-terms: [github-actions, cron, sha, pull-request, front-matter, yaml]
+category: Build log
+terms: [github-actions, cron, sha, pull-request, front-matter, yaml, liquid]
 published: true
 ---
 
@@ -135,7 +136,7 @@ The first end-to-end runs caught three bugs I'd never have found by reading
 my own code:
 
 1. **A quoted date is not a date.** The generator emitted `startD` as a
-   quoted string; my hand-written pages carry unquoted YAML dates. Liquid's
+   quoted string; my hand-written pages carry unquoted YAML dates. {% include term.html id="liquid" %}'s
    sort can't compare the two, and the projects page died with a 500. The
    fix: emit real date objects, never date-shaped strings.
 2. **The model refusing to lie looked like a failure.** One repo contains

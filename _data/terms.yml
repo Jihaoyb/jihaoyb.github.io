@@ -146,3 +146,57 @@ pretext:
   def: "A TypeScript library by Cheng Lou that measures and lays out multiline text with pure arithmetic — no DOM, no reflow — using the browser's own font engine as ground truth."
   url: https://github.com/chenglou/pretext
   link_text: GitHub repo
+
+render-blocking:
+  name: render-blocking
+  def: "A resource the browser refuses to paint without — stylesheets in the head are the classic case. Until every one has downloaded, the page shows nothing at all, no matter how fast the HTML arrived."
+  url: https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Critical_rendering_path
+  link_text: MDN guide
+
+critical-css:
+  name: critical CSS
+  def: "The handful of style rules the very first paint cannot do without, inlined into the HTML itself so they apply before any stylesheet finishes downloading. The rest of the CSS loads normally."
+  url: https://web.dev/articles/extract-critical-css
+  link_text: web.dev
+
+local-storage:
+  name: localStorage
+  def: "A small per-site key-value store the browser persists across visits. Synchronous to read, capped at a few megabytes, and the standard home for lightweight preferences like a theme choice."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+  link_text: MDN reference
+
+http-status-code:
+  name: HTTP status code
+  def: "The three-digit verdict on every web request. The first digit is the class — 2xx success, 3xx redirect, 4xx client error, 5xx server error — so a 204 is a success that simply has no body to return, not a problem."
+  url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
+  link_text: MDN reference
+
+view-transitions: 
+  name: View Transitions
+  def: "A browser API that animates between two page states — including full cross-document navigations — by snapshotting the old view and transitioning to the new one. Pages opt in with a one-line CSS rule; the browser does the choreography."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API
+  link_text: MDN reference
+
+promise:
+  name: promise
+  def: "JavaScript's placeholder for a value that isn't ready yet. It settles exactly once — fulfilled or rejected — and a rejection nobody attaches a handler to gets reported in the console as an uncaught error."
+  url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+  link_text: MDN reference
+
+waterfall:
+  name: network waterfall
+  def: "DevTools' timeline of every request a page makes — each row a resource, each bar showing when it started and how long it took. Reading the shape (what blocked what, what fired last) is half of frontend debugging."
+  url: https://developer.chrome.com/docs/devtools/network
+  link_text: Chrome DevTools docs
+
+beacon:
+  name: beacon
+  def: "A tiny fire-and-forget request that reports something — a page view, a metric — without expecting anything back. Beacon endpoints reply 204 by design: received, nothing to say."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API
+  link_text: MDN reference
+
+graceful-degradation:
+  name: graceful degradation
+  def: "Designing features to fall back rather than fall over: when the fancy path can't run — old browser, hidden tab, slow network — a simpler version still ships the outcome. The animation is optional; the page change is not."
+  url: https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation
+  link_text: MDN glossary

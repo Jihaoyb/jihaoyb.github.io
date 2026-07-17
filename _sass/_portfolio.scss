@@ -65,19 +65,26 @@ html[data-theme="dark"] .portfolio-body {
 /* Cross-page fade. <html> carries the paper tone so the body can fade over a
    matching backdrop (not a white flash in dark mode); every load fades the
    body in, and portfolio.js adds .is-leaving before navigating away. Keep the
-   .is-leaving duration in step with PAGE_FADE_MS in portfolio.js. */
+   .is-leaving duration in step with PAGE_FADE_MS in portfolio.js.
+   These html rules are mirrored inline in _includes/head/custom.html so the
+   very first paint — before this render-blocking stylesheet arrives — already
+   shows the right paper tone. Keep the two copies in sync. color-scheme on
+   the root also keeps UA-drawn surfaces (canvas, scrollbars) on-theme. */
 html {
   background-color: #f6f1e9; /* --paper, light */
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]) {
     background-color: #18140f; /* --paper, dark */
+    color-scheme: dark;
   }
 }
 
 html[data-theme="dark"] {
   background-color: #18140f;
+  color-scheme: dark;
 }
 
 .portfolio-body {
@@ -114,11 +121,11 @@ html[data-theme="dark"] {
    out-then-in rhythm as the scripted fade. ::view-transition-new stays
    unanimated so page-enter remains the only fade-in source (no double fade).
    portfolio.js detects support via PageRevealEvent and stands its click
-   interceptor down, so these browsers also lose the scripted 320ms delay. */
-@view-transition {
-  navigation: auto;
-}
-
+   interceptor down, so these browsers also lose the scripted 320ms delay.
+   The @view-transition opt-in itself lives in the head.html first-paint kit
+   (inline style) — Chrome's reveal-time check doesn't reliably await external
+   stylesheets, so keeping it here made transitions a race. Only the
+   animation styling below belongs in this file. */
 ::view-transition-old(root) {
   z-index: 1;
   animation: vt-fade-out 0.3s ease both;
@@ -1800,11 +1807,18 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
 .lab-card__meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--accent-2);
+}
+
+/* Category label ("Build log" / "Deep dive" / "Field notes") leads the meta
+   row; same eyebrow voice, weight alone sets it apart from the date. */
+.lab-card__category {
+  font-weight: 600;
 }
 
 .lab-card__title {

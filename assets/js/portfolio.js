@@ -975,9 +975,31 @@
   // Browsers with cross-document view transitions (PageRevealEvent is the
   // support signal) animate every same-origin navigation natively — including
   // back/forward, which no script can intercept — via the @view-transition
-  // rules in _portfolio.scss. There the scripted fade below stands down, so
-  // clicks also lose its 320ms delay. Others keep the scripted fade.
+  // opt-in in head.html and the ::view-transition rules in _portfolio.scss.
+  // There the scripted fade below stands down, so clicks also lose its 320ms
+  // delay. Others keep the scripted fade.
   const supportsViewTransitions = "PageRevealEvent" in window;
+
+  // A skipped view transition is a graceful fallback, not a failure: the
+  // browser abandons the animation (rapid clicks, hidden tab, a page that
+  // takes longer than its ~4s deadline) and swaps instantly. But the
+  // transition object it already created rejects its promises with
+  // AbortError, and since nothing else ever touches them, every skip used to
+  // surface as "Uncaught (in promise) AbortError: Transition was skipped"
+  // in the console. Observe and discard — the swap itself already happened.
+  if (supportsViewTransitions) {
+    const silenceSkippedTransition = (event) => {
+      const vt = event.viewTransition;
+      if (!vt) {
+        return;
+      }
+      vt.ready.catch(() => {});
+      vt.finished.catch(() => {});
+      vt.updateCallbackDone.catch(() => {});
+    };
+    window.addEventListener("pageswap", silenceSkippedTransition);
+    window.addEventListener("pagereveal", silenceSkippedTransition);
+  }
 
   // Cross-page fade: fade the current page out, then navigate; the next page
   // fades itself in via the page-enter CSS animation. The duration is read

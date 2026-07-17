@@ -4,6 +4,7 @@ excerpt: "Cheng Lou's new library lays out multiline text with pure arithmetic â
 date: 2026-07-13
 minutes: 6
 tags: [Performance, Text Layout, TypeScript]
+category: Deep dive
 terms: [pretext, reflow, virtualization, es-modules, dom, canvas, cdn, layout-shift]
 published: true
 ---

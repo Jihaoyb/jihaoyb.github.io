@@ -4,6 +4,7 @@ excerpt: "A tour of the Jekyll pipeline behind this site — how a handful of pl
 date: 2026-06-30
 minutes: 5
 tags: [Jekyll, Static Sites, Liquid]
+category: Build log
 terms: [jekyll, static-site-generator, front-matter, yaml, liquid, markdown, github-pages]
 published: true
 ---

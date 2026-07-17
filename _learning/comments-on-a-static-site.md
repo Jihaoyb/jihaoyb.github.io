@@ -4,7 +4,8 @@ excerpt: "Every Lab post now has reactions and a comment thread. The database is
 date: 2026-07-02
 minutes: 4
 tags: [Comments, GitHub, Static Sites]
-terms: [giscus, github-discussions, iframe, postmessage, github-pages, serverless]
+category: Build log
+terms: [giscus, github-discussions, iframe, postmessage, github-pages, serverless, front-matter]
 published: true
 ---
 
@@ -117,7 +118,7 @@ Three details were worth doing properly:
   );
   ```
 
-- **An off switch.** Any post can set `comments: false` in its front matter
+- **An off switch.** Any post can set `comments: false` in its {% include term.html id="front-matter" %}
   and the section disappears — the same pattern the rest of this site uses
   for per-post options.
 
