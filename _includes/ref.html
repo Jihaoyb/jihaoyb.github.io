@@ -1,0 +1,20 @@
+{%- comment -%}
+External source citation with a hover card: a brief description plus the
+outward link — prose never exits the site directly. Usage (in Lab posts):
+  {% include ref.html id="vtbag-fails" text="documented gap" %}
+  {% include ref.html name="..." desc="..." url="https://…" text="..." %}
+Entries live in _data/refs.yml; inline name/desc/url override or replace an
+entry. Same markup contract as term.html: emitted as ONE line so kramdown
+keeps it inline, same classes so the popover JS and styles apply unchanged.
+{%- endcomment -%}
+{%- assign r = site.data.refs[include.id] -%}
+{%- assign r_name = include.name | default: r.name -%}
+{%- assign r_desc = include.desc | default: r.desc -%}
+{%- assign r_url = include.url | default: r.url -%}
+{%- if r_name and r_url -%}
+{%- assign r_link = include.link_text | default: r.link_text | default: "Open the source" -%}
+{%- assign r_id = include.id | default: r_name | slugify -%}
+<span class="term term--ref" data-term><button class="term__trigger" type="button" aria-expanded="false" aria-describedby="ref-card-{{ r_id }}">{{ include.text | default: r_name }}</button><span class="term__card" id="ref-card-{{ r_id }}" role="tooltip"><span class="term__kind">Source</span><span class="term__name">{{ r_name | escape }}</span><span class="term__def">{{ r_desc | escape }}</span><a class="term__link" href="{{ r_url }}" target="_blank" rel="noopener">{{ r_link }}<span class="term__link-arrow" aria-hidden="true">→</span></a></span></span>
+{%- else -%}
+{{ include.text | default: include.id }}
+{%- endif -%}

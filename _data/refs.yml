@@ -1,0 +1,12 @@
+# Sources cited in Lab posts — the same idea as terms.yml, but for where
+# claims come from. Each entry renders as a hover card (via ref.html) with a
+# short description and the outward link; posts list their ids under `refs:`
+# front matter to populate the Sources footer. desc is PLAIN TEXT only —
+# same rule as term defs (they render escaped in the card and the footer).
+# One-off sources can skip this file: pass name/desc/url to the include.
+
+vtbag-fails:
+  name: "View Transitions: What Could Possibly Go Wrong?"
+  desc: "vtbag's field guide to the ways view transitions fail to run — missing opt-ins, stylesheets the browser didn't wait for, timeouts, reduced motion — and the fix for each."
+  url: https://vtbag.dev/tips/view-transition-fails-and-fixes/
+  link_text: Read at vtbag.dev

@@ -6,6 +6,7 @@ minutes: 4
 tags: [CSS, Browsers, Debugging]
 category: Field notes
 terms: [view-transitions, render-blocking, promise, graceful-degradation]
+refs: [vtbag-fails]
 published: true
 ---
 
@@ -44,7 +45,7 @@ The specification says the browser should look for the opt-in when the new
 page is revealed, *after* waiting for
 {% include term.html id="render-blocking" %} stylesheets. Chrome's check
 doesn't reliably wait for external files — a
-[documented gap](https://vtbag.dev/tips/view-transition-fails-and-fixes/)
+{% include ref.html id="vtbag-fails" text="documented gap" %}
 between spec and implementation. So on every navigation, two things raced:
 Chrome's opt-in check, and the download of the stylesheet that contained
 the opt-in.
