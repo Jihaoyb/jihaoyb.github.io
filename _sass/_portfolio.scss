@@ -33,6 +33,7 @@
   --paper-2: #211b14;
   --paper-hi: #1c1812;
   --accent: #f2754f;
+  --accent-text: #f2754f; /* 6.5:1 on dark paper — already AA */
   --accent-2: #54b89b;
   --line: #363027;
   --surface: #221d16;
@@ -53,6 +54,11 @@
   --paper-2: #efe7dc;
   --paper-hi: #faf7f2;
   --accent: #e4572e;
+  /* Accent for SMALL text (<18.66px bold): #e4572e reads 3.3-3.7:1 on the
+     light surfaces — under WCAG AA's 4.5. This deeper cut clears 4.5 on
+     every light surface incl. paper-2. Large type and non-text accents
+     keep --accent. */
+  --accent-text: #b53a0e;
   --accent-2: #1f6f5b;
   --line: #d7cec1;
   --surface: #ffffff;
@@ -801,7 +807,7 @@ a.section-link {
   position: relative;
   display: inline-flex;
   width: max-content;
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
 }
 
@@ -1013,7 +1019,7 @@ a.section-link {
 }
 
 .project-card__footer a {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
 }
 
@@ -1057,7 +1063,7 @@ a.section-link {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .experience-card__details {
@@ -1859,7 +1865,7 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
 .lab-card__more {
   font-size: 14px;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-text);
   transition: transform 0.3s ease;
 }
 
@@ -1894,7 +1900,7 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
 .lab-post__back {
   display: inline-block;
   font-size: 14px;
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
   margin-bottom: 24px;
 }
@@ -1959,7 +1965,7 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
 }
 
 .lab-post__body a {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -2081,7 +2087,7 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .lab-demo__hint {
@@ -2220,7 +2226,7 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
 .term:hover .term__trigger,
 .term.is-open .term__trigger,
 .term__trigger:focus-visible {
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration-color: var(--accent);
 }
 
@@ -2318,7 +2324,7 @@ a.term__link {
   padding-bottom: 3px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: none;
 }
 
