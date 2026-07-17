@@ -34,9 +34,10 @@
 @import "archive";
 @import "sidebar";
 
-@import "vendor/font-awesome/fontawesome";
-@import "vendor/font-awesome/solid";
-@import "vendor/font-awesome/brands";
-@import "vendor/magnific-popup/magnific-popup";
+/* Pruned (Lighthouse unused-CSS): font-awesome ×3 and magnific-popup served
+   zero visible pages — no portfolio template uses fa-* classes or galleries.
+   Only the orphaned academic archive pages referenced the icons; their
+   footer links degrade to plain text. Restore the imports if those layouts
+   ever come back. */
 @import "print";
 @import "portfolio";

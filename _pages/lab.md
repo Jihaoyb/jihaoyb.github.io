@@ -17,7 +17,7 @@ author_profile: false
   <div class="lab-grid">
     {% assign posts = site.learning | sort: "date" | reverse %}
     {% for post in posts %}
-      {% include portfolio/lab-card.html post=post %}
+      {% include portfolio/lab-card.html post=post heading="h2" %}
     {% endfor %}
   </div>
 </section>

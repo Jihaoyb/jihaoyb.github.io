@@ -8,7 +8,11 @@ Usage: {% include portfolio/lab-card.html post=post %}
     <span>{{ include.post.date | date: "%b %-d, %Y" }}</span>
     {% if include.post.minutes %}<span aria-hidden="true">·</span><span>{{ include.post.minutes }} min</span>{% endif %}
   </div>
-  <h3 class="lab-card__title">{{ include.post.title }}</h3>
+  {% comment %} Heading level follows the page's outline: h3 under the
+  homepage's h2 section, h2 on /lab/ where the page title is the only h1
+  above the cards (skipping levels fails the heading-order audit). {% endcomment %}
+  {% assign card_heading = include.heading | default: "h3" %}
+  <{{ card_heading }} class="lab-card__title">{{ include.post.title }}</{{ card_heading }}>
   <p class="lab-card__excerpt">{{ include.post.excerpt | strip_html | strip | truncate: 170 }}</p>
   {% if include.post.tags and include.post.tags != empty %}<ul class="lab-tags">{% for tag in include.post.tags %}<li class="lab-tag">{{ tag }}</li>{% endfor %}</ul>{% endif %}
   <span class="lab-card__more">Read →</span>

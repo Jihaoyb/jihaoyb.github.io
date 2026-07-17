@@ -16,13 +16,14 @@
 <link rel="stylesheet" href="{{ base_path }}/assets/css/academicons.min.css">
 {% endif %}
 
-{% if page.layout == "home" %}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Self-hosted fonts (see @font-face in _portfolio.scss). Preloaded on
+     every page — both families style all text site-wide. crossorigin is
+     required on font preloads even same-origin (font fetches are CORS mode);
+     without it the preload is discarded and the font downloads twice. -->
+<link rel="preload" as="font" type="font/woff2" href="{{ base_path }}/assets/fonts/space-grotesk-latin-var.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="{{ base_path }}/assets/fonts/fraunces-latin-var.woff2" crossorigin>
 {% if page.url == "/" %}
-<link rel="preload" as="image" href="{{ base_path }}/images/jihao-photo.jpg" fetchpriority="high">
-{% endif %}
+<link rel="preload" as="image" href="{{ base_path }}/images/jihao-photo-640.webp" imagesrcset="{{ base_path }}/images/jihao-photo-480.webp 480w, {{ base_path }}/images/jihao-photo-640.webp 640w, {{ base_path }}/images/jihao-photo.webp 800w" imagesizes="(max-width: 900px) 87vw, 474px" fetchpriority="high">
 {% endif %}
 
 {% if page.mathjax %}

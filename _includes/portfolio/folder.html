@@ -14,7 +14,11 @@
     </div>
   </div>
   <p class="project-folder__summary">{% if folder.status == "in progress" %}<span class="project-folder__status">In progress</span> {% endif %}{{ folder.excerpt }}</p>
-  <div class="project-folder__files" aria-hidden="true">
+  {% comment %} inert (not aria-hidden): the closed folder's files peek out
+  visually but must be unreachable — inert removes them from tab order AND
+  assistive tech in one attribute, so keyboard users can't focus links that
+  screen readers would stay silent about. portfolio.js toggles it. {% endcomment %}
+  <div class="project-folder__files" inert>
     {% if folder.tech %}
     <div class="project-folder__file">
       <p class="project-folder__file-title">Tech stack</p>
