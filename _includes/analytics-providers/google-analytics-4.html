@@ -1,8 +1,30 @@
-<script async src="https://www.googletagmanager.com/gtag/js?id={{site.analytics.google.tracking_id}}"></script>
 <script>
+  /* gtag stub: hits queue in dataLayer immediately, so nothing is lost —
+     the 70KB collector script itself loads off the critical path (first
+     interaction or idle, whichever comes first). Lighthouse counted it as
+     the page's single largest chunk of unused-at-load JavaScript. */
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', '{{site.analytics.google.tracking_id}}');
+
+  (function () {
+    var loaded = false;
+    function load() {
+      if (loaded) { return; }
+      loaded = true;
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = "https://www.googletagmanager.com/gtag/js?id={{site.analytics.google.tracking_id}}";
+      document.head.appendChild(s);
+    }
+    ["pointerdown", "keydown", "touchstart"].forEach(function (type) {
+      window.addEventListener(type, load, { once: true, passive: true });
+    });
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(load, { timeout: 4000 });
+    } else {
+      window.setTimeout(load, 3500);
+    }
+  })();
 </script>
