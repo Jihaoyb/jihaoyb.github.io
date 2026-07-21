@@ -53,7 +53,6 @@ and honest credit besides.
   <path d="M36 96 H136" style="stroke:var(--accent-2);stroke-width:1.5;stroke-dasharray:2 4"/>
   <path d="M160 84 H216" style="fill:none;stroke:var(--muted);stroke-width:1.25;opacity:.8"/>
   <rect x="220" y="58" width="200" height="60" rx="12" style="fill:var(--surface-2)"/>
-  <rect x="220" y="58" width="4" height="60" rx="2" style="fill:var(--accent)"/>
   <text x="240" y="80" style="font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--muted)">TERM · SOURCE</text>
   <text x="240" y="99" style="font-size:12.5px;fill:var(--ink)">a card opens — you stay</text>
   <rect x="452" y="74" width="212" height="28" rx="14" style="fill:var(--tag-bg);stroke:var(--line);stroke-width:1"/>
