@@ -5,7 +5,7 @@ date: 2026-07-17
 minutes: 6
 tags: [Performance, Lighthouse, Web]
 category: Build log
-terms: [lighthouse, core-web-vitals, render-blocking, variable-fonts, critical-css, wcag]
+terms: [lighthouse, cdn, render-blocking, variable-fonts, wcag, core-web-vitals, critical-css, github-pages]
 published: true
 ---
 
@@ -25,14 +25,14 @@ where they cost something. Audit the number that hurts.
 
 The report grouped into three kinds of problem:
 
-**Bytes nobody needed.** The stylesheet shipped 41KB compressed — and a
-third of it was Font Awesome and a gallery plugin that no visible page has
-ever used, inherited from the academic theme this site was forked from.
+**Bytes nobody needed.** The stylesheet shipped 41KB compressed — and well
+over half of it was Font Awesome and a gallery plugin that no visible page
+has ever used, inherited from the academic theme this site was forked from.
 The analytics collector was 70KB of JavaScript loaded before the page was
 interactive, for a script whose job starts *after* that. The hero portrait
 sent 800 pixels of width into a 637-pixel slot.
 
-**A request in the wrong place.** Web fonts came from Google's CDN — a
+**A request in the wrong place.** Web fonts came from Google's {% include term.html id="cdn" %} — a
 {% include term.html id="render-blocking" %} request to a third-party
 origin, paid on every cold visit before anything could paint.
 
@@ -65,10 +65,11 @@ nobody noticed. Audits find what reading the site every day cannot.
   the preload carries the same set so the early fetch picks the same file.
 - **Load analytics when the page is idle.** The gtag stub and its queue
   exist from the first byte — no data lost — but the 70KB collector waits
-  for first interaction or idle. Blocking time fell from 390ms to 100ms.
+  for first interaction or idle. It was the largest single contributor to
+  the 390ms of blocking time at baseline.
 - **The accessibility pair.** The same audit run surfaced
   [ghost focus](/lab/ghost-focus/) and a contrast failure: this site's
-  orange accent reads 3.7:1 on light paper, under the
+  orange accent reads only 3.3–3.7:1 on the light surfaces, under the
   {% include term.html id="wcag" %} AA bar of 4.5 for small text. Small
   accent text now uses a deeper cut of the same orange, chosen by
   computing contrast against every light surface rather than eyeballing.
@@ -88,7 +89,6 @@ nobody noticed. Audits find what reading the site every day cannot.
   <text x="192" y="167" style="font-size:11px;font-weight:600;fill:var(--ink)">0 — deferred to idle</text>
   <text x="36" y="212" style="font-size:12.5px;fill:var(--ink)">hero image</text>
   <rect x="180" y="198" width="470" height="16" rx="8" style="fill:var(--tag-bg);stroke:var(--line);stroke-width:1"/>
-  <text x="560" y="211" text-anchor="start" style="font-size:11px;fill:var(--muted)"> </text>
   <text x="644" y="211" text-anchor="end" style="font-size:11px;fill:var(--muted)">94 KB</text>
   <rect x="180" y="220" width="175" height="16" rx="8" style="fill:var(--accent)"/>
   <text x="363" y="233" style="font-size:11px;font-weight:600;fill:var(--ink)">35 KB (640w rung)</text>
@@ -128,7 +128,8 @@ of reading an audit is knowing which environment you pointed it at.
 design. The full {% include term.html id="critical-css" %} treatment
 (inline everything above the fold, load the rest async) trades one flash
 for reflowing content, and this site already paints correct paper tones
-during the wait. Likewise: no JavaScript minification (GitHub Pages can't
+during the wait. Likewise: no JavaScript minification
+({% include term.html id="github-pages" text="GitHub Pages" %} can't
 run build steps, and hand-committing minified copies invites drift), and
 the 10-minute CDN cache is the platform's, not ours. A 96 with named
 trade-offs beats a 100 you can't explain.

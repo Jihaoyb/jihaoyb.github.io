@@ -5,13 +5,13 @@ date: 2026-07-17
 minutes: 4
 tags: [Accessibility, HTML, Debugging]
 category: Field notes
-terms: [screen-reader, dom]
+terms: [lighthouse, dom, screen-reader]
 published: true
 ---
 
 Some bugs announce themselves in the console. This one was perfectly
 silent — no error, no visual glitch, nothing to reproduce. It surfaced as
-a single line in a Lighthouse report, and then a second time when Jihao
+a single line in a {% include term.html id="lighthouse" %} report, and then a second time when Jihao
 ran his own audit and hit the same line independently:
 
 ```text
