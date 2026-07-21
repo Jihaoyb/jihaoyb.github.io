@@ -200,3 +200,33 @@ graceful-degradation:
   def: "Designing features to fall back rather than fall over: when the fancy path can't run — old browser, hidden tab, slow network — a simpler version still ships the outcome. The animation is optional; the page change is not."
   url: https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation
   link_text: MDN glossary
+
+screen-reader:
+  name: screen reader
+  def: "Assistive software that speaks the page aloud or drives a braille display. It navigates the accessibility tree — the browser's parallel outline of the page — not the pixels, so what it announces can differ from what sighted users see."
+  url: https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Information_for_developers
+  link_text: MDN accessibility
+
+wcag:
+  name: WCAG
+  def: "The Web Content Accessibility Guidelines — the W3C standard behind most accessibility audits and regulations. Level AA is the common bar; its contrast rule asks 4.5:1 for body text and 3:1 for large type."
+  url: https://www.w3.org/WAI/standards-guidelines/wcag/
+  link_text: W3C overview
+
+lighthouse:
+  name: Lighthouse
+  def: "Chrome's built-in site auditor: one run scores performance, accessibility, best practices, and SEO in an emulated environment, then lists the exact failing audits. Free, already in DevTools, and most developers have never opened it."
+  url: https://developer.chrome.com/docs/lighthouse/overview
+  link_text: Chrome docs
+
+core-web-vitals:
+  name: Core Web Vitals
+  def: "Google's field metrics for real-user experience — LCP for when the main content lands, CLS for how much the layout jumps, INP for how fast the page reacts — measured on actual visitors and weighed by search."
+  url: https://web.dev/articles/vitals
+  link_text: web.dev
+
+variable-fonts:
+  name: variable fonts
+  def: "One font file carrying a whole design space — weights 400 through 700 interpolated from a single download instead of four separate files. Smaller on the wire, one request instead of many."
+  url: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_fonts/Variable_fonts_guide
+  link_text: MDN guide
