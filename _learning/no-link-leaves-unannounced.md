@@ -1,6 +1,6 @@
 ---
 title: "No Link Leaves This Site Unannounced"
-excerpt: "A design review of my own site started with a naive question (why do links and glossary terms look different?) and ended with a new rule: nothing in prose exits this site without introducing where you're going first."
+excerpt: "A design review of my own site started with one naive question — why do links and glossary terms look different? — and ended with a new rule: nothing in prose exits this site without introducing where you're going first."
 date: 2026-07-20
 minutes: 5
 tags: [Design, UX, Static Sites]
