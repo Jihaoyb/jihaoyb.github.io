@@ -230,3 +230,15 @@ variable-fonts:
   def: "One font file carrying a whole design space — weights 400 through 700 interpolated from a single download instead of four separate files. Smaller on the wire, one request instead of many."
   url: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_fonts/Variable_fonts_guide
   link_text: MDN guide
+
+cache-control:
+  name: Cache-Control
+  def: "The HTTP header where a server declares how long a response may be reused without asking again. max-age=600 means: for ten minutes, don't even check with me."
+  url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control
+  link_text: MDN reference
+
+etag:
+  name: ETag
+  def: "A response's fingerprint. A browser sends it back as If-None-Match, and when nothing changed the server answers 304 Not Modified with an empty body — a stale cache revalidated for the price of a handshake."
+  url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag
+  link_text: MDN reference
