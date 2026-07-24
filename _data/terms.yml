@@ -242,3 +242,21 @@ etag:
   def: "A response's fingerprint. A browser sends it back as If-None-Match, and when nothing changed the server answers 304 Not Modified with an empty body — a stale cache revalidated for the price of a handshake."
   url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag
   link_text: MDN reference
+
+console-utilities:
+  name: Console Utilities API
+  def: "A handful of helpers the browser injects only into the DevTools console — $0 for the selected element, copy() to the clipboard, monitorEvents() to watch a node, getEventListeners() to list handlers. They do not exist in page scripts, which is why pasting them into your source fails."
+  url: https://developer.chrome.com/docs/devtools/console/utilities
+  link_text: Chrome DevTools docs
+
+computed-style:
+  name: computed style
+  def: "The final value the browser actually resolved for a CSS property after the whole cascade, inheritance, and unit math. It is what the element truly is, as opposed to what any one stylesheet rule asked for."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
+  link_text: MDN reference
+
+synthetic-event:
+  name: synthetic event
+  def: "An event constructed in code and dispatched at an element, rather than produced by a real click or keypress. It lets you test a handler's exact conditions — including details like whether a pointer claims to be a mouse or a finger."
+  url: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent
+  link_text: MDN reference
